@@ -46,6 +46,7 @@ namespace WebAPI_KTOnline.Models
         public string Machude { get => machude; set => machude = value; }
         public static List<CauHoi> DsachCauHoi()
         {
+            // hello
             List<CauHoi> list = new List<CauHoi>();
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
