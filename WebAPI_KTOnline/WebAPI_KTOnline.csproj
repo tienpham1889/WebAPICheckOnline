@@ -96,6 +96,7 @@
     <Compile Include="Controllers\GiaoVienController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\LopController.cs" />
+    <Compile Include="Controllers\LopHocPhanController.cs" />
     <Compile Include="Controllers\MonHocController.cs" />
     <Compile Include="Controllers\SinhVienController.cs" />
     <Compile Include="Global.asax.cs">
@@ -106,6 +107,7 @@
     <Compile Include="Models\DataProvider.cs" />
     <Compile Include="Models\GiaoVien.cs" />
     <Compile Include="Models\Lop.cs" />
+    <Compile Include="Models\LopHocPhan.cs" />
     <Compile Include="Models\MonHoc.cs" />
     <Compile Include="Models\SinhVien.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

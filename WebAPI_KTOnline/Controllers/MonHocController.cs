@@ -5,6 +5,9 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using WebAPI_KTOnline.Models;
+using System.Data;
+using System.Data.SqlClient;
+
 
 namespace WebAPI_KTOnline.Controllers
 {
@@ -14,6 +17,7 @@ namespace WebAPI_KTOnline.Controllers
         public IEnumerable<MonHoc> Get()
         {
             List<MonHoc> listdanhsach = MonHoc.DsachMonHoc();
+            //string ma = MonHoc.layma();
             return listdanhsach;
         }
 
@@ -24,8 +28,34 @@ namespace WebAPI_KTOnline.Controllers
         }
 
         // POST: api/MonHoc
-        public void Post([FromBody]string value)
+        public MonHoc Post([FromBody]MonHoc monhoc)
         {
+            MonHoc mh = new MonHoc();
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            string mamonhoc = MonHoc.layMaMH();
+            if (mh.kiemtra(monhoc.tenMonhoc))
+            {
+                String sQuery = "INSERT INTO [dbo].[MonHoc]([MaMonHoc],[TenMonHoc],[SoTinChi],[SoTiet],[TrangThai])VALUES(@manh,@tenmh,@sotinchi,@sotiet,@trangthai)";
+                SqlCommand insertcommand = new SqlCommand(sQuery, conn);
+                insertcommand.Parameters.AddWithValue("@manh", mamonhoc);
+                insertcommand.Parameters.AddWithValue("@tenmh", monhoc.tenMonhoc);
+                insertcommand.Parameters.AddWithValue("@sotinchi", monhoc.soTinchi);
+                insertcommand.Parameters.AddWithValue("@sotiet", monhoc.soTiet);
+                insertcommand.Parameters.AddWithValue("@trangthai", monhoc.trangThai);
+                int result = insertcommand.ExecuteNonQuery();
+                conn.Close();
+                mh = mh.mh(mamonhoc);
+                if (result > 0)
+                {
+                    return mh;
+                }
+            }
+            else
+            {
+                return mh;
+            }
+            return mh;
         }
 
         // PUT: api/MonHoc/5

@@ -42,6 +42,7 @@ namespace WebAPI_KTOnline.Models
             sQuery.Append("from ChuDe CD ");
             sQuery.Append("inner join GiangVien GV On CD.MaGV = GV.MaGV ");
             sQuery.Append("INNER JOIN MonHoc MH ON CD.MaMonHoc = MH.MaMonHoc");
+            sQuery.Append("WHERE TrangThai = 1");
             SqlCommand com = new SqlCommand(sQuery.ToString(), conn);
             SqlDataReader dr = com.ExecuteReader();
             while (dr.Read())
