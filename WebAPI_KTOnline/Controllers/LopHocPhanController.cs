@@ -18,7 +18,24 @@ namespace WebAPI_KTOnline.Controllers
             List<LopHocPhan> listdanhsach = LopHocPhan.DsachLop();
             return listdanhsach;
         }
-
+        [HttpGet]
+        [Route("api/LopHocPhan-TheoMonhoc")]
+        public IEnumerable<LopHocPhan> Get_lophocphan(string tenmh)
+        {
+            string mamh = "";
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            string sQuery = string.Format("SELECT MaMonHoc FROM MonHoc WHERE TenMonHoc = N'{0}'", tenmh);
+            SqlCommand com = new SqlCommand(sQuery, conn);
+            SqlDataReader dr = com.ExecuteReader();
+            while (dr.Read())
+            {
+                mamh = dr.GetString(0);
+            }
+            conn.Close();
+            List<LopHocPhan> listdanhsach = LopHocPhan.DsachLHP_Theomonhoc(mamh);
+            return listdanhsach;
+        }
         // GET: api/LopHocPhan/5
         public string Get(int id)
         {

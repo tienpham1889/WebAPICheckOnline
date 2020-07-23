@@ -60,5 +60,27 @@ namespace WebAPI_KTOnline.Models
             conn.Close();
             return list;
         }
+        public static List<LopHocPhan> DsachLHP_Theomonhoc(string mamh)
+        {
+            List<LopHocPhan> list = new List<LopHocPhan>();
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            string sQuery = string.Format("select * from LopHocPhan where MaMonHoc = '{0}'",mamh);
+            SqlCommand com = new SqlCommand(sQuery, conn);
+            SqlDataReader dr = com.ExecuteReader();
+            while (dr.Read())
+            {
+                LopHocPhan lhp = new LopHocPhan();
+                lhp.MalopHP = dr.GetString(0);
+                lhp.TenlopHP = dr.GetString(1);
+                lhp.Magv = dr.GetString(2);
+                lhp.Mamonhoc = dr.GetString(3);
+                lhp.Malop = dr.GetString(4);
+                lhp.Trangthai = dr.GetInt32(5);
+                list.Add(lhp);
+            }
+            conn.Close();
+            return list;
+        }
     }
 }
