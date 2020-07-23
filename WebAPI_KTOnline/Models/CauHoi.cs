@@ -54,8 +54,8 @@ namespace WebAPI_KTOnline.Models
             sQuery.Append("SELECT CH.MaCauHoi, MH.TenMonHoc, CD.TenCD, CH.NoiDung, CH.PhuongAnA, CH.PhuongAnB, CH.PhuongAnC, CH.PhuongAnD, CH.DapAn ");
             sQuery.Append("FROM CauHoi CH ");
             sQuery.Append("INNER JOIN MonHoc MH ON CH.MaMonHoc = MH.MaMonHoc ");
-            sQuery.Append("INNER JOIN ChuDe CD ON CH.MaCD = CD.MaCD");
-            sQuery.Append("WHERE TrangThai = 1");
+            sQuery.Append("INNER JOIN ChuDe CD ON CH.MaCD = CD.MaCD ");
+            sQuery.Append("WHERE CH.TrangThai = 1");
             SqlCommand com = new SqlCommand(sQuery.ToString(), conn);
             SqlDataReader dr = com.ExecuteReader();
             while (dr.Read())
