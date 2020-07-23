@@ -113,24 +113,5 @@ namespace WebAPI_KTOnline.Models
             }
             return true;
         }
-        public static MonHoc MonhoctheoLopHP(string mamh)
-        {
-            MonHoc mh = new MonHoc();
-
-            SqlConnection conn = DataProvider.Connect();
-            conn.Open();
-            string sQuery = string.Format("select * from MonHoc where TrangThai = 1 and MaMonHoc = '{0}'", mamh);
-            SqlCommand comm = new SqlCommand(sQuery, conn);
-            SqlDataReader dr = comm.ExecuteReader();
-            while (dr.Read())
-            {
-                mh.mamonhoc = dr.GetString(0);
-                mh.tenmonhoc = dr.GetString(1);
-                mh.sotinchi = dr.GetInt32(2);
-                mh.sotiet = dr.GetInt32(3);
-            }
-            conn.Close();
-            return mh;
-        }
     }
 }

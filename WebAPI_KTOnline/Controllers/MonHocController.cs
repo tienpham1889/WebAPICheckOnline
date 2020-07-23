@@ -26,25 +26,6 @@ namespace WebAPI_KTOnline.Controllers
         {
             return "value";
         }
-        [HttpGet]
-        [Route("api/monhoc-theolophp")]
-        public IEnumerable<MonHoc> Get_monhoc(string tenlphp)
-        {
-            string mamonhoc = "";
-            SqlConnection conn = DataProvider.Connect();
-            conn.Open();
-            string sQuery = string.Format("select MaMonHoc from LopHocPhan where TenLopHP = N'{0}'", tenlphp);
-            SqlCommand com = new SqlCommand(sQuery, conn);
-            SqlDataReader dr = com.ExecuteReader();
-            while (dr.Read())
-            {
-                mamonhoc = dr.GetString(0);
-            }
-            conn.Close();
-            MonHoc monhoc = new MonHoc();
-            monhoc = MonHoc.MonhoctheoLopHP(mamonhoc);
-            yield return monhoc;
-        }
         // POST: api/MonHoc
         public MonHoc Post([FromBody]MonHoc monhoc)
         {
