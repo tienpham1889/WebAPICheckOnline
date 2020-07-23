@@ -7,6 +7,7 @@ using System.Web.Http;
 using WebAPI_KTOnline.Models;
 using System.Data;
 using System.Data.SqlClient;
+using System.Text;
 
 namespace WebAPI_KTOnline.Controllers
 {
@@ -27,7 +28,29 @@ namespace WebAPI_KTOnline.Controllers
             cd = cd.cd(machude);
             yield return cd;
         }
-
+        [HttpGet]
+        [Route("api/chude-theomonhoc")]
+        public IEnumerable<ChuDe> Get_chude(string tenmonhoc)
+        {
+            string mamh ="";
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            StringBuilder sQuery = new StringBuilder();
+            sQuery.Append("select DISTINCT  CD.MaMonHoc ");
+            sQuery.Append("FROM ChuDe CD ");
+            sQuery.Append("inner join MonHoc MH on CD.MaMonHoc = MH.MaMonHoc ");
+            sQuery.AppendFormat("WHERE MH.TenMonHoc = N'{0}'",tenmonhoc);
+            SqlCommand com = new SqlCommand(sQuery.ToString(), conn);
+            SqlDataReader dr = com.ExecuteReader();
+            while (dr.Read())
+            {
+                mamh = dr.GetString(0);
+            }
+            conn.Close();
+            List<ChuDe> Dsachtheomonhoc = ChuDe.DsachCD_theomonhoc(mamh);
+            return Dsachtheomonhoc;
+            
+        }
         // POST: api/ChuDe
         public ChuDe Post([FromBody]ChuDe chude)
         {

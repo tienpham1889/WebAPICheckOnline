@@ -77,6 +77,27 @@ namespace WebAPI_KTOnline.Models
             conn.Close();
             return cd;
         }
+        public static List<ChuDe> DsachCD_theomonhoc(string mamh)
+        {
+            List<ChuDe> list = new List<ChuDe>();
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            string sQuery = string.Format("select * from ChuDe where MaMonHoc = '{0}'",mamh);
+            SqlCommand com = new SqlCommand(sQuery, conn);
+            SqlDataReader dr = com.ExecuteReader();
+            while (dr.Read())
+            {
+                ChuDe cd = new ChuDe();
+                cd.macd = dr.GetString(0);
+                cd.tencd = dr.GetString(1);
+                cd.mamonhoc = dr.GetString(2);
+                cd.trangThai = dr.GetInt32(3);
+                cd.magiaovien = dr.GetString(4);
+                list.Add(cd);
+            }
+            conn.Close();
+            return list;
+        }
         public bool kiemtra(string machude)
         {
             SqlConnection conn = DataProvider.Connect();
