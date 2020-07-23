@@ -11,7 +11,7 @@ namespace WebAPI_KTOnline.Models
     {
         public static SqlConnection Connect()
         {
-            string ChuoiKetNoi = @"Data Source=MR-TIEN\SQLEXPRESS;Initial Catalog =DBCheckOnline;Integrated Security = True";
+            string ChuoiKetNoi = @"Data Source=DESKTOP-319D2UA\SQLEXPRESS;Initial Catalog =DBQSProject;Integrated Security = True";
             SqlConnection conn = new SqlConnection(ChuoiKetNoi);
             return conn;
         }
