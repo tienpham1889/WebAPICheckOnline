@@ -82,8 +82,14 @@ namespace WebAPI_KTOnline.Models
             List<ChuDe> list = new List<ChuDe>();
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
-            string sQuery = string.Format("select * from ChuDe where MaMonHoc = '{0}'",mamh);
-            SqlCommand com = new SqlCommand(sQuery, conn);
+            //string sQuery = string.Format("select * from ChuDe where MaMonHoc = '{0}'",mamh);
+            StringBuilder sQuery = new StringBuilder();
+            sQuery.Append("select CD.MaCD, CD.TenCD, MH.TenMonHoc,GV.TenGV ");
+            sQuery.Append("from ChuDe CD ");
+            sQuery.Append("inner join GiangVien GV On CD.MaGV = GV.MaGV ");
+            sQuery.Append("INNER JOIN MonHoc MH ON CD.MaMonHoc = MH.MaMonHoc ");
+            sQuery.AppendFormat("WHERE CD.TrangThai = 1 AND CD.MaMonHoc = '{0}'",mamh);
+            SqlCommand com = new SqlCommand(sQuery.ToString(), conn);
             SqlDataReader dr = com.ExecuteReader();
             while (dr.Read())
             {
@@ -91,8 +97,7 @@ namespace WebAPI_KTOnline.Models
                 cd.macd = dr.GetString(0);
                 cd.tencd = dr.GetString(1);
                 cd.mamonhoc = dr.GetString(2);
-                cd.trangThai = dr.GetInt32(3);
-                cd.magiaovien = dr.GetString(4);
+                cd.magiaovien = dr.GetString(3);   
                 list.Add(cd);
             }
             conn.Close();
