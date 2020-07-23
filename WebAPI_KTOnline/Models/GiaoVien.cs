@@ -63,7 +63,7 @@ namespace WebAPI_KTOnline.Models
         {
             GiaoVien gv = new GiaoVien();
 
-            string ChuoiKetNoi = @"Data Source=MR-TIEN\SQLEXPRESS;Initial Catalog =DBCheckOnline;Integrated Security = True";
+            string ChuoiKetNoi = @"Data Source=DESKTOP-319D2UA\SQLEXPRESS;Initial Catalog =DBCheckOnline;Integrated Security = True";
             SqlConnection conn = new SqlConnection(ChuoiKetNoi);
             conn.Open();
             string sQuery = string.Format("select * from GiangVien where MaGV = '{0}'", magv);
