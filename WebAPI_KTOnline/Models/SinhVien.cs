@@ -66,8 +66,7 @@ namespace WebAPI_KTOnline.Models
         {
             SinhVien sv = new SinhVien();
 
-            string ChuoiKetNoi = @"Data Source=MR-TIEN\SQLEXPRESS;Initial Catalog =DBCheckOnline;Integrated Security = True";
-            SqlConnection conn = new SqlConnection(ChuoiKetNoi);
+            SqlConnection conn = DataProvider.Connect();
             conn.Open();
             string sQuery = string.Format("select * from SinhVien where MaSV = '{0}'", masv);
             SqlCommand comm = new SqlCommand(sQuery, conn);
