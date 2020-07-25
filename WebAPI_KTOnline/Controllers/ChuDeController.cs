@@ -46,6 +46,7 @@ namespace WebAPI_KTOnline.Controllers
             {
                 mamh = dr.GetString(0);
             }
+            dr.Close();
             conn.Close();
             List<ChuDe> Dsachtheomonhoc = ChuDe.DsachCD_theomonhoc(mamh);
             return Dsachtheomonhoc;
@@ -59,36 +60,39 @@ namespace WebAPI_KTOnline.Controllers
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
             string macd = ChuDe.layMaCD();
-
-            if (cd.kiemtra(chude.tenChuDe))
+            string mamh = "";
+            string sQuery_getMonHoc = string.Format("SELECT MaMonHoc FROM MonHoc WHERE TenMonHoc = N'{0}'", chude.maMonHoc);
+            SqlCommand com = new SqlCommand(sQuery_getMonHoc, conn);
+            SqlDataReader dr = com.ExecuteReader();
+            while (dr.Read())
             {
-                string mamh = "";
-                string sQuery_getMonHoc = string.Format("SELECT MaMonHoc FROM MonHoc WHERE TenMonHoc = N'{0}'", chude.maMonHoc);
-                SqlCommand com = new SqlCommand(sQuery_getMonHoc, conn);
-                SqlDataReader dr = com.ExecuteReader();
-                while (dr.Read())
-                {
-                    mamh = dr.GetString(0);
-                }
+                mamh = dr.GetString(0);
+            }
+            dr.Close();
+            if (cd.kiemtra(chude.tenChuDe, mamh))
+            {
+                
                 String sQuery = "INSERT INTO [dbo].[ChuDe]([MaCD],[TenCD],[MaMonHoc],[TrangThai],[MaGV])VALUES(@macd,@tencd,@mamonhoc,@trangthai,@magv)";
-                SqlCommand insertcommand = new SqlCommand(sQuery, conn);
-                insertcommand.Parameters.AddWithValue("@macd", macd);
-                insertcommand.Parameters.AddWithValue("@tencd",chude.tenChuDe);
-                insertcommand.Parameters.AddWithValue("@mamonhoc", mamh);
-                insertcommand.Parameters.AddWithValue("@trangthai", chude.trangThai);
-                insertcommand.Parameters.AddWithValue("@magv", chude.maGiaoVien);
-                int result = insertcommand.ExecuteNonQuery();
-                conn.Close();
+                SqlCommand insert_toppiccommand = new SqlCommand(sQuery, conn);
+                insert_toppiccommand.Parameters.AddWithValue("@macd", macd);
+                insert_toppiccommand.Parameters.AddWithValue("@tencd",chude.tenChuDe);
+                insert_toppiccommand.Parameters.AddWithValue("@mamonhoc", mamh);
+                insert_toppiccommand.Parameters.AddWithValue("@trangthai", chude.trangThai);
+                insert_toppiccommand.Parameters.AddWithValue("@magv", chude.maGiaoVien);
+                int result = insert_toppiccommand.ExecuteNonQuery();
+                
                 cd = cd.cd(macd);
                 if (result > 0)
                 {
                     return cd;
                 }
             }
+            
             else
             {
                 return cd;
             }
+            conn.Close();
             return cd;
         }
 

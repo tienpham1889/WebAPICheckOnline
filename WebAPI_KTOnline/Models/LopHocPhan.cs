@@ -60,6 +60,28 @@ namespace WebAPI_KTOnline.Models
             conn.Close();
             return list;
         }
+        public LopHocPhan lhp(string malhp)
+        {
+            LopHocPhan lophp = new LopHocPhan();
+
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            string sQuery = string.Format("select * from LopHocPhan where MaLopHP = '{0}'", malhp);
+            SqlCommand comm = new SqlCommand(sQuery, conn);
+            SqlDataReader dr = comm.ExecuteReader();
+            while (dr.Read())
+            {
+                lophp.MalopHP = dr.GetString(0);
+                lophp.TenlopHP = dr.GetString(1);
+                lophp.Magv = dr.GetString(2);
+                lophp.Mamonhoc = dr.GetString(3);
+                lophp.Malop = dr.GetString(4);
+                lophp.Trangthai = dr.GetInt32(5);
+            }
+            dr.Close();
+            conn.Close();
+            return lophp;
+        }
         public static List<LopHocPhan> DsachLHP_Theomonhoc(string mamh)
         {
             List<LopHocPhan> list = new List<LopHocPhan>();
@@ -81,6 +103,51 @@ namespace WebAPI_KTOnline.Models
             }
             conn.Close();
             return list;
+        }
+        public bool kiemtra(string tenlophp)
+        {
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            string sQuery = string.Format("select * from LopHocPhan where TenLopHP = N'{0}' ", tenlophp);
+            SqlCommand comm = new SqlCommand(sQuery, conn);
+            SqlDataReader dr = comm.ExecuteReader();
+            int count = 0;
+            while (dr.Read())
+            {
+                count++;
+
+            }
+            if (count > 0)
+            {
+                return false;
+            }
+            return true;
+        }
+        public static string layLopHocPhan()
+        {
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            string mavd = "";
+            string sQuery1 = "select top 1 MaLopHP from LopHocPhan order by MaLopHP desc";
+            SqlCommand com1 = new SqlCommand(sQuery1, conn);
+            SqlDataReader dr1 = com1.ExecuteReader();
+            while (dr1.Read())
+            {
+                mavd = dr1.GetString(0);
+            }
+            dr1.Close();
+            conn.Close();
+            string lucsau = mavd.Substring(3);
+            int sott = Convert.ToInt32(lucsau);
+            int stt_tieptheo = sott + 1;
+            string matieptheo = "LHP";
+            string masott = stt_tieptheo.ToString();
+            while (masott.Length < 6)
+            {
+                masott = "0" + masott;
+            }
+            matieptheo += masott;
+            return matieptheo;
         }
     }
 }

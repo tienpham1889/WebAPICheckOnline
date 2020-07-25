@@ -74,6 +74,7 @@ namespace WebAPI_KTOnline.Models
                 cd.trangthai = dr.GetInt32(3);
                 cd.magiaovien = dr.GetString(4);
             }
+            dr.Close();
             conn.Close();
             return cd;
         }
@@ -103,11 +104,11 @@ namespace WebAPI_KTOnline.Models
             conn.Close();
             return list;
         }
-        public bool kiemtra(string tenchude)
+        public bool kiemtra(string tenchude, string mamonhoc)
         {
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
-            string sQuery = string.Format("select * from ChuDe where TenCD = N'{0}'", tenchude);
+            string sQuery = string.Format("select * from ChuDe where TenCD = N'{0}' and MaMonHoc = '{1}'", tenchude, mamonhoc);
             SqlCommand comm = new SqlCommand(sQuery, conn);
             SqlDataReader dr = comm.ExecuteReader();
             int count = 0;
@@ -134,6 +135,8 @@ namespace WebAPI_KTOnline.Models
             {
                 mavd = dr1.GetString(0);
             }
+            dr1.Close();
+            conn.Close();
             string lucsau = mavd.Substring(2);
             int sott = Convert.ToInt32(lucsau);
             int stt_tieptheo = sott + 1;
