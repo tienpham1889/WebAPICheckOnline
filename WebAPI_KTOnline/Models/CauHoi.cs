@@ -81,6 +81,32 @@ namespace WebAPI_KTOnline.Models
             conn.Close();
             return list;
         }
+        public CauHoi cauhoi(string macauhoi)
+        {
+            CauHoi ch = new CauHoi();
+
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            string sQuery = string.Format("select * from CauHoi where MaCauHoi = '{0}'", macauhoi);
+            SqlCommand comm = new SqlCommand(sQuery, conn);
+            SqlDataReader dr = comm.ExecuteReader();
+            while (dr.Read())
+            {
+                ch.macauhoi = dr.GetString(0);
+                ch.noidung = dr.GetString(1);
+                ch.phuongana = dr.GetString(2);
+                ch.phuonganb = dr.GetString(3);
+                ch.phuonganc = dr.GetString(4);
+                ch.phuongand = dr.GetString(5);
+                ch.dapan = dr.GetString(6);
+                ch.machude = dr.GetString(7);
+                ch.trangthai = dr.GetInt32(8);
+                ch.mamonhoc = dr.GetString(9);
+            }
+            dr.Close();
+            conn.Close();
+            return ch;
+        }
         public static List<CauHoi> DsachCauhoi_theodieukien(string mamh, string macd)
         {
             List<CauHoi> list = new List<CauHoi>();
@@ -109,6 +135,51 @@ namespace WebAPI_KTOnline.Models
             }
             conn.Close();
             return list;
+        }
+        public bool kiemtra(string noidung, string mamonhoc)
+        {
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            string sQuery = string.Format("select * from CauHoi where NoiDung = N'{0}' and MaMonHoc = '{1}'", noidung, mamonhoc);
+            SqlCommand comm = new SqlCommand(sQuery, conn);
+            SqlDataReader dr = comm.ExecuteReader();
+            int count = 0;
+            while (dr.Read())
+            {
+                count++;
+
+            }
+            if (count > 0)
+            {
+                return false;
+            }
+            return true;
+        }
+        public static string layMaCauHoi()
+        {
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            string mavd = "";
+            string sQuery1 = "select top 1 MaCauHoi from CauHoi order by MaCauHoi desc";
+            SqlCommand com1 = new SqlCommand(sQuery1, conn);
+            SqlDataReader dr1 = com1.ExecuteReader();
+            while (dr1.Read())
+            {
+                mavd = dr1.GetString(0);
+            }
+            dr1.Close();
+            conn.Close();
+            string lucsau = mavd.Substring(2);
+            int sott = Convert.ToInt32(lucsau);
+            int stt_tieptheo = sott + 1;
+            string matieptheo = "CH";
+            string masott = stt_tieptheo.ToString();
+            while (masott.Length < 8)
+            {
+                masott = "0" + masott;
+            }
+            matieptheo += masott;
+            return matieptheo;
         }
     }
 }
