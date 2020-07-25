@@ -85,5 +85,26 @@ namespace WebAPI_KTOnline.Models
             conn.Close();
             return sv;
         }
+        public bool kiemtra(string masv)
+        {
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            string sQuery = string.Format("select * from SinhVien where MaSV = '{0}' ", masv);
+            SqlCommand comm = new SqlCommand(sQuery, conn);
+            SqlDataReader dr = comm.ExecuteReader();
+            int count = 0;
+            while (dr.Read())
+            {
+                count++;
+
+            }
+            if (count > 0)
+            {
+                return false;
+            }
+            dr.Close();
+            conn.Close();
+            return true;
+        }
     }
 }
