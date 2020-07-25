@@ -103,11 +103,11 @@ namespace WebAPI_KTOnline.Models
             conn.Close();
             return list;
         }
-        public bool kiemtra(string machude)
+        public bool kiemtra(string tenchude)
         {
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
-            string sQuery = string.Format("select * from ChuDe where MaCD = '{0}'", machude);
+            string sQuery = string.Format("select * from ChuDe where TenCD = N'{0}'", tenchude);
             SqlCommand comm = new SqlCommand(sQuery, conn);
             SqlDataReader dr = comm.ExecuteReader();
             int count = 0;
@@ -121,6 +121,30 @@ namespace WebAPI_KTOnline.Models
                 return false;
             }
             return true;
+        }
+        public static string layMaCD()
+        {
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            string mavd = "";
+            string sQuery1 = "select top 1 MaCD from ChuDe order by MaCD desc";
+            SqlCommand com1 = new SqlCommand(sQuery1, conn);
+            SqlDataReader dr1 = com1.ExecuteReader();
+            while (dr1.Read())
+            {
+                mavd = dr1.GetString(0);
+            }
+            string lucsau = mavd.Substring(2);
+            int sott = Convert.ToInt32(lucsau);
+            int stt_tieptheo = sott + 1;
+            string matieptheo = "CD";
+            string masott = stt_tieptheo.ToString();
+            while (masott.Length < 6)
+            {
+                masott = "0" + masott;
+            }
+            matieptheo += masott;
+            return matieptheo;
         }
     }
 }

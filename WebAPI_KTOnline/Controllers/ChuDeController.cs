@@ -51,24 +51,35 @@ namespace WebAPI_KTOnline.Controllers
             return Dsachtheomonhoc;
             
         }
+        
         // POST: api/ChuDe
         public ChuDe Post([FromBody]ChuDe chude)
         {
             ChuDe cd = new ChuDe();
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
-            if (cd.kiemtra(chude.maChuDe))
+            string macd = ChuDe.layMaCD();
+
+            if (cd.kiemtra(chude.tenChuDe))
             {
+                string mamh = "";
+                string sQuery_getMonHoc = string.Format("SELECT MaMonHoc FROM MonHoc WHERE TenMonHoc = N'{0}'", chude.maMonHoc);
+                SqlCommand com = new SqlCommand(sQuery_getMonHoc, conn);
+                SqlDataReader dr = com.ExecuteReader();
+                while (dr.Read())
+                {
+                    mamh = dr.GetString(0);
+                }
                 String sQuery = "INSERT INTO [dbo].[ChuDe]([MaCD],[TenCD],[MaMonHoc],[TrangThai],[MaGV])VALUES(@macd,@tencd,@mamonhoc,@trangthai,@magv)";
                 SqlCommand insertcommand = new SqlCommand(sQuery, conn);
-                insertcommand.Parameters.AddWithValue("@macd", chude.maChuDe);
+                insertcommand.Parameters.AddWithValue("@macd", macd);
                 insertcommand.Parameters.AddWithValue("@tencd",chude.tenChuDe);
-                insertcommand.Parameters.AddWithValue("@mamonhoc", chude.maMonHoc);
+                insertcommand.Parameters.AddWithValue("@mamonhoc", mamh);
                 insertcommand.Parameters.AddWithValue("@trangthai", chude.trangThai);
                 insertcommand.Parameters.AddWithValue("@magv", chude.maGiaoVien);
                 int result = insertcommand.ExecuteNonQuery();
                 conn.Close();
-                cd = cd.cd(chude.maChuDe);
+                cd = cd.cd(macd);
                 if (result > 0)
                 {
                     return cd;

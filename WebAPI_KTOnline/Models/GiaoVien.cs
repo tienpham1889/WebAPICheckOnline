@@ -14,28 +14,28 @@ namespace WebAPI_KTOnline.Models
         string gioitinh;
         string diachi;
         string sdt;
-        string email;
+        string Email;
         string passsword;
         public static List<GiaoVien> ListGV = DsachGV();
 
         public GiaoVien()
         {
-            Magv = "";
-            Tengv = "";
-            Gioitinh = "";
-            Diachi = "";
-            Sdt = "";
+            magv = "";
+            tengv = "";
+            gioitinh = "";
+            diachi = "";
+            sdt = "";
             Email = "";
-            Passsword = "";
+            passsword = "";
         }
 
-        public string Magv { get => magv; set => magv = value; }
-        public string Tengv { get => tengv; set => tengv = value; }
-        public string Gioitinh { get => gioitinh; set => gioitinh = value; }
-        public string Diachi { get => diachi; set => diachi = value; }
-        public string Sdt { get => sdt; set => sdt = value; }
-        public string Email { get => email; set => email = value; }
-        public string Passsword { get => passsword; set => passsword = value; }
+        public string maGiaoVien { get => magv; set => magv = value; }
+        public string tenGiaoVien { get => tengv; set => tengv = value; }
+        public string gioiTinh { get => gioitinh; set => gioitinh = value; }
+        public string diaChi { get => diachi; set => diachi = value; }
+        public string soDienThoai { get => sdt; set => sdt = value; }
+        public string email { get => Email; set => Email = value; }
+        public string password { get => passsword; set => passsword = value; }
         public static List<GiaoVien> DsachGV()
         {
             List<GiaoVien> list = new List<GiaoVien>();
