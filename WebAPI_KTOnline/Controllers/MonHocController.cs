@@ -33,6 +33,7 @@ namespace WebAPI_KTOnline.Controllers
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
             string mamonhoc = MonHoc.layMaMH();
+            //test thu branch
             if (mh.kiemtra(monhoc.tenMonhoc))
             {
                 String sQuery = "INSERT INTO [dbo].[MonHoc]([MaMonHoc],[TenMonHoc],[SoTinChi],[SoTiet],[TrangThai])VALUES(@manh,@tenmh,@sotinchi,@sotiet,@trangthai)";
