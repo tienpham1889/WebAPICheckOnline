@@ -28,8 +28,47 @@ namespace WebAPI_KTOnline.Controllers
         }
 
         // POST: api/SinhVien
-        public void Post([FromBody]string value)
+        public SinhVien Post([FromBody]SinhVien sinhvien)
         {
+            SinhVien sv = new SinhVien();
+            SqlConnection conn = DataProvider.Connect();
+            string gioitinh = "";
+            int trangthai = 1;
+            if(Convert.ToInt32(sinhvien.gioiTinh) == 0)
+            {
+                gioitinh = "Nam";
+            }
+            else
+            {
+                gioitinh = "Nữ";
+            }
+            conn.Open();
+            if (sv.kiemtra(sinhvien.maSinhVien))
+            {
+                String sQuery = "INSERT INTO [dbo].[SinhVien]([MaSV],[TenSV],[GioiTinh],[DiaChi],[SDT],[Email],[Passsword],[Malop],[TrangThai])VALUES(@masv,@tensv,@gioitinh,@diachi,@sdt,@email,@matkhau,@malop,@trangthai)";
+                SqlCommand insert_SVcommand = new SqlCommand(sQuery, conn);
+                insert_SVcommand.Parameters.AddWithValue("@masv", sinhvien.maSinhVien);
+                insert_SVcommand.Parameters.AddWithValue("@tensv", sinhvien.tenSinhVien);
+                insert_SVcommand.Parameters.AddWithValue("@gioitinh", gioitinh);
+                insert_SVcommand.Parameters.AddWithValue("@diachi", sinhvien.diaChi);
+                insert_SVcommand.Parameters.AddWithValue("@sdt", sinhvien.soDienThoai);
+                insert_SVcommand.Parameters.AddWithValue("@email", sinhvien.email);
+                insert_SVcommand.Parameters.AddWithValue("@matkhau", sinhvien.matKhau);
+                insert_SVcommand.Parameters.AddWithValue("@malop", sinhvien.maLop);
+                insert_SVcommand.Parameters.AddWithValue("@trangthai", trangthai);
+                int result = insert_SVcommand.ExecuteNonQuery();
+                conn.Close();
+                sv = sv.sv(sinhvien.maSinhVien);
+                if (result > 0)
+                {
+                    return sv;
+                }
+            }
+            else
+            {
+                return sv;
+            }
+            return sv;
         }
 
         // PUT: api/SinhVien/5
