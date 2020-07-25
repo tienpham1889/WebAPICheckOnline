@@ -32,6 +32,7 @@ namespace WebAPI_KTOnline.Models
         public string maGiaoVien { get => Magv; set => Magv = value; }
         public string maMonHoc { get => Mamonhoc; set => Mamonhoc = value; }
         public string maLop { get => Malop; set => Malop = value; }
+        //s
         public int trangThai { get => Trangthai; set => Trangthai = value; }
         public static List<LopHocPhan> DsachLop()
         {
