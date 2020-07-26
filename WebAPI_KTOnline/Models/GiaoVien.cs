@@ -16,6 +16,8 @@ namespace WebAPI_KTOnline.Models
         string sdt;
         string Email;
         string passsword;
+        int trangthai;
+        string isadmin;
         public static List<GiaoVien> ListGV = DsachGV();
 
         public GiaoVien()
@@ -27,6 +29,8 @@ namespace WebAPI_KTOnline.Models
             sdt = "";
             Email = "";
             passsword = "";
+            trangthai = 0;
+            isadmin = "";
         }
 
         public string maGiaoVien { get => magv; set => magv = value; }
@@ -35,7 +39,9 @@ namespace WebAPI_KTOnline.Models
         public string diaChi { get => diachi; set => diachi = value; }
         public string soDienThoai { get => sdt; set => sdt = value; }
         public string email { get => Email; set => Email = value; }
-        public string password { get => passsword; set => passsword = value; }
+        public string matKhau { get => passsword; set => passsword = value; }
+        public int trangThai { get => trangthai; set => trangthai = value; }
+        public string isAdmin { get => isadmin; set => isadmin = value; }
         public static List<GiaoVien> DsachGV()
         {
             List<GiaoVien> list = new List<GiaoVien>();
@@ -80,6 +86,27 @@ namespace WebAPI_KTOnline.Models
             }
             conn.Close();
             return gv;
+        }
+        public bool kiemtra(string magv)
+        {
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            string sQuery = string.Format("select * from GiangVien where MaGV = '{0}' ", magv);
+            SqlCommand comm = new SqlCommand(sQuery, conn);
+            SqlDataReader dr = comm.ExecuteReader();
+            int count = 0;
+            while (dr.Read())
+            {
+                count++;
+
+            }
+            if (count > 0)
+            {
+                return false;
+            }
+            dr.Close();
+            conn.Close();
+            return true;
         }
     }
 }
