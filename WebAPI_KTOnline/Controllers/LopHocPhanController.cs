@@ -37,9 +37,11 @@ namespace WebAPI_KTOnline.Controllers
             return listdanhsach;
         }
         // GET: api/LopHocPhan/5
-        public string Get(int id)
+        public IEnumerable<LopHocPhan> Get(string malophp)
         {
-            return "value";
+            LopHocPhan lophp = new LopHocPhan();
+            lophp = lophp.lhp(malophp);
+            yield return lophp;
         }
 
         // POST: api/LopHocPhan
