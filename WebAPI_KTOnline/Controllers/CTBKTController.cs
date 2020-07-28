@@ -29,6 +29,7 @@ namespace WebAPI_KTOnline.Controllers
         {
             List<CTBaiKT> list = CTBaiKT.Dsach();
             SqlConnection conn = DataProvider.Connect();
+            //test
             conn.Open();
             int STT = 0;
             string mabaikt = "";
