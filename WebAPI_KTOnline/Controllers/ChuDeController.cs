@@ -30,25 +30,9 @@ namespace WebAPI_KTOnline.Controllers
         }
         [HttpGet]
         [Route("api/chude-theomonhoc")]
-        public IEnumerable<ChuDe> Get_chude(string tenmonhoc)
+        public IEnumerable<ChuDe> Get_chude(string mamonhoc)
         {
-            string mamh ="";
-            SqlConnection conn = DataProvider.Connect();
-            conn.Open();
-            StringBuilder sQuery = new StringBuilder();
-            sQuery.Append("select DISTINCT  CD.MaMonHoc ");
-            sQuery.Append("FROM ChuDe CD ");
-            sQuery.Append("inner join MonHoc MH on CD.MaMonHoc = MH.MaMonHoc ");
-            sQuery.AppendFormat("WHERE MH.TenMonHoc = N'{0}'",tenmonhoc);
-            SqlCommand com = new SqlCommand(sQuery.ToString(), conn);
-            SqlDataReader dr = com.ExecuteReader();
-            while (dr.Read())
-            {
-                mamh = dr.GetString(0);
-            }
-            dr.Close();
-            conn.Close();
-            List<ChuDe> Dsachtheomonhoc = ChuDe.DsachCD_theomonhoc(mamh);
+            List<ChuDe> Dsachtheomonhoc = ChuDe.DsachCD_theomonhoc(mamonhoc);
             return Dsachtheomonhoc;
             
         }
@@ -60,23 +44,14 @@ namespace WebAPI_KTOnline.Controllers
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
             string macd = ChuDe.layMaCD();
-            string mamh = "";
-            string sQuery_getMonHoc = string.Format("SELECT MaMonHoc FROM MonHoc WHERE TenMonHoc = N'{0}'", chude.maMonHoc);
-            SqlCommand com = new SqlCommand(sQuery_getMonHoc, conn);
-            SqlDataReader dr = com.ExecuteReader();
-            while (dr.Read())
-            {
-                mamh = dr.GetString(0);
-            }
-            dr.Close();
-            if (cd.kiemtra(chude.tenChuDe, mamh))
+            if (cd.kiemtra(chude.tenChuDe, chude.maMonHoc))
             {
                 
                 String sQuery = "INSERT INTO [dbo].[ChuDe]([MaCD],[TenCD],[MaMonHoc],[TrangThai],[MaGV])VALUES(@macd,@tencd,@mamonhoc,@trangthai,@magv)";
                 SqlCommand insert_toppiccommand = new SqlCommand(sQuery, conn);
                 insert_toppiccommand.Parameters.AddWithValue("@macd", macd);
                 insert_toppiccommand.Parameters.AddWithValue("@tencd",chude.tenChuDe);
-                insert_toppiccommand.Parameters.AddWithValue("@mamonhoc", mamh);
+                insert_toppiccommand.Parameters.AddWithValue("@mamonhoc", chude.maChuDe);
                 insert_toppiccommand.Parameters.AddWithValue("@trangthai", chude.trangThai);
                 insert_toppiccommand.Parameters.AddWithValue("@magv", chude.maGiaoVien);
                 int result = insert_toppiccommand.ExecuteNonQuery();

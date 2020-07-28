@@ -91,8 +91,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\BaiKiemTraController.cs" />
     <Compile Include="Controllers\CauHoiController.cs" />
     <Compile Include="Controllers\ChuDeController.cs" />
+    <Compile Include="Controllers\CTBKTController.cs" />
     <Compile Include="Controllers\GiaoVienController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\LopController.cs" />
@@ -102,8 +104,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\BaiKiemTra.cs" />
     <Compile Include="Models\CauHoi.cs" />
     <Compile Include="Models\ChuDe.cs" />
+    <Compile Include="Models\CTBaiKT.cs" />
     <Compile Include="Models\DataProvider.cs" />
     <Compile Include="Models\GiaoVien.cs" />
     <Compile Include="Models\Lop.cs" />
