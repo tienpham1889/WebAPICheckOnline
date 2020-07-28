@@ -28,8 +28,48 @@ namespace WebAPI_KTOnline.Controllers
         }
 
         // POST: api/GiaoVien
-        public void Post([FromBody]string value)
+        public GiaoVien Post([FromBody]GiaoVien giaovien)
         {
+            GiaoVien gvien = new GiaoVien();
+            SqlConnection conn = DataProvider.Connect();
+            string gioitinh = "";
+            int trangthai = 1;
+            string isAdmin = "N";
+            if (Convert.ToInt32(giaovien.gioiTinh) == 0)
+            {
+                gioitinh = "Nam";
+            }
+            else
+            {
+                gioitinh = "Nữ";
+            }
+            conn.Open();
+            if (gvien.kiemtra(giaovien.maGiaoVien))
+            {
+                String sQuery = "INSERT INTO [dbo].[GiangVien]([MaGV],[TenGV],[GioiTinh],[DiaChi],[SDT],[Email],[Passsword],[isAdmin],[TrangThai])VALUES(@magv,@tengv,@gioitinh,@diachi,@sdt,@email,@matkhau,@isadmin,@trangthai)";
+                SqlCommand insert_SVcommand = new SqlCommand(sQuery, conn);
+                insert_SVcommand.Parameters.AddWithValue("@magv", giaovien.maGiaoVien);
+                insert_SVcommand.Parameters.AddWithValue("@tengv", giaovien.tenGiaoVien);
+                insert_SVcommand.Parameters.AddWithValue("@gioitinh", gioitinh);
+                insert_SVcommand.Parameters.AddWithValue("@diachi", giaovien.diaChi);
+                insert_SVcommand.Parameters.AddWithValue("@sdt", giaovien.soDienThoai);
+                insert_SVcommand.Parameters.AddWithValue("@email", giaovien.email);
+                insert_SVcommand.Parameters.AddWithValue("@matkhau", giaovien.matKhau);
+                insert_SVcommand.Parameters.AddWithValue("@isadmin", isAdmin);
+                insert_SVcommand.Parameters.AddWithValue("@trangthai", trangthai);
+                int result = insert_SVcommand.ExecuteNonQuery();
+                conn.Close();
+                gvien = gvien.gv(giaovien.maGiaoVien);
+                if (result > 0)
+                {
+                    return gvien;
+                }
+            }
+            else
+            {
+                return gvien;
+            }
+            return gvien;
         }
 
         // PUT: api/GiaoVien/5
