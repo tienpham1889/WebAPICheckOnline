@@ -18,6 +18,13 @@ namespace WebAPI_KTOnline.Controllers
             List<BaiKiemTra> listdanhsach = BaiKiemTra.DsachBaiKiemTra();
             return listdanhsach;
         }
+        [HttpGet]
+        [Route("api/ListCauHoi-DangKT")]
+        public IEnumerable<CauHoi> Get_cauhoitheodieukien(string mabaikt)
+        {
+            List<CauHoi> Dsachcauhoi = CauHoi.DsachCauhoi_DangKT(mabaikt);
+            return Dsachcauhoi;
+        }
 
         // GET: api/BaiKiemTra/5
         public IEnumerable<BaiKiemTra> Get(string mabaikt)
@@ -25,7 +32,35 @@ namespace WebAPI_KTOnline.Controllers
 
             BaiKiemTra bkt = new BaiKiemTra();
             bkt = bkt.baikt(mabaikt);
+            int trangThai = bkt.trangThai;
             yield return bkt;
+        }
+        [HttpPost]
+        [Route("api/Post-BaiKiemTra")]
+        public BaiKiemTra Postupdate_start([FromBody]BaiKiemTra baikiemtra)
+        {
+            BaiKiemTra baikt = new BaiKiemTra();
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            if (!baikt.kiemtra(baikiemtra.pin))
+            {
+                String sQuery = "UPDATE [dbo].[BaiKiemTra] SET [TrangThai] = @tranthai WHERE [MaBaiKT] = @mabaikt";
+                SqlCommand updatecommand = new SqlCommand(sQuery, conn);
+                updatecommand.Parameters.AddWithValue("@tranthai", 2);
+                updatecommand.Parameters.AddWithValue("@mabaikt", baikiemtra.pin);
+                int result = updatecommand.ExecuteNonQuery();
+                conn.Close();
+                baikt = baikt.baikt(baikiemtra.pin);
+                if (result > 0)
+                {
+                    return baikt;
+                }
+            }
+            else
+            {
+                return baikt;
+            }
+            return baikt;
         }
 
         // POST: api/BaiKiemTra
@@ -34,20 +69,10 @@ namespace WebAPI_KTOnline.Controllers
             BaiKiemTra bkt = new BaiKiemTra();
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
-            string mabaikt = BaiKiemTra.layMaBKT ();
-            string malophp = "";
-            string sQuery_getMonHoc = string.Format("SELECT MaLopHP FROM LopHocPhan WHERE TenLopHP = N'{0}'", Test.maLopHocPhan);
-            SqlCommand com = new SqlCommand(sQuery_getMonHoc, conn);
-            SqlDataReader dr = com.ExecuteReader();
-            while (dr.Read())
+            if (bkt.kiemtra(Test.pin))
             {
-                malophp = dr.GetString(0);
-            }
-            dr.Close();
-            if (bkt.kiemtra(mabaikt))
-            {
-                int result = BaiKiemTra.AddBaiKT(Test, mabaikt, malophp);
-                bkt = bkt.baikt(mabaikt);
+                int result = BaiKiemTra.AddBaiKT(Test, Test.pin, Test.maLopHocPhan);
+                bkt = bkt.baikt(Test.pin);
                 if (result > 0)
                 {
                     return bkt;

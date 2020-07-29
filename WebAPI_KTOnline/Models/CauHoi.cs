@@ -136,6 +136,35 @@ namespace WebAPI_KTOnline.Models
             conn.Close();
             return list;
         }
+        public static List<CauHoi> DsachCauhoi_DangKT(string mabaikt)
+        {
+            List<CauHoi> list = new List<CauHoi>();
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            StringBuilder sQuery = new StringBuilder();
+            sQuery.Append("select CT.STT, CH.NoiDung, CH.PhuongAnA, CH.PhuongAnB, CH.PhuongAnC, CH.PhuongAnD, CH.DapAn ");
+            sQuery.Append("from CauHoi CH ");
+            sQuery.Append("INNER JOIN CTBaiKT CT ON CT.MaCauHoi = CH.MaCauHoi ");
+            sQuery.Append("inner join BaiKiemTra BKT ON CT.MaBaiKT = BKT.MaBaiKT ");
+            sQuery.AppendFormat("WHERE BKT.MaBaiKT='{0}' AND BKT.TrangThai = 2 ", mabaikt);
+            SqlCommand com = new SqlCommand(sQuery.ToString(), conn);
+            SqlDataReader dr = com.ExecuteReader();
+            int stt = 0;
+            while (dr.Read())
+            {
+                CauHoi ch = new CauHoi();
+                ch.noidung = dr.GetString(1);
+                ch.phuongana = dr.GetString(2);
+                ch.phuonganb = dr.GetString(3);
+                ch.phuonganc = dr.GetString(4);
+                ch.phuongand = dr.GetString(5);
+                ch.dapan = dr.GetString(6);
+                ch.Value = dr.GetInt32(0);
+                list.Add(ch);
+            }
+            conn.Close();
+            return list;
+        }
         public bool kiemtra(string noidung, string mamonhoc)
         {
             SqlConnection conn = DataProvider.Connect();
