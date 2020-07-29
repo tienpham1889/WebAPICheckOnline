@@ -51,7 +51,7 @@ namespace WebAPI_KTOnline.Controllers
                 SqlCommand insert_toppiccommand = new SqlCommand(sQuery, conn);
                 insert_toppiccommand.Parameters.AddWithValue("@macd", macd);
                 insert_toppiccommand.Parameters.AddWithValue("@tencd",chude.tenChuDe);
-                insert_toppiccommand.Parameters.AddWithValue("@mamonhoc", chude.maChuDe);
+                insert_toppiccommand.Parameters.AddWithValue("@mamonhoc", chude.maMonHoc);
                 insert_toppiccommand.Parameters.AddWithValue("@trangthai", chude.trangThai);
                 insert_toppiccommand.Parameters.AddWithValue("@magv", chude.maGiaoVien);
                 int result = insert_toppiccommand.ExecuteNonQuery();
