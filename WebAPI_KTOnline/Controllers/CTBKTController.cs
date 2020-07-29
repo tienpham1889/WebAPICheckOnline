@@ -25,29 +25,20 @@ namespace WebAPI_KTOnline.Controllers
         }
 
         // POST: api/CTBKT
-        public List<CTBaiKT> Post([FromBody]CauHoi[] listdata)
+        [Route("api/CTBKT/{mabkt}")]
+        public void Post([FromBody]CauHoi[] listdata, [FromUri] string mabkt)
         {
-            List<CTBaiKT> list = CTBaiKT.Dsach();
             SqlConnection conn = DataProvider.Connect();
             //test
             conn.Open();
             int STT = 0;
-            string mabaikt = "";
-            string sQuery1 = "select top 1 MaBaiKT from BaiKiemTra order by MaBaiKT desc";
-            SqlCommand com1 = new SqlCommand(sQuery1, conn);
-            SqlDataReader dr1 = com1.ExecuteReader();
-            while (dr1.Read())
-            {
-                mabaikt = dr1.GetString(0);
-            }
-            dr1.Close();
             for (int i = 0; i < listdata.Length; i++)
             {
                 STT++;
                 string mach = listdata[i].maCauHoi;
-                if (CTBaiKT.kiemtra(mabaikt, mach))
+                if (CTBaiKT.kiemtra(mabkt, mach))
                 {
-                    CTBaiKT.AddCTBKT(mabaikt, mach,STT);
+                    CTBaiKT.AddCTBKT(mabkt, mach,STT);
                 }
                 else
                 {
@@ -55,7 +46,6 @@ namespace WebAPI_KTOnline.Controllers
                 }
             }
             conn.Close();
-            return list;
         }
 
         // PUT: api/CTBKT/5

@@ -134,34 +134,5 @@ namespace WebAPI_KTOnline.Models
             }
             return true;
         }
-        public static string layMaBKT()
-        {
-            SqlConnection conn = DataProvider.Connect();
-            conn.Open();
-            string mavd = "";
-            string matieptheo = "BKT";
-            string sQuery1 = "select top 1 MaBaiKT from BaiKiemTra order by MaBaiKT desc";
-            SqlCommand com1 = new SqlCommand(sQuery1, conn);
-
-                SqlDataReader dr1 = com1.ExecuteReader();
-                while (dr1.Read())
-                {
-                    mavd = dr1.GetString(0);
-                }
-                dr1.Close();
-                conn.Close();
-                string lucsau = mavd.Substring(3);
-                int sott = Convert.ToInt32(lucsau);
-                int stt_tieptheo = sott + 1;
-                string masott = stt_tieptheo.ToString();
-                while (masott.Length < 7)
-                {
-                    masott = "0" + masott;
-                }
-                matieptheo += masott;
-                
-         
-            return matieptheo;
-        }
     }
 }
