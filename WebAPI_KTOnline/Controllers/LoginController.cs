@@ -30,7 +30,7 @@ namespace WebAPI_KTOnline.Controllers
         {
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
-            String sQuery = string.Format("SELECT * FROM SinhVien where MaSV = '{0}' and Passsword = '{1}'", sv.maSinhVien, sv.matKhau);
+            String sQuery = string.Format("SELECT * FROM SinhVien where MaSV = '{0}' and Passsword = '{1}'", sv.maSinhVien, StringProc.MD5Hash(sv.matKhau));
             SqlCommand comm = new SqlCommand(sQuery, conn);
             int count = 0;
             SqlDataReader dr = comm.ExecuteReader();
@@ -47,6 +47,33 @@ namespace WebAPI_KTOnline.Controllers
             else
             {
                 return sv2;
+            }
+
+        }
+
+        [HttpPost]
+        [Route("api/Login-Teacher")]
+        public GiaoVien Post_login_GV([FromBody] GiaoVien gv)
+        {
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            String sQuery = string.Format("SELECT * FROM GiangVien where MaGV = '{0}' and Passsword = '{1}'", gv.maGiaoVien, StringProc.MD5Hash(gv.matKhau));
+            SqlCommand comm = new SqlCommand(sQuery, conn);
+            int count = 0;
+            SqlDataReader dr = comm.ExecuteReader();
+            while (dr.Read())
+            {
+                count++;
+            }
+            GiaoVien gv2 = new GiaoVien();
+            if (count > 0)
+            {
+
+                return gv.gv(gv.maGiaoVien);
+            }
+            else
+            {
+                return gv2;
             }
 
         }

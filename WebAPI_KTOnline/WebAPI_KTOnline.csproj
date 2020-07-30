@@ -114,6 +114,7 @@
     <Compile Include="Models\LopHocPhan.cs" />
     <Compile Include="Models\MonHoc.cs" />
     <Compile Include="Models\SinhVien.cs" />
+    <Compile Include="Models\StringProc.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
