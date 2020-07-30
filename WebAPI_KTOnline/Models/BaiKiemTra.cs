@@ -134,5 +134,35 @@ namespace WebAPI_KTOnline.Models
             }
             return true;
         }
+        public static List<BaiKiemTra> DsachBaiKiemTra_theogv(string magiaovien)
+        {
+            List<BaiKiemTra> list = new List<BaiKiemTra>();
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            StringBuilder sQuery = new StringBuilder();
+            sQuery.Append("SELECT BKT.MaBaiKT, BKT.TenBaiKT, BKT.KeyBaiKT, BKT.ThoiGianLam, BKT.NgayTao, GV.TenGV, LHP.TenLopHP, BKT.TrangThai ");
+            sQuery.Append("FROM BaiKiemTra BKT  ");
+            sQuery.Append("INNER JOIN GiangVien GV ON BKT.MaGV = GV.MaGV  ");
+            sQuery.Append("INNER JOIN LopHocPhan LHP ON BKT.MaLopHP = LHP.MaLopHP ");
+            sQuery.AppendFormat("WHERE BKT.MaGV = '{0}' ",magiaovien);
+            SqlCommand com = new SqlCommand(sQuery.ToString(), conn);
+            SqlDataReader dr = com.ExecuteReader();
+            while (dr.Read())
+            {
+                int sophutlam = Convert.ToInt32(dr.GetInt32(3)) / 60;
+                BaiKiemTra bkt = new BaiKiemTra();
+                bkt.mabaikt = dr.GetString(0);
+                bkt.tenbaikt = dr.GetString(1);
+                bkt.KeyBaiKT = dr.GetString(2);
+                bkt.thoigianlam = sophutlam;
+                bkt.NgayTao = dr.GetDateTime(4);
+                bkt.MaGV = dr.GetString(5);
+                bkt.MaLHP = dr.GetString(6);
+                bkt.TrangThai = dr.GetInt32(7);
+                list.Add(bkt);
+            }
+            conn.Close();
+            return list;
+        }
     }
 }

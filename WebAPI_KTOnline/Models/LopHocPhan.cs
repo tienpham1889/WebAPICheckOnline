@@ -149,5 +149,32 @@ namespace WebAPI_KTOnline.Models
             matieptheo += masott;
             return matieptheo;
         }
+        public static List<LopHocPhan> DsachLopHP_theolop(string malop)
+        {
+            List<LopHocPhan> list = new List<LopHocPhan>();
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            StringBuilder sQuery = new StringBuilder();
+            sQuery.Append("SELECT LHP.MaLopHP, LHP.TenLopHP, GV.TenGV, MH.TenMonHoc, LHP.MaLop, LHP.TrangThai ");
+            sQuery.Append("FROM LopHocPhan LHP ");
+            sQuery.Append("INNER JOIN GiangVien GV ON LHP.MaGV = GV.MaGV ");
+            sQuery.Append("INNER JOIN MonHoc MH ON LHP.MaMonHoc = MH.MaMonHoc ");
+            sQuery.AppendFormat("WHERE LHP.TrangThai = 1 AND MaLop = '{0}'",malop);
+            SqlCommand com = new SqlCommand(sQuery.ToString(), conn);
+            SqlDataReader dr = com.ExecuteReader();
+            while (dr.Read())
+            {
+                LopHocPhan lophp = new LopHocPhan();
+                lophp.MalopHP = dr.GetString(0);
+                lophp.TenlopHP = dr.GetString(1);
+                lophp.Magv = dr.GetString(2);
+                lophp.Mamonhoc = dr.GetString(3);
+                lophp.Malop = dr.GetString(4);
+                lophp.Trangthai = dr.GetInt32(5);
+                list.Add(lophp);
+            }
+            conn.Close();
+            return list;
+        }
     }
 }

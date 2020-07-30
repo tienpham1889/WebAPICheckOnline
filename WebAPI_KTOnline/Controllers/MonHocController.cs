@@ -20,7 +20,13 @@ namespace WebAPI_KTOnline.Controllers
             //string ma = MonHoc.layma();
             return listdanhsach;
         }
-
+        [HttpGet]
+        [Route("api/Dsach-Mon-Hoc-cua-GV")]
+        public IEnumerable<MonHoc> Get_dsach_theogv(string magv)
+        {
+            List<MonHoc> listdanhsach = MonHoc.DsachMonHoc_theogiaovien(magv);
+            return listdanhsach;
+        }
         // GET: api/MonHoc/5
         public string Get(int id)
         {
