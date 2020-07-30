@@ -60,7 +60,7 @@ namespace WebAPI_KTOnline.Controllers
                 insert_SVcommand.Parameters.AddWithValue("@diachi", sinhvien.diaChi);
                 insert_SVcommand.Parameters.AddWithValue("@sdt", sinhvien.soDienThoai);
                 insert_SVcommand.Parameters.AddWithValue("@email", sinhvien.email);
-                insert_SVcommand.Parameters.AddWithValue("@matkhau", sinhvien.matKhau);
+                insert_SVcommand.Parameters.AddWithValue("@matkhau", StringProc.MD5Hash(sinhvien.matKhau));
                 insert_SVcommand.Parameters.AddWithValue("@malop", sinhvien.maLop);
                 insert_SVcommand.Parameters.AddWithValue("@trangthai", trangthai);
                 int result = insert_SVcommand.ExecuteNonQuery();

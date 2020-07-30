@@ -54,7 +54,7 @@ namespace WebAPI_KTOnline.Controllers
                 insert_SVcommand.Parameters.AddWithValue("@diachi", giaovien.diaChi);
                 insert_SVcommand.Parameters.AddWithValue("@sdt", giaovien.soDienThoai);
                 insert_SVcommand.Parameters.AddWithValue("@email", giaovien.email);
-                insert_SVcommand.Parameters.AddWithValue("@matkhau", giaovien.matKhau);
+                insert_SVcommand.Parameters.AddWithValue("@matkhau", StringProc.MD5Hash(giaovien.matKhau));
                 insert_SVcommand.Parameters.AddWithValue("@isadmin", isAdmin);
                 insert_SVcommand.Parameters.AddWithValue("@trangthai", trangthai);
                 int result = insert_SVcommand.ExecuteNonQuery();
