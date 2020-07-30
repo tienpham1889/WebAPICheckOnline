@@ -48,12 +48,12 @@ namespace WebAPI_KTOnline.Controllers
             {
                 String sQuery = "INSERT INTO [dbo].[GiangVien]([MaGV],[TenGV],[GioiTinh],[DiaChi],[SDT],[Email],[Passsword],[isAdmin],[TrangThai])VALUES(@magv,@tengv,@gioitinh,@diachi,@sdt,@email,@matkhau,@isadmin,@trangthai)";
                 SqlCommand insert_SVcommand = new SqlCommand(sQuery, conn);
-                insert_SVcommand.Parameters.AddWithValue("@magv", giaovien.maGiaoVien);
-                insert_SVcommand.Parameters.AddWithValue("@tengv", giaovien.tenGiaoVien);
+                insert_SVcommand.Parameters.AddWithValue("@magv", giaovien.maGiaoVien.Trim());
+                insert_SVcommand.Parameters.AddWithValue("@tengv", giaovien.tenGiaoVien.Trim());
                 insert_SVcommand.Parameters.AddWithValue("@gioitinh", gioitinh);
                 insert_SVcommand.Parameters.AddWithValue("@diachi", giaovien.diaChi);
-                insert_SVcommand.Parameters.AddWithValue("@sdt", giaovien.soDienThoai);
-                insert_SVcommand.Parameters.AddWithValue("@email", giaovien.email);
+                insert_SVcommand.Parameters.AddWithValue("@sdt", giaovien.soDienThoai.Trim());
+                insert_SVcommand.Parameters.AddWithValue("@email", giaovien.email.Trim());
                 insert_SVcommand.Parameters.AddWithValue("@matkhau", StringProc.MD5Hash(giaovien.matKhau));
                 insert_SVcommand.Parameters.AddWithValue("@isadmin", isAdmin);
                 insert_SVcommand.Parameters.AddWithValue("@trangthai", trangthai);
