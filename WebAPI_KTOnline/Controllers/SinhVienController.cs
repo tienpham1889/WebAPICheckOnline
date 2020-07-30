@@ -26,6 +26,13 @@ namespace WebAPI_KTOnline.Controllers
             sv = sv.sv(masv);
             yield return sv;
         }
+        [HttpGet]
+        [Route("api/Dsach-Sinh-Vien-theo-Lop")]
+        public IEnumerable<SinhVien> Get_dsach_theolop(string malop)
+        {
+            List<SinhVien> listdanhsach = SinhVien.DsachSV_theolop(malop);
+            return listdanhsach;
+        }
 
         // POST: api/SinhVien
         public SinhVien Post([FromBody]SinhVien sinhvien)

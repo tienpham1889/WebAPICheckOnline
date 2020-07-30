@@ -5,6 +5,7 @@ using System.Web;
 using System.Data;
 using System.Data.SqlClient;
 using WebAPI_KTOnline.Models;
+using System.Text;
 
 namespace WebAPI_KTOnline.Models
 {
@@ -112,6 +113,30 @@ namespace WebAPI_KTOnline.Models
                 return false;
             }
             return true;
+        }
+        public static List<MonHoc> DsachMonHoc_theogiaovien(string magiaovien)
+        {
+            List<MonHoc> list = new List<MonHoc>();
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            StringBuilder sQuery = new StringBuilder();
+            sQuery.Append("SELECT MH.MaMonHoc, MH.TenMonHoc, MH.SoTiet, MH.SoTinChi ");
+            sQuery.Append("FROM MonHoc MH  ");
+            sQuery.Append("INNER JOIN LopHocPhan LHP ON MH.MaMonHoc = LHP.MaMonHoc  ");
+            sQuery.AppendFormat("WHERE LHP.MaGV = '{0}' AND MH.TrangThai = 1 ", magiaovien);
+            SqlCommand com = new SqlCommand(sQuery.ToString(), conn);
+            SqlDataReader dr = com.ExecuteReader();
+            while (dr.Read())
+            {
+                MonHoc mh = new MonHoc();
+                mh.mamonhoc = dr.GetString(0);
+                mh.tenmonhoc = dr.GetString(1);
+                mh.sotiet = dr.GetInt32(2);
+                mh.sotinchi = dr.GetInt32(3);
+                list.Add(mh);
+            }
+            conn.Close();
+            return list;
         }
     }
 }
