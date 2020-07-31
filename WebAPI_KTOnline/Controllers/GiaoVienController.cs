@@ -34,7 +34,7 @@ namespace WebAPI_KTOnline.Controllers
             SqlConnection conn = DataProvider.Connect();
             string gioitinh = "";
             int trangthai = 1;
-            string isAdmin = "N";
+            string isAdmin = "";
             if (Convert.ToInt32(giaovien.gioiTinh) == 0)
             {
                 gioitinh = "Nam";
@@ -42,6 +42,14 @@ namespace WebAPI_KTOnline.Controllers
             else
             {
                 gioitinh = "Nữ";
+            }
+            if(giaovien.isAdmin == "Giáo Viên")
+            {
+                isAdmin = "N";
+            }
+            else
+            {
+                isAdmin = "Y";
             }
             conn.Open();
             if (gvien.kiemtra(giaovien.maGiaoVien))
