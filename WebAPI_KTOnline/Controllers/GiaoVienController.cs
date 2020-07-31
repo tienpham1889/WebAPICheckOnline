@@ -34,7 +34,6 @@ namespace WebAPI_KTOnline.Controllers
             SqlConnection conn = DataProvider.Connect();
             string gioitinh = "";
             int trangthai = 1;
-            string isAdmin = "";
             if (Convert.ToInt32(giaovien.gioiTinh) == 0)
             {
                 gioitinh = "Nam";
@@ -42,14 +41,6 @@ namespace WebAPI_KTOnline.Controllers
             else
             {
                 gioitinh = "Nữ";
-            }
-            if(giaovien.isAdmin == "Giáo Viên")
-            {
-                isAdmin = "N";
-            }
-            else
-            {
-                isAdmin = "Y";
             }
             conn.Open();
             if (gvien.kiemtra(giaovien.maGiaoVien))
@@ -63,7 +54,7 @@ namespace WebAPI_KTOnline.Controllers
                 insert_SVcommand.Parameters.AddWithValue("@sdt", giaovien.soDienThoai.Trim());
                 insert_SVcommand.Parameters.AddWithValue("@email", giaovien.email.Trim());
                 insert_SVcommand.Parameters.AddWithValue("@matkhau", StringProc.MD5Hash(giaovien.matKhau));
-                insert_SVcommand.Parameters.AddWithValue("@isadmin", isAdmin);
+                insert_SVcommand.Parameters.AddWithValue("@isadmin", giaovien.isAdmin);
                 insert_SVcommand.Parameters.AddWithValue("@trangthai", trangthai);
                 int result = insert_SVcommand.ExecuteNonQuery();
                 conn.Close();
