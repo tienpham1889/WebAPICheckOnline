@@ -38,11 +38,11 @@ namespace WebAPI_KTOnline.Models
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
             StringBuilder sQuery = new StringBuilder();
-            sQuery.Append("select CD.MaCD, CD.TenCD, MH.TenMonHoc,GV.TenGV ");
+            sQuery.Append("select CD.MaCD, CD.TenCD, MH.MaMonHoc,GV.TenGV ");
             sQuery.Append("from ChuDe CD ");
             sQuery.Append("inner join GiangVien GV On CD.MaGV = GV.MaGV ");
             sQuery.Append("INNER JOIN MonHoc MH ON CD.MaMonHoc = MH.MaMonHoc ");
-            sQuery.Append("WHERE CD.TrangThai = 1");
+            sQuery.Append("WHERE CD.TrangThai = 1 and MH.TrangThai = 1");
             SqlCommand com = new SqlCommand(sQuery.ToString(), conn);
             SqlDataReader dr = com.ExecuteReader();
             while (dr.Read())
