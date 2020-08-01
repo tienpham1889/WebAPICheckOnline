@@ -46,7 +46,7 @@ namespace WebAPI_KTOnline.Controllers
                 SqlCommand insertcommand = new SqlCommand(sQuery, conn);
                 insertcommand.Parameters.AddWithValue("@manh", mamonhoc);
                 insertcommand.Parameters.AddWithValue("@tenmh", monhoc.tenMonhoc);
-                insertcommand.Parameters.AddWithValue("@sotinchi", monhoc.soTinchi);
+                insertcommand.Parameters.AddWithValue("@sotinchi", monhoc.soTinChi);
                 insertcommand.Parameters.AddWithValue("@sotiet", monhoc.soTiet);
                 insertcommand.Parameters.AddWithValue("@trangthai", monhoc.trangThai);
                 int result = insertcommand.ExecuteNonQuery();
@@ -62,6 +62,33 @@ namespace WebAPI_KTOnline.Controllers
                 return mh;
             }
             return mh;
+        }
+        [Route("api/update-mon-hoc")]
+        [HttpPost]
+        public MonHoc Postupdate([FromBody]MonHoc monhoc)
+        {
+            MonHoc mh = new MonHoc();
+            string gioitinh = "";
+            int result = MonHoc.UpdateMonHoc(monhoc);
+            mh = mh.mh(monhoc.maMonHoc);
+            if (result > 0)
+            {
+                return mh;
+            }
+            return mh;
+        }
+        [Route("api/delete-mon-hoc")]
+        [HttpPost]
+        public MonHoc Postdelete([FromBody]MonHoc monhoc)
+        {
+            MonHoc monHoc = new MonHoc();
+            int result = MonHoc.DeleteMonHoc(monhoc);
+            monHoc = monHoc.mh(monhoc.maMonHoc);
+            if (result > 0)
+            {
+                return monhoc;
+            }
+            return monhoc;
         }
 
         // PUT: api/MonHoc/5

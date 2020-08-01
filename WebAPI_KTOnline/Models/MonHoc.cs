@@ -28,7 +28,7 @@ namespace WebAPI_KTOnline.Models
 
         public string maMonHoc { get => mamonhoc; set => mamonhoc = value; }
         public string tenMonhoc { get => tenmonhoc; set => tenmonhoc = value; }
-        public int soTinchi { get => sotinchi; set => sotinchi = value; }
+        public int soTinChi { get => sotinchi; set => sotinchi = value; }
         public int soTiet { get => sotiet; set => sotiet = value; }
         public int trangThai { get => trangthai; set => trangthai = value; }
 
@@ -137,6 +137,32 @@ namespace WebAPI_KTOnline.Models
             }
             conn.Close();
             return list;
+        }
+        public static int UpdateMonHoc(MonHoc monhoc)
+        {
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            String sQuery = "UPDATE [dbo].[MonHoc] SET [TenMonHoc] = @tenmonhoc, [SoTinChi] = @sotinchi, [SoTiet]=@sotiet WHERE [MaMonHoc] = @mamonhoc";
+            SqlCommand updatecommand = new SqlCommand(sQuery, conn);
+            updatecommand.Parameters.AddWithValue("@tenmonhoc", monhoc.tenMonhoc.Trim());
+            updatecommand.Parameters.AddWithValue("@sotinchi", monhoc.soTinChi);
+            updatecommand.Parameters.AddWithValue("@sotiet", monhoc.soTiet);
+            updatecommand.Parameters.AddWithValue("@mamonhoc", monhoc.maMonHoc);
+            int result = updatecommand.ExecuteNonQuery();
+            conn.Close();
+            return result;
+        }
+        public static int DeleteMonHoc(MonHoc monhoc)
+        {
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            String sQuery = "UPDATE [dbo].[MonHoc] SET [TrangThai] = @trangthai  WHERE [MaMonHoc] = @mamonhoc";
+            SqlCommand updatecommand = new SqlCommand(sQuery, conn);
+            updatecommand.Parameters.AddWithValue("@trangthai", 2);
+            updatecommand.Parameters.AddWithValue("@mamonhoc", monhoc.maMonHoc);
+            int result = updatecommand.ExecuteNonQuery();
+            conn.Close();
+            return result;
         }
     }
 }

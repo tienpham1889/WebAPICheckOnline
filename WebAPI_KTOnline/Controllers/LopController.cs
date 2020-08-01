@@ -54,6 +54,32 @@ namespace WebAPI_KTOnline.Controllers
             }
             return l;
         }
+        [Route("api/update-lop")]
+        [HttpPost]
+        public Lop Postupdate([FromBody]Lop lop)
+        {
+            Lop lophoc = new Lop();
+            int result = Lop.UpdateLop(lop);
+            lophoc = lophoc.lop(lop.maLop);
+            if (result > 0)
+            {
+                return lophoc;
+            }
+            return lophoc;
+        }
+        [Route("api/delete-lop")]
+        [HttpPost]
+        public Lop Postdelete([FromBody]Lop lop)
+        {
+            Lop lophoc = new Lop();
+            int result = Lop.DeleteLop(lop);
+            lophoc = lophoc.lop(lop.maLop);
+            if (result > 0)
+            {
+                return lophoc;
+            }
+            return lophoc;
+        }
 
         // PUT: api/Lop/5
         public void Put(int id, [FromBody]string value)
