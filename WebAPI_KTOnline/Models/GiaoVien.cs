@@ -60,6 +60,7 @@ namespace WebAPI_KTOnline.Models
                 gv.sdt = dr.GetString(4);
                 gv.email = dr.GetString(5);
                 gv.passsword = dr.GetString(6);
+                gv.isadmin = dr.GetString(7);
                 list.Add(gv);
             }
             conn.Close();
@@ -83,6 +84,7 @@ namespace WebAPI_KTOnline.Models
                 gv.sdt = dr.GetString(4);
                 gv.email = dr.GetString(5);
                 gv.passsword = dr.GetString(6);
+                gv.isadmin = dr.GetString(7);
             }
             conn.Close();
             return gv;

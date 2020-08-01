@@ -68,7 +68,6 @@ namespace WebAPI_KTOnline.Controllers
         public MonHoc Postupdate([FromBody]MonHoc monhoc)
         {
             MonHoc mh = new MonHoc();
-            string gioitinh = "";
             int result = MonHoc.UpdateMonHoc(monhoc);
             mh = mh.mh(monhoc.maMonHoc);
             if (result > 0)
