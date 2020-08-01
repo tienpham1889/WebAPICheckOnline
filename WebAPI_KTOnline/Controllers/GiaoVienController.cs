@@ -71,6 +71,62 @@ namespace WebAPI_KTOnline.Controllers
             return gvien;
         }
 
+        [Route("api/update-giao-vien")]
+        [HttpPost]
+        public GiaoVien Postupdate([FromBody]GiaoVien giaovien)
+        {
+            GiaoVien gv = new GiaoVien();
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            string gioitinh = "";
+            if (Convert.ToInt32(giaovien.gioiTinh) == 0)
+            {
+                gioitinh = "Nam";
+            }
+            else
+            {
+                gioitinh = "Nữ";
+            }
+            String sQuery = "UPDATE [dbo].[GiangVien] SET [TenGV] = @tengv, [GioiTinh] = @gioitinh, [DiaChi]=@diachi, [SDT]=@sdt, [Email] =@email, [Passsword] = @pass, [isAdmin] = @isAdmin WHERE [MaGV] = @magv";
+            SqlCommand updatecommand = new SqlCommand(sQuery, conn);
+            updatecommand.Parameters.AddWithValue("@tengv", giaovien.tenGiaoVien.Trim());
+            updatecommand.Parameters.AddWithValue("@gioitinh", gioitinh);
+            updatecommand.Parameters.AddWithValue("@diachi", giaovien.diaChi.Trim());
+            updatecommand.Parameters.AddWithValue("@sdt", giaovien.soDienThoai.Trim());
+            updatecommand.Parameters.AddWithValue("@email", giaovien.email.Trim());
+            updatecommand.Parameters.AddWithValue("@pass", StringProc.MD5Hash(giaovien.matKhau)); ;
+            updatecommand.Parameters.AddWithValue("@isAdmin",giaovien.isAdmin );
+            updatecommand.Parameters.AddWithValue("@magv", giaovien.maGiaoVien);
+            int result = updatecommand.ExecuteNonQuery();
+            conn.Close();
+            gv = gv.gv(giaovien.maGiaoVien);
+            if (result > 0)
+            {
+                return gv;
+            }
+            return gv;
+        }
+        [Route("api/delete-giao-vien")]
+        [HttpPost]
+        public GiaoVien Postdelete([FromBody]GiaoVien giaoVien)
+        {
+            GiaoVien gv = new GiaoVien();
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            String sQuery = "UPDATE [dbo].[GiangVien] SET [TrangThai] = @trangthai  WHERE [MaGV] = @magv";
+            SqlCommand updatecommand = new SqlCommand(sQuery, conn);
+            updatecommand.Parameters.AddWithValue("@trangthai", 2);
+            updatecommand.Parameters.AddWithValue("@magv", giaoVien.maGiaoVien);
+            int result = updatecommand.ExecuteNonQuery();
+            conn.Close();
+            giaoVien = giaoVien.gv(giaoVien.maGiaoVien);
+            if (result > 0)
+            {
+                return giaoVien;
+            }
+            return giaoVien;
+        }
+
         // PUT: api/GiaoVien/5
         public void Put(int id, [FromBody]string value)
         {

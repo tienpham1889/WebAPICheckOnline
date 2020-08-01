@@ -78,6 +78,42 @@ namespace WebAPI_KTOnline.Controllers
             return sv;
         }
 
+        [Route("api/update-sinh-vien")]
+        [HttpPost]
+        public SinhVien Postupdate([FromBody]SinhVien sinhvien)
+        {
+            SinhVien sv = new SinhVien();
+            string gioitinh = "";
+            if (Convert.ToInt32(sinhvien.gioiTinh) == 0)
+            {
+                gioitinh = "Nam";
+            }
+            else
+            {
+                gioitinh = "Nữ";
+            }
+            int result = SinhVien.UpdateSinhVien(sinhvien, gioitinh);
+            sv = sv.sv(sinhvien.maSinhVien);
+            if (result > 0)
+            {
+                return sv;
+            }
+            return sv;
+        }
+        [Route("api/delete-sinh-vien")]
+        [HttpPost]
+        public SinhVien Postdelete([FromBody]SinhVien sinhvien)
+        {
+            SinhVien sv = new SinhVien();
+            int result = SinhVien.DeleteSinhVien(sinhvien);
+            sinhvien = sinhvien.sv(sinhvien.maSinhVien);
+            if (result > 0)
+            {
+                return sinhvien;
+            }
+            return sinhvien;
+        }
+
         // PUT: api/SinhVien/5
         public void Put(int id, [FromBody]string value)
         {

@@ -85,5 +85,30 @@ namespace WebAPI_KTOnline.Models
             }
             return true;
         }
+        public static int UpdateLop(Lop lop)
+        {
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            String sQuery = "UPDATE [dbo].[Lop] SET [TenLop] = @tenlop, [SoLuongSV] = @soluong WHERE [MaLop] = @malop";
+            SqlCommand updatecommand = new SqlCommand(sQuery, conn);
+            updatecommand.Parameters.AddWithValue("@tenlop", lop.tenLop.Trim());
+            updatecommand.Parameters.AddWithValue("@soluong", lop.soLuongSinhVien);
+            updatecommand.Parameters.AddWithValue("@malop", lop.maLop);
+            int result = updatecommand.ExecuteNonQuery();
+            conn.Close();
+            return result;
+        }
+        public static int DeleteLop(Lop lop)
+        {
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            String sQuery = "UPDATE [dbo].[Lop] SET [TrangThai] = @trangthai  WHERE [MaLop] = @malop";
+            SqlCommand updatecommand = new SqlCommand(sQuery, conn);
+            updatecommand.Parameters.AddWithValue("@trangthai", 2);
+            updatecommand.Parameters.AddWithValue("@malop", lop.maLop);
+            int result = updatecommand.ExecuteNonQuery();
+            conn.Close();
+            return result;
+        }
     }
 }
