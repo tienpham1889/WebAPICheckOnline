@@ -39,7 +39,7 @@ namespace WebAPI_KTOnline.Models
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
             StringBuilder sQuery = new StringBuilder();
-            sQuery.Append("SELECT LHP.MaLopHP, LHP.TenLopHP, GV.TenGV, MH.TenMonHoc, LHP.MaLop, LHP.TrangThai ");
+            sQuery.Append("SELECT LHP.MaLopHP, LHP.TenLopHP, GV.TenGV, MH.MaMonHoc, LHP.MaLop, LHP.TrangThai ");
             sQuery.Append("FROM LopHocPhan LHP ");
             sQuery.Append("INNER JOIN GiangVien GV ON LHP.MaGV = GV.MaGV ");
             sQuery.Append("INNER JOIN MonHoc MH ON LHP.MaMonHoc = MH.MaMonHoc ");
