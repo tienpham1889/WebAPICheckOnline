@@ -81,24 +81,37 @@ namespace WebAPI_KTOnline.Controllers
             LopHocPhan lhp = new LopHocPhan();
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
-            if (lhp.kiemtra(lopHP.tenLopHocPhan))
+            String sQuery = "UPDATE [dbo].[LopHocPhan] SET [TenLopHP] = @tenlophp, [MaGV] = @magv, [MaMonHoc]=@mamh, [MaLop]=@malop WHERE [MaLopHP] = @malophp";
+            SqlCommand updatecommand = new SqlCommand(sQuery, conn);
+            updatecommand.Parameters.AddWithValue("@tenlophp", lopHP.tenLopHocPhan);
+            updatecommand.Parameters.AddWithValue("@magv", lopHP.maGiaoVien);
+            updatecommand.Parameters.AddWithValue("@mamh", lopHP.maMonHoc);
+            updatecommand.Parameters.AddWithValue("@malop", lopHP.maLop);
+            updatecommand.Parameters.AddWithValue("@malophp", lopHP.maLopHocPhan);
+            int result = updatecommand.ExecuteNonQuery();
+            conn.Close();
+            lhp = lhp.lhp(lopHP.maLopHocPhan);
+            if (result > 0)
             {
-                String sQuery = "UPDATE [dbo].[LopHocPhan] SET [TenLopHP] = @tenlophp, [MaGV] = @magv, [MaMonHoc]=@mamh, [MaLop]=@malop WHERE [MaLopHP] = @malophp";
-                SqlCommand updatecommand = new SqlCommand(sQuery, conn);
-                updatecommand.Parameters.AddWithValue("@tenlophp", lopHP.tenLopHocPhan);
-                updatecommand.Parameters.AddWithValue("@magv", lopHP.maGiaoVien);
-                updatecommand.Parameters.AddWithValue("@mamh", lopHP.maMonHoc);
-                updatecommand.Parameters.AddWithValue("@malop", lopHP.maLop);
-                updatecommand.Parameters.AddWithValue("@malophp", lopHP.maLopHocPhan);
-                int result = updatecommand.ExecuteNonQuery();
-                conn.Close();
-                lhp = lhp.lhp(lopHP.maLopHocPhan);
-                if (result > 0)
-                {
-                    return lhp;
-                }
+                return lhp;
             }
-            else
+            return lhp;
+        }
+        [Route("api/delete-lop-hoc-phan")]
+        [HttpPost]
+        public LopHocPhan Postdelete([FromBody]LopHocPhan lopHP)
+        {
+            LopHocPhan lhp = new LopHocPhan();
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            String sQuery = "UPDATE [dbo].[LopHocPhan] SET [TrangThai] = @trangthai  WHERE [MaLopHP] = @malophp";
+            SqlCommand updatecommand = new SqlCommand(sQuery, conn);
+            updatecommand.Parameters.AddWithValue("@trangthai", 2);
+            updatecommand.Parameters.AddWithValue("@malophp", lopHP.maLopHocPhan);
+            int result = updatecommand.ExecuteNonQuery();
+            conn.Close();
+            lhp = lhp.lhp(lopHP.maLopHocPhan);
+            if (result > 0)
             {
                 return lhp;
             }
