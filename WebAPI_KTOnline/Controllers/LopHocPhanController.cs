@@ -81,7 +81,7 @@ namespace WebAPI_KTOnline.Controllers
             LopHocPhan lhp = new LopHocPhan();
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
-            if (!lhp.kiemtra(lopHP.maLopHocPhan))
+            if (lhp.kiemtra(lopHP.tenLopHocPhan))
             {
                 String sQuery = "UPDATE [dbo].[LopHocPhan] SET [TenLopHP] = @tenlophp, [MaGV] = @magv, [MaMonHoc]=@mamh, [MaLop]=@malop WHERE [MaLopHP] = @malophp";
                 SqlCommand updatecommand = new SqlCommand(sQuery, conn);
@@ -89,6 +89,7 @@ namespace WebAPI_KTOnline.Controllers
                 updatecommand.Parameters.AddWithValue("@magv", lopHP.maGiaoVien);
                 updatecommand.Parameters.AddWithValue("@mamh", lopHP.maMonHoc);
                 updatecommand.Parameters.AddWithValue("@malop", lopHP.maLop);
+                updatecommand.Parameters.AddWithValue("@malophp", lopHP.maLopHocPhan);
                 int result = updatecommand.ExecuteNonQuery();
                 conn.Close();
                 lhp = lhp.lhp(lopHP.maLopHocPhan);
