@@ -25,6 +25,7 @@ namespace WebAPI_KTOnline.Models
             Mamonhoc = "";
             Malop = "";
             Trangthai = 0;
+
         }
 
         public string maLopHocPhan { get => MalopHP; set => MalopHP = value; }
@@ -39,7 +40,7 @@ namespace WebAPI_KTOnline.Models
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
             StringBuilder sQuery = new StringBuilder();
-            sQuery.Append("SELECT LHP.MaLopHP, LHP.TenLopHP, GV.TenGV, MH.TenMonHoc, LHP.MaLop, LHP.TrangThai ");
+            sQuery.Append("SELECT LHP.MaLopHP, LHP.TenLopHP, GV.MaGV, MH.Mamonhoc, LHP.MaLop, LHP.TrangThai ");
             sQuery.Append("FROM LopHocPhan LHP ");
             sQuery.Append("INNER JOIN GiangVien GV ON LHP.MaGV = GV.MaGV ");
             sQuery.Append("INNER JOIN MonHoc MH ON LHP.MaMonHoc = MH.MaMonHoc ");
