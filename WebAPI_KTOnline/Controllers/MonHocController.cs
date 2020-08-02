@@ -85,9 +85,9 @@ namespace WebAPI_KTOnline.Controllers
             monHoc = monHoc.mh(monhoc.maMonHoc);
             if (result > 0)
             {
-                return monhoc;
+                return monHoc;
             }
-            return monhoc;
+            return monHoc;
         }
 
         // PUT: api/MonHoc/5
