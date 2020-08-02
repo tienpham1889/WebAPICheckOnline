@@ -81,7 +81,7 @@ namespace WebAPI_KTOnline.Controllers
             LopHocPhan lhp = new LopHocPhan();
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
-            String sQuery = "UPDATE [dbo].[LopHocPhan] SET [TenLopHP] = @tenlophp, [MaGV] = @magv, [MaMonHoc]=@mamh, [MaLop]=@malop WHERE [MaLopHP] = @malophp";
+            String sQuery = "UPDATE [dbo].[LopHocPhan] SET [TenLopHP] = @tenlophp, [MaGV] = @magv, [MaMonHoc]=@mamh, [MaLop]=@malop, [TrangThai] = 1 WHERE [MaLopHP] = @malophp";
             SqlCommand updatecommand = new SqlCommand(sQuery, conn);
             updatecommand.Parameters.AddWithValue("@tenlophp", lopHP.tenLopHocPhan);
             updatecommand.Parameters.AddWithValue("@magv", lopHP.maGiaoVien);

@@ -144,7 +144,7 @@ namespace WebAPI_KTOnline.Models
         {
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
-            String sQuery = "UPDATE [dbo].[MonHoc] SET [TenMonHoc] = @tenmonhoc, [SoTinChi] = @sotinchi, [SoTiet]=@sotiet WHERE [MaMonHoc] = @mamonhoc";
+            String sQuery = "UPDATE [dbo].[MonHoc] SET [TenMonHoc] = @tenmonhoc, [SoTinChi] = @sotinchi, [SoTiet]=@sotiet, [TrangThai] = 1 WHERE [MaMonHoc] = @mamonhoc";
             SqlCommand updatecommand = new SqlCommand(sQuery, conn);
             updatecommand.Parameters.AddWithValue("@tenmonhoc", monhoc.tenMonhoc.Trim());
             updatecommand.Parameters.AddWithValue("@sotinchi", monhoc.soTinChi);
