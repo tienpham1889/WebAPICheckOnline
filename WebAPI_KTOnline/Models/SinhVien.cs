@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data;
 using System.Data.SqlClient;
+using System.Text;
 
 namespace WebAPI_KTOnline.Models
 {
@@ -48,6 +49,35 @@ namespace WebAPI_KTOnline.Models
             conn.Open();
             string sQuery = "Select * from SinhVien";
             SqlCommand com = new SqlCommand(sQuery, conn);
+            SqlDataReader dr = com.ExecuteReader();
+            while (dr.Read())
+            {
+                SinhVien sv = new SinhVien();
+                sv.masv = dr.GetString(0);
+                sv.tensv = dr.GetString(1);
+                sv.gioitinh = dr.GetString(2);
+                sv.diachi = dr.GetString(3);
+                sv.sdt = dr.GetString(4);
+                sv.email = dr.GetString(5);
+                sv.pass = dr.GetString(6);
+                sv.malop = dr.GetString(7);
+                sv.TrangThai = dr.GetInt32(8);
+                list.Add(sv);
+            }
+            conn.Close();
+            return list;
+        }
+        public static List<SinhVien> DsachSV_LopHocPhan(string malophp)
+        {
+            List<SinhVien> list = new List<SinhVien>();
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            StringBuilder sQuery = new StringBuilder();
+            sQuery.Append("select * ");
+            sQuery.Append("from SinhVien SV ");
+            sQuery.Append("INNER JOIN CTLopHocPhan CTLHP ON SV.MaSV = CTLHP.MaSV ");
+            sQuery.AppendFormat("WHERE CTLHP.MaLopHP = '{0}'", malophp);
+            SqlCommand com = new SqlCommand(sQuery.ToString(), conn);
             SqlDataReader dr = com.ExecuteReader();
             while (dr.Read())
             {

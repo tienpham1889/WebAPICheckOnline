@@ -52,12 +52,12 @@ namespace WebAPI_KTOnline.Models
         public int value { get => Value; set => Value = value; }
         public static List<CauHoi> DsachCauHoi()
         {
-            //test thu r co r fen
+            // test xem co chưa
             List<CauHoi> list = new List<CauHoi>();
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
             StringBuilder sQuery = new StringBuilder();
-            sQuery.Append("SELECT CH.MaCauHoi, MH.TenMonHoc, CD.TenCD, CH.NoiDung, CH.PhuongAnA, CH.PhuongAnB, CH.PhuongAnC, CH.PhuongAnD, CH.DapAn ");
+            sQuery.Append("SELECT CH.MaCauHoi, CH.MaMonHoc, CH.MaCD, CH.NoiDung, CH.PhuongAnA, CH.PhuongAnB, CH.PhuongAnC, CH.PhuongAnD, CH.DapAn, CH.TrangThai ");
             sQuery.Append("FROM CauHoi CH ");
             sQuery.Append("INNER JOIN MonHoc MH ON CH.MaMonHoc = MH.MaMonHoc ");
             sQuery.Append("INNER JOIN ChuDe CD ON CH.MaCD = CD.MaCD ");
@@ -76,6 +76,7 @@ namespace WebAPI_KTOnline.Models
                 ch.phuonganc = dr.GetString(6);
                 ch.phuongand = dr.GetString(7);
                 ch.dapan = dr.GetString(8);
+                ch.trangthai = dr.GetInt32(9);
                 list.Add(ch);
             }
             conn.Close();
@@ -209,6 +210,37 @@ namespace WebAPI_KTOnline.Models
             }
             matieptheo += masott;
             return matieptheo;
+        }
+        public static int UpdateCauHoi(CauHoi cauhoi)
+        {
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            String sQuery = "UPDATE [dbo].[CauHoi] SET [NoiDung] = @noidung, [PhuongAnA] = @phuongana, [PhuongAnB]=@phuonganb, [PhuongAnC]=@phuonganc, [PhuongAnD] =@phuongand, [DapAn] = @dapan, [MaCD] = @machude, [MaMonHoc] = @mamonhoc, [TrangThai] = 1 WHERE [MaCauHoi] = @mach";
+            SqlCommand updatecommand = new SqlCommand(sQuery, conn);
+            updatecommand.Parameters.AddWithValue("@mach", cauhoi.maCauHoi);
+            updatecommand.Parameters.AddWithValue("@noidung", cauhoi.noiDung);
+            updatecommand.Parameters.AddWithValue("@phuongana", "A. " + cauhoi.phuongAnA);
+            updatecommand.Parameters.AddWithValue("@phuonganb", "B. " + cauhoi.phuongAnB);
+            updatecommand.Parameters.AddWithValue("@phuonganc", "C. " + cauhoi.phuongAnC);
+            updatecommand.Parameters.AddWithValue("@phuongand", "D. " + cauhoi.phuongAnD);
+            updatecommand.Parameters.AddWithValue("@dapan", cauhoi.dapAn.ToUpper());
+            updatecommand.Parameters.AddWithValue("@machude", cauhoi.maChuDe);
+            updatecommand.Parameters.AddWithValue("@mamonhoc", cauhoi.maMonHoc);
+            int result = updatecommand.ExecuteNonQuery();
+            conn.Close();
+            return result;
+        }
+        public static int DeleteCauHoi(CauHoi cauhoi)
+        {
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            String sQuery = "UPDATE [dbo].[CauHoi] SET [TrangThai] = @trangthai  WHERE [MaCauHoi] = @mach";
+            SqlCommand updatecommand = new SqlCommand(sQuery, conn);
+            updatecommand.Parameters.AddWithValue("@trangthai", 2);
+            updatecommand.Parameters.AddWithValue("@mach", cauhoi.macauhoi);
+            int result = updatecommand.ExecuteNonQuery();
+            conn.Close();
+            return result;
         }
     }
 }
