@@ -37,7 +37,7 @@ namespace WebAPI_KTOnline.Models
             List<MonHoc> list = new List<MonHoc>();
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
-            string sQuery = "Select * from MonHoc where TrangThai = 1";
+            string sQuery = "Select * from MonHoc";
             SqlCommand com = new SqlCommand(sQuery, conn);
             SqlDataReader dr = com.ExecuteReader();
             while (dr.Read())

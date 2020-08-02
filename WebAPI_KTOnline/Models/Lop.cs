@@ -32,7 +32,7 @@ namespace WebAPI_KTOnline.Models
             List<Lop> list = new List<Lop>();
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
-            string sQuery = "Select * from Lop where TrangThai = 1";
+            string sQuery = "Select * from Lop";
             SqlCommand com = new SqlCommand(sQuery, conn);
             SqlDataReader dr = com.ExecuteReader();
             while (dr.Read())
