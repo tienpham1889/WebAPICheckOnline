@@ -61,6 +61,7 @@ namespace WebAPI_KTOnline.Models
                 gv.email = dr.GetString(5);
                 gv.passsword = dr.GetString(6);
                 gv.isadmin = dr.GetString(7);
+                gv.trangthai = dr.GetInt32(8);
                 list.Add(gv);
             }
             conn.Close();
