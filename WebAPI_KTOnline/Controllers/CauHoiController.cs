@@ -71,6 +71,32 @@ namespace WebAPI_KTOnline.Controllers
             conn.Close();
             return ch;
         }
+        [Route("api/update-cau-hoi")]
+        [HttpPost]
+        public CauHoi Postupdate([FromBody]CauHoi cauhoi)
+        {
+            CauHoi cauHoi = new CauHoi();
+            int result = CauHoi.UpdateCauHoi(cauhoi);
+            cauHoi = cauHoi.cauhoi(cauhoi.maCauHoi);
+            if (result > 0)
+            {
+                return cauHoi;
+            }
+            return cauHoi;
+        }
+        [Route("api/delete-cau-hoi")]
+        [HttpPost]
+        public CauHoi Postdelete([FromBody]CauHoi cauhoi)
+        {
+            CauHoi cauHoi = new CauHoi();
+            int result = CauHoi.DeleteCauHoi(cauhoi);
+            cauHoi = cauHoi.cauhoi(cauhoi.maCauHoi);
+            if (result > 0)
+            {
+                return cauHoi;
+            }
+            return cauHoi;
+        }
 
         // PUT: api/CauHoi/5
         public void Put(int id, [FromBody]string value)

@@ -38,7 +38,7 @@ namespace WebAPI_KTOnline.Models
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
             StringBuilder sQuery = new StringBuilder();
-            sQuery.Append("select CD.MaCD, CD.TenCD, MH.MaMonHoc,GV.TenGV ");
+            sQuery.Append("select CD.MaCD, CD.TenCD, MH.MaMonHoc,CD.MaGV, CD.TrangThai ");
             sQuery.Append("from ChuDe CD ");
             sQuery.Append("inner join GiangVien GV On CD.MaGV = GV.MaGV ");
             sQuery.Append("INNER JOIN MonHoc MH ON CD.MaMonHoc = MH.MaMonHoc ");
@@ -52,6 +52,7 @@ namespace WebAPI_KTOnline.Models
                 cd.tencd = dr.GetString(1);
                 cd.mamonhoc = dr.GetString(2);
                 cd.magiaovien = dr.GetString(3);
+                cd.trangthai = dr.GetInt32(4);
                 list.Add(cd);
             }
             conn.Close();
@@ -73,6 +74,7 @@ namespace WebAPI_KTOnline.Models
                 cd.mamonhoc = dr.GetString(2);
                 cd.trangthai = dr.GetInt32(3);
                 cd.magiaovien = dr.GetString(4);
+
             }
             dr.Close();
             conn.Close();
@@ -148,6 +150,32 @@ namespace WebAPI_KTOnline.Models
             }
             matieptheo += masott;
             return matieptheo;
+        }
+        public static int UpdateChuDe(ChuDe chude)
+        {
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            String sQuery = "UPDATE [dbo].[ChuDe] SET [TenCD] = @tencd, [MaMonHoc] = @mamh, [TrangThai]= 1, [MaGV]=@magv WHERE [MaCD] = @macd";
+            SqlCommand updatecommand = new SqlCommand(sQuery, conn);
+            updatecommand.Parameters.AddWithValue("@tencd", chude.tenChuDe.Trim());
+            updatecommand.Parameters.AddWithValue("@mamh", chude.maMonHoc);
+            updatecommand.Parameters.AddWithValue("@magv", chude.maGiaoVien.Trim());
+            updatecommand.Parameters.AddWithValue("@macd", chude.maChuDe.Trim());
+            int result = updatecommand.ExecuteNonQuery();
+            conn.Close();
+            return result;
+        }
+        public static int DeleteChuDe(ChuDe chude)
+        {
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            String sQuery = "UPDATE [dbo].[SinhVien] SET [TrangThai] = @trangthai  WHERE [MaSV] = @masv";
+            SqlCommand updatecommand = new SqlCommand(sQuery, conn);
+            updatecommand.Parameters.AddWithValue("@trangthai", 2);
+            updatecommand.Parameters.AddWithValue("@masv", chude.maChuDe);
+            int result = updatecommand.ExecuteNonQuery();
+            conn.Close();
+            return result;
         }
     }
 }

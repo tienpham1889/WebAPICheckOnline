@@ -70,6 +70,32 @@ namespace WebAPI_KTOnline.Controllers
             conn.Close();
             return cd;
         }
+        [Route("api/update-chu-de")]
+        [HttpPost]
+        public ChuDe Postupdate([FromBody]ChuDe chude)
+        {
+            ChuDe chuDe = new ChuDe();
+            int result = ChuDe.UpdateChuDe(chude);
+            chuDe = chuDe.cd(chude.maChuDe);
+            if (result > 0)
+            {
+                return chuDe;
+            }
+            return chuDe;
+        }
+        [Route("api/delete-chu-de")]
+        [HttpPost]
+        public ChuDe Postdelete([FromBody]ChuDe chude)
+        {
+            ChuDe chuDe = new ChuDe();
+            int result = ChuDe.DeleteChuDe(chude);
+            chuDe = chuDe.cd(chude.maChuDe);
+            if (result > 0)
+            {
+                return chuDe;
+            }
+            return chuDe;
+        }
 
         // PUT: api/ChuDe/5
         public void Put(int id, [FromBody]string value)
