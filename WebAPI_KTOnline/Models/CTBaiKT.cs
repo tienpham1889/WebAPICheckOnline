@@ -46,14 +46,20 @@ namespace WebAPI_KTOnline.Models
         {
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
-            String sQuery = "INSERT INTO [dbo].[CTBaiKT]([MaBaiKT],[MaCauHoi],[STT])VALUES(@mabaikt,@mach,@stt)";
-            SqlCommand insertcommand = new SqlCommand(sQuery, conn);
-            insertcommand.Parameters.AddWithValue("@mabaikt", mabatkt);
-            insertcommand.Parameters.AddWithValue("@mach", macauhoi);
-            insertcommand.Parameters.AddWithValue("@stt", stt);
-            insertcommand.ExecuteNonQuery();
-            conn.Close();
-
+            try
+            {
+                String sQuery = "INSERT INTO [dbo].[CTBaiKT]([MaBaiKT],[MaCauHoi],[STT])VALUES(@mabaikt,@mach,@stt)";
+                SqlCommand insertcommand = new SqlCommand(sQuery, conn);
+                insertcommand.Parameters.AddWithValue("@mabaikt", mabatkt);
+                insertcommand.Parameters.AddWithValue("@mach", macauhoi);
+                insertcommand.Parameters.AddWithValue("@stt", stt);
+                insertcommand.ExecuteNonQuery();
+                conn.Close();
+            }catch(Exception e)
+            {
+                //no thing
+            }
+            
         }
         public static bool kiemtra(string mabaikt, string mach)
         {
