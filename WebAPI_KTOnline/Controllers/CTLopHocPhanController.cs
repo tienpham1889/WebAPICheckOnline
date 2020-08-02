@@ -27,7 +27,7 @@ namespace WebAPI_KTOnline.Controllers
         [Route("api/chi-tiet-lop-hoc-phan")]
         public IEnumerable<SinhVien> Get_CTLHP(string malophocphan)
         {
-            //danh sach chi tiet
+            //danh sach chi tiet commit
             List<SinhVien> listdanhsach = SinhVien.DsachSV_LopHocPhan(malophocphan);
             return listdanhsach;
         }
