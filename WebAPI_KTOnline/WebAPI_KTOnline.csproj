@@ -95,6 +95,7 @@
     <Compile Include="Controllers\CauHoiController.cs" />
     <Compile Include="Controllers\ChuDeController.cs" />
     <Compile Include="Controllers\CTBKTController.cs" />
+    <Compile Include="Controllers\CTLopHocPhanController.cs" />
     <Compile Include="Controllers\GiaoVienController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\LopController.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="Models\CauHoi.cs" />
     <Compile Include="Models\ChuDe.cs" />
     <Compile Include="Models\CTBaiKT.cs" />
+    <Compile Include="Models\CTLopHocPhan.cs" />
     <Compile Include="Models\DataProvider.cs" />
     <Compile Include="Models\GiaoVien.cs" />
     <Compile Include="Models\Lop.cs" />
