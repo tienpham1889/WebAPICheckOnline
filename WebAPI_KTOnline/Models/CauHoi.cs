@@ -52,7 +52,7 @@ namespace WebAPI_KTOnline.Models
         public int value { get => Value; set => Value = value; }
         public static List<CauHoi> DsachCauHoi()
         {
-            //test thu r co r fen
+            // test xem co chưa
             List<CauHoi> list = new List<CauHoi>();
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
