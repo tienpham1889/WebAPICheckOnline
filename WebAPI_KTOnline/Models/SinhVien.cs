@@ -17,6 +17,7 @@ namespace WebAPI_KTOnline.Models
         string Email;
         string pass;
         string malop;
+        int TrangThai;
         public static List<SinhVien> ListSV = DsachSV();
         public SinhVien()
         {
@@ -28,6 +29,7 @@ namespace WebAPI_KTOnline.Models
             Email = "";
             pass = "";
             malop = "";
+            TrangThai = 0;
         }
 
         public string maSinhVien { get => masv; set => masv = value; }
@@ -38,6 +40,7 @@ namespace WebAPI_KTOnline.Models
         public string email { get => Email; set => Email = value; }
         public string matKhau { get => pass; set => pass = value; }
         public string maLop { get => malop; set => malop = value; }
+        public int trangThai { get => TrangThai; set => TrangThai = value; }
         public static List<SinhVien> DsachSV()
         {
             List<SinhVien> list = new List<SinhVien>();
@@ -57,6 +60,7 @@ namespace WebAPI_KTOnline.Models
                 sv.email = dr.GetString(5);
                 sv.pass = dr.GetString(6);
                 sv.malop = dr.GetString(7);
+                sv.TrangThai = dr.GetInt32(8);
                 list.Add(sv);
             }
             conn.Close();
@@ -81,6 +85,7 @@ namespace WebAPI_KTOnline.Models
                 sv.email = dr.GetString(5);
                 sv.pass = dr.GetString(6);
                 sv.malop = dr.GetString(7);
+                sv.TrangThai = dr.GetInt32(8);
             }
             conn.Close();
             return sv;
