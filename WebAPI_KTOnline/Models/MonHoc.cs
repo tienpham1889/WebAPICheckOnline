@@ -83,7 +83,7 @@ namespace WebAPI_KTOnline.Models
 
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
-            string sQuery = string.Format("select * from MonHoc where MaMonHoc = '{0}' and TrangThai = 1 ", mamh);
+            string sQuery = string.Format("select * from MonHoc where MaMonHoc = '{0}'", mamh);
             SqlCommand comm = new SqlCommand(sQuery, conn);
             SqlDataReader dr = comm.ExecuteReader();
             while (dr.Read())
