@@ -37,7 +37,7 @@ namespace WebAPI_KTOnline.Models
             List<MonHoc> list = new List<MonHoc>();
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
-            string sQuery = "Select * from MonHoc where TrangThai = 1";
+            string sQuery = "Select * from MonHoc";
             SqlCommand com = new SqlCommand(sQuery, conn);
             SqlDataReader dr = com.ExecuteReader();
             while (dr.Read())
@@ -47,6 +47,7 @@ namespace WebAPI_KTOnline.Models
                 mh.tenmonhoc = dr.GetString(1);
                 mh.sotinchi = dr.GetInt32(2);
                 mh.sotiet = dr.GetInt32(3);
+                mh.trangthai = dr.GetInt32(4);
                 list.Add(mh);
             }
             conn.Close();
@@ -91,6 +92,7 @@ namespace WebAPI_KTOnline.Models
                 mh.tenmonhoc = dr.GetString(1);
                 mh.sotinchi = dr.GetInt32(2);
                 mh.sotiet = dr.GetInt32(3);
+                mh.trangthai = dr.GetInt32(4);
             }
             conn.Close();
             return mh;
