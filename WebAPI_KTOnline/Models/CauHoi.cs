@@ -234,7 +234,7 @@ namespace WebAPI_KTOnline.Models
             SqlConnection conn = DataProvider.Connect();
             //test chu de
             conn.Open();
-            String sQuery = "UPDATE [dbo].[ChuDe] SET [TrangThai] = @trangthai  WHERE [MaCauHoi] = @mach";
+            String sQuery = "UPDATE [dbo].[CauHoi] SET [TrangThai] = @trangthai  WHERE [MaCauHoi] = @mach";
             SqlCommand updatecommand = new SqlCommand(sQuery, conn);
             updatecommand.Parameters.AddWithValue("@trangthai", 2);
             updatecommand.Parameters.AddWithValue("@mach", cauhoi.macauhoi);
