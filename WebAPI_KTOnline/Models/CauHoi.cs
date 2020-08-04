@@ -61,7 +61,6 @@ namespace WebAPI_KTOnline.Models
             sQuery.Append("FROM CauHoi CH ");
             sQuery.Append("INNER JOIN MonHoc MH ON CH.MaMonHoc = MH.MaMonHoc ");
             sQuery.Append("INNER JOIN ChuDe CD ON CH.MaCD = CD.MaCD ");
-            sQuery.Append("WHERE CH.TrangThai = 1");
             SqlCommand com = new SqlCommand(sQuery.ToString(), conn);
             SqlDataReader dr = com.ExecuteReader();
             while (dr.Read())
@@ -113,7 +112,7 @@ namespace WebAPI_KTOnline.Models
             List<CauHoi> list = new List<CauHoi>();
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
-            string sQuery = string.Format("select * from CauHoi where MaMonHoc = '{0}' and MaCD = '{1}'", mamh, macd);
+            string sQuery = string.Format("select * from CauHoi where MaMonHoc = '{0}' and MaCD = '{1}' and TrangThai = 1", mamh, macd);
             SqlCommand com = new SqlCommand(sQuery, conn);
             SqlDataReader dr = com.ExecuteReader();
             int stt = 0;
@@ -143,7 +142,7 @@ namespace WebAPI_KTOnline.Models
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
             StringBuilder sQuery = new StringBuilder();
-            sQuery.Append("select CT.STT, CH.NoiDung, CH.PhuongAnA, CH.PhuongAnB, CH.PhuongAnC, CH.PhuongAn ");
+            sQuery.Append("select CT.STT, CH.NoiDung, CH.PhuongAnA, CH.PhuongAnB, CH.PhuongAnC, CH.PhuongAnD, CH.MaCauHoi ");
             sQuery.Append("from CauHoi CH ");
             sQuery.Append("INNER JOIN CTBaiKT CT ON CT.MaCauHoi = CH.MaCauHoi ");
             sQuery.Append("inner join BaiKiemTra BKT ON CT.MaBaiKT = BKT.MaBaiKT ");
@@ -154,6 +153,7 @@ namespace WebAPI_KTOnline.Models
             while (dr.Read())
             {
                 CauHoi ch = new CauHoi();
+                ch.macauhoi = dr.GetString(6);
                 ch.noidung = dr.GetString(1);
                 ch.phuongana = dr.GetString(2);
                 ch.phuonganb = dr.GetString(3);
