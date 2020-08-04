@@ -57,7 +57,7 @@ namespace WebAPI_KTOnline.Models
                 conn.Close();
             }catch(Exception e)
             {
-                //no thing
+                //no thing 
             }
             
         }
