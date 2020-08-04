@@ -218,10 +218,10 @@ namespace WebAPI_KTOnline.Models
             SqlCommand updatecommand = new SqlCommand(sQuery, conn);
             updatecommand.Parameters.AddWithValue("@mach", cauhoi.maCauHoi);
             updatecommand.Parameters.AddWithValue("@noidung", cauhoi.noiDung);
-            updatecommand.Parameters.AddWithValue("@phuongana", "A. " + cauhoi.phuongAnA);
-            updatecommand.Parameters.AddWithValue("@phuonganb", "B. " + cauhoi.phuongAnB);
-            updatecommand.Parameters.AddWithValue("@phuonganc", "C. " + cauhoi.phuongAnC);
-            updatecommand.Parameters.AddWithValue("@phuongand", "D. " + cauhoi.phuongAnD);
+            updatecommand.Parameters.AddWithValue("@phuongana", cauhoi.phuongAnA);
+            updatecommand.Parameters.AddWithValue("@phuonganb", cauhoi.phuongAnB);
+            updatecommand.Parameters.AddWithValue("@phuonganc", cauhoi.phuongAnC);
+            updatecommand.Parameters.AddWithValue("@phuongand", cauhoi.phuongAnD);
             updatecommand.Parameters.AddWithValue("@dapan", cauhoi.dapAn.ToUpper());
             updatecommand.Parameters.AddWithValue("@machude", cauhoi.maChuDe);
             updatecommand.Parameters.AddWithValue("@mamonhoc", cauhoi.maMonHoc);
