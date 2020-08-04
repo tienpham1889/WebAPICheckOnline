@@ -143,7 +143,7 @@ namespace WebAPI_KTOnline.Models
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
             StringBuilder sQuery = new StringBuilder();
-            sQuery.Append("select CT.STT, CH.NoiDung, CH.PhuongAnA, CH.PhuongAnB, CH.PhuongAnC, CH.PhuongAnD, CH.DapAn ");
+            sQuery.Append("select CT.STT, CH.NoiDung, CH.PhuongAnA, CH.PhuongAnB, CH.PhuongAnC, CH.PhuongAn ");
             sQuery.Append("from CauHoi CH ");
             sQuery.Append("INNER JOIN CTBaiKT CT ON CT.MaCauHoi = CH.MaCauHoi ");
             sQuery.Append("inner join BaiKiemTra BKT ON CT.MaBaiKT = BKT.MaBaiKT ");
@@ -159,7 +159,6 @@ namespace WebAPI_KTOnline.Models
                 ch.phuonganb = dr.GetString(3);
                 ch.phuonganc = dr.GetString(4);
                 ch.phuongand = dr.GetString(5);
-                ch.dapan = dr.GetString(6);
                 ch.Value = dr.GetInt32(0);
                 list.Add(ch);
             }
@@ -219,10 +218,10 @@ namespace WebAPI_KTOnline.Models
             SqlCommand updatecommand = new SqlCommand(sQuery, conn);
             updatecommand.Parameters.AddWithValue("@mach", cauhoi.maCauHoi);
             updatecommand.Parameters.AddWithValue("@noidung", cauhoi.noiDung);
-            updatecommand.Parameters.AddWithValue("@phuongana", "A. " + cauhoi.phuongAnA);
-            updatecommand.Parameters.AddWithValue("@phuonganb", "B. " + cauhoi.phuongAnB);
-            updatecommand.Parameters.AddWithValue("@phuonganc", "C. " + cauhoi.phuongAnC);
-            updatecommand.Parameters.AddWithValue("@phuongand", "D. " + cauhoi.phuongAnD);
+            updatecommand.Parameters.AddWithValue("@phuongana", cauhoi.phuongAnA);
+            updatecommand.Parameters.AddWithValue("@phuonganb", cauhoi.phuongAnB);
+            updatecommand.Parameters.AddWithValue("@phuonganc", cauhoi.phuongAnC);
+            updatecommand.Parameters.AddWithValue("@phuongand", cauhoi.phuongAnD);
             updatecommand.Parameters.AddWithValue("@dapan", cauhoi.dapAn.ToUpper());
             updatecommand.Parameters.AddWithValue("@machude", cauhoi.maChuDe);
             updatecommand.Parameters.AddWithValue("@mamonhoc", cauhoi.maMonHoc);
@@ -233,8 +232,9 @@ namespace WebAPI_KTOnline.Models
         public static int DeleteCauHoi(CauHoi cauhoi)
         {
             SqlConnection conn = DataProvider.Connect();
+            //test chu de
             conn.Open();
-            String sQuery = "UPDATE [dbo].[CauHoi] SET [TrangThai] = @trangthai  WHERE [MaCauHoi] = @mach";
+            String sQuery = "UPDATE [dbo].[ChuDe] SET [TrangThai] = @trangthai  WHERE [MaCauHoi] = @mach";
             SqlCommand updatecommand = new SqlCommand(sQuery, conn);
             updatecommand.Parameters.AddWithValue("@trangthai", 2);
             updatecommand.Parameters.AddWithValue("@mach", cauhoi.macauhoi);

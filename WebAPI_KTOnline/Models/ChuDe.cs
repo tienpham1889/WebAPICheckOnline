@@ -169,10 +169,10 @@ namespace WebAPI_KTOnline.Models
         {
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
-            String sQuery = "UPDATE [dbo].[SinhVien] SET [TrangThai] = @trangthai  WHERE [MaSV] = @masv";
+            String sQuery = "UPDATE [dbo].[ChuDe] SET [TrangThai] = @trangthai  WHERE [MaCD] = @macd";
             SqlCommand updatecommand = new SqlCommand(sQuery, conn);
             updatecommand.Parameters.AddWithValue("@trangthai", 2);
-            updatecommand.Parameters.AddWithValue("@masv", chude.maChuDe);
+            updatecommand.Parameters.AddWithValue("@macd", chude.maChuDe);
             int result = updatecommand.ExecuteNonQuery();
             conn.Close();
             return result;

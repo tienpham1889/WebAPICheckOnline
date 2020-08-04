@@ -47,7 +47,7 @@ namespace WebAPI_KTOnline.Controllers
                 SqlCommand insert_CauHoicommand = new SqlCommand(sQuery, conn);
                 insert_CauHoicommand.Parameters.AddWithValue("@mach", mach);
                 insert_CauHoicommand.Parameters.AddWithValue("@noidung", cauhoi.noiDung);
-                insert_CauHoicommand.Parameters.AddWithValue("@phuongana", "A. "+ cauhoi.phuongAnA);
+                insert_CauHoicommand.Parameters.AddWithValue("@phuongana", "A. "+cauhoi.phuongAnA);
                 insert_CauHoicommand.Parameters.AddWithValue("@phuonganb", "B. "+cauhoi.phuongAnB);
                 insert_CauHoicommand.Parameters.AddWithValue("@phuonganc", "C. " +cauhoi.phuongAnC);
                 insert_CauHoicommand.Parameters.AddWithValue("@phuongand", "D. "+cauhoi.phuongAnD);
