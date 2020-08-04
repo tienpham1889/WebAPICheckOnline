@@ -232,6 +232,7 @@ namespace WebAPI_KTOnline.Models
         public static int DeleteCauHoi(CauHoi cauhoi)
         {
             SqlConnection conn = DataProvider.Connect();
+            //test
             conn.Open();
             String sQuery = "UPDATE [dbo].[CauHoi] SET [TrangThai] = @trangthai  WHERE [MaCauHoi] = @mach";
             SqlCommand updatecommand = new SqlCommand(sQuery, conn);
