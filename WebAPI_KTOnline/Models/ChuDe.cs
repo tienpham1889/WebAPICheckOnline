@@ -58,6 +58,27 @@ namespace WebAPI_KTOnline.Models
             conn.Close();
             return list;
         }
+        public static List<ChuDe> DsachChuDe_theoGV(string magiaovien)
+        {
+            List<ChuDe> list = new List<ChuDe>();
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            string sQuery = string.Format("SELECT * FROM ChuDe CD  WHERE CD.MaGV = '{0}' AND CD.TrangThai = 1", magiaovien);
+            SqlCommand com = new SqlCommand(sQuery, conn);
+            SqlDataReader dr = com.ExecuteReader();
+            while (dr.Read())
+            {
+                ChuDe cd = new ChuDe();
+                cd.macd = dr.GetString(0);
+                cd.tencd = dr.GetString(1);
+                cd.mamonhoc = dr.GetString(2);
+                cd.trangthai = dr.GetInt32(3);
+                cd.magiaovien = dr.GetString(4);
+                list.Add(cd);
+            }
+            conn.Close();
+            return list;
+        }
         public ChuDe cd(string machude)
         {
             ChuDe cd = new ChuDe();

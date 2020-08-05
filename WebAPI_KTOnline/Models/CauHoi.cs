@@ -81,6 +81,38 @@ namespace WebAPI_KTOnline.Models
             conn.Close();
             return list;
         }
+        public static List<CauHoi> DsachCauHoi_cuagiaovien(string magiaovien)
+        {
+            // test xem co chưa
+            List<CauHoi> list = new List<CauHoi>();
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            StringBuilder sQuery = new StringBuilder();
+            sQuery.Append("SELECT * ");
+            sQuery.Append("FROM CauHoi WHERE MaMonHoc IN (SELECT MH.MaMonHoc ");
+            sQuery.Append("FROM MonHoc MH ");
+            sQuery.Append("INNER JOIN LopHocPhan LHP ON MH.MaMonHoc = LHP.MaMonHoc ");
+            sQuery.AppendFormat("WHERE LHP.MaGV = '{0}' AND MH.TrangThai = 1 )", magiaovien);
+            SqlCommand com = new SqlCommand(sQuery.ToString(), conn);
+            SqlDataReader dr = com.ExecuteReader();
+            while (dr.Read())
+            {
+                CauHoi ch = new CauHoi();
+                ch.macauhoi = dr.GetString(0);
+                ch.noidung = dr.GetString(1);
+                ch.phuongana = dr.GetString(2);
+                ch.phuonganb = dr.GetString(3);
+                ch.phuonganc = dr.GetString(4);
+                ch.phuongand = dr.GetString(5);
+                ch.dapan = dr.GetString(6);
+                ch.machude = dr.GetString(7);
+                ch.trangthai = dr.GetInt32(8);
+                ch.mamonhoc = dr.GetString(9);
+                list.Add(ch);
+            }
+            conn.Close();
+            return list;
+        }
         public CauHoi cauhoi(string macauhoi)
         {
             CauHoi ch = new CauHoi();
