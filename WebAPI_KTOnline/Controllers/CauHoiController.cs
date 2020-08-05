@@ -20,6 +20,13 @@ namespace WebAPI_KTOnline.Controllers
             return listdanhsach;
         }
         [HttpGet]
+        [Route("api/Danh-sach-cau-hoi-cua-giao-vien")]
+        public IEnumerable<CauHoi> Get_dsach_cauhoi_giaovien(string magiaovien)
+        {
+            List<CauHoi> listdanhsach = CauHoi.DsachCauHoi_cuagiaovien(magiaovien);
+            return listdanhsach;
+        }
+        [HttpGet]
         [Route("api/Cauhoi-theomonhoc-chude")]
         public IEnumerable<CauHoi> Get_cauhoitheodieukien(string mamonhoc, string machude)
         {

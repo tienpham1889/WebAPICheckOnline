@@ -58,6 +58,27 @@ namespace WebAPI_KTOnline.Models
             conn.Close();
             return list;
         }
+        public static List<ChuDe> DsachChuDe_theoGV(string magiaovien)
+        {
+            List<ChuDe> list = new List<ChuDe>();
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            string sQuery = string.Format("SELECT * FROM ChuDe CD  WHERE CD.MaGV = '{0}' AND CD.TrangThai = 1", magiaovien);
+            SqlCommand com = new SqlCommand(sQuery, conn);
+            SqlDataReader dr = com.ExecuteReader();
+            while (dr.Read())
+            {
+                ChuDe cd = new ChuDe();
+                cd.macd = dr.GetString(0);
+                cd.tencd = dr.GetString(1);
+                cd.mamonhoc = dr.GetString(2);
+                cd.trangthai = dr.GetInt32(3);
+                cd.magiaovien = dr.GetString(4);
+                list.Add(cd);
+            }
+            conn.Close();
+            return list;
+        }
         public ChuDe cd(string machude)
         {
             ChuDe cd = new ChuDe();
@@ -155,11 +176,9 @@ namespace WebAPI_KTOnline.Models
         {
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
-            String sQuery = "UPDATE [dbo].[ChuDe] SET [TenCD] = @tencd, [MaMonHoc] = @mamh, [TrangThai]= 1, [MaGV]=@magv WHERE [MaCD] = @macd";
+            String sQuery = "UPDATE [dbo].[ChuDe] SET [TenCD] = @tencd, [TrangThai]= 1 WHERE [MaCD] = @macd";
             SqlCommand updatecommand = new SqlCommand(sQuery, conn);
             updatecommand.Parameters.AddWithValue("@tencd", chude.tenChuDe.Trim());
-            updatecommand.Parameters.AddWithValue("@mamh", chude.maMonHoc);
-            updatecommand.Parameters.AddWithValue("@magv", chude.maGiaoVien.Trim());
             updatecommand.Parameters.AddWithValue("@macd", chude.maChuDe.Trim());
             int result = updatecommand.ExecuteNonQuery();
             conn.Close();

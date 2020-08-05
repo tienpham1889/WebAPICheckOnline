@@ -19,7 +19,13 @@ namespace WebAPI_KTOnline.Controllers
             List<ChuDe> listdanhsach = ChuDe.DsachChuDe();
             return listdanhsach;
         }
-
+        [HttpGet]
+        [Route("api/Danh-sach-chu-de-cua-giao-vien")]
+        public IEnumerable<ChuDe> Get_ToppicofTeacher(string magiaovien)
+        {
+            List<ChuDe> listdanhsach = ChuDe.DsachChuDe_theoGV(magiaovien);
+            return listdanhsach;
+        }
         // GET: api/ChuDe/5
         public IEnumerable<ChuDe> Get(string machude)
         {
