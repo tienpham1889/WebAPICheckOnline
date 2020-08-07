@@ -47,7 +47,7 @@ namespace WebAPI_KTOnline.Controllers
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
             string malhp = LopHocPhan.layLopHocPhan();
-            if (lhp.kiemtra(lopHP.tenLopHocPhan))
+            if (lhp.kiemtra(malhp))
             {
 
                 String sQuery = "INSERT INTO [dbo].[LopHocPhan]([MaLopHP],[TenLopHP],[MaGV],[MaMonHoc],[MaLop],[TrangThai])VALUES(@malophp,@tenlophp,@magv,@mamonhoc,@malop,@trangthai)";

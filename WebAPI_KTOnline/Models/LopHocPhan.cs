@@ -103,11 +103,11 @@ namespace WebAPI_KTOnline.Models
             conn.Close();
             return list;
         }
-        public bool kiemtra(string tenlophp)
+        public bool kiemtra(string maLop)
         {
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
-            string sQuery = string.Format("select * from LopHocPhan where TenLopHP = N'{0}' ", tenlophp);
+            string sQuery = string.Format("select * from LopHocPhan where MaLopHP = N'{0}' ", maLop);
             SqlCommand comm = new SqlCommand(sQuery, conn);
             SqlDataReader dr = comm.ExecuteReader();
             int count = 0;
