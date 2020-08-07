@@ -43,13 +43,22 @@ namespace WebAPI_KTOnline.Controllers
         }
         [HttpPost]
         [Route("api/Them-danh-sach-sinh-vien-vao-lop-hoc-phan")]
-        public void Post([FromUri]string malophocphan, string malop)
+        public void Post([FromUri] string malop)
         {
             SqlConnection conn = DataProvider.Connect();
-            //test
+            string malophocphan = "";
+            
             conn.Open();
-            CTLopHocPhan.AddDSachCTLopHocPhan(malophocphan, malop);
+            string sQuery1 = "sselect top 1 MaLopHP from LopHocPhan order by MaLopHP desc";
+            SqlCommand com1 = new SqlCommand(sQuery1, conn);
+            SqlDataReader dr1 = com1.ExecuteReader();
+            while (dr1.Read())
+            {
+                malophocphan = dr1.GetString(0);
+            }
+            dr1.Close();
             conn.Close();
+            CTLopHocPhan.AddDSachCTLopHocPhan(malophocphan, malop);
         }
 
         // PUT: api/CTLopHocPhan/5
