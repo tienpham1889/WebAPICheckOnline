@@ -63,7 +63,7 @@ namespace WebAPI_KTOnline.Models
             conn.Open();
             try
             {
-                string sQuery = string.Format("insert into CTLopHocPhan (MaLopHP,MaSV) select '{0}',MaSV From SinhVien where Malop ='{1}'", malophocphan, malop);
+                string sQuery = string.Format("INSERT INTO CTLopHocPhan (MaLopHP,MaSV) SELECT '{0}',MaSV From SinhVien where Malop ='{1}'", malophocphan, malop);
                 SqlCommand insertcommand = new SqlCommand(sQuery, conn);
                 int result = insertcommand.ExecuteNonQuery();
                 conn.Close();
