@@ -40,7 +40,24 @@ namespace WebAPI_KTOnline.Models
             conn.Close();
             return list;
         }
-        public static void AddCTLopHocPhan(string malophocphan, string malop)
+        public CTLopHocPhan SVLopHp(string malophocphan, string masinhvien)
+        {
+            CTLopHocPhan sv = new CTLopHocPhan();
+
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            string sQuery = string.Format("select * from CTLopHocPhan where MaLopHP = '{0}' and MaSV = '{1}'", malophocphan, masinhvien);
+            SqlCommand comm = new SqlCommand(sQuery, conn);
+            SqlDataReader dr = comm.ExecuteReader();
+            while (dr.Read())
+            {
+                sv.malophocphan = dr.GetString(0);
+                sv.masinhvien = dr.GetString(1);
+            }
+            conn.Close();
+            return sv;
+        }
+        public static void AddDSachCTLopHocPhan(string malophocphan, string malop)
         {
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
@@ -55,6 +72,39 @@ namespace WebAPI_KTOnline.Models
             {
                 //no thing 
             }
+        }
+        public static CTLopHocPhan AddCTLopHocPhan(string malophocphan, string masinhvien)
+        {
+            CTLopHocPhan sv = new CTLopHocPhan();
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            if (kiemtra(malophocphan, masinhvien))
+            {
+                try
+                {
+                    String sQuery = "INSERT INTO [dbo].[CTLopHocPhan]([MaLopHP],[MaSV])VALUES(@malophocphan,@masv)";
+                    SqlCommand insertcommand = new SqlCommand(sQuery, conn);
+                    insertcommand.Parameters.AddWithValue("@malophocphan", malophocphan);
+                    insertcommand.Parameters.AddWithValue("@masv", masinhvien);
+                    int result = insertcommand.ExecuteNonQuery();
+                    sv = sv.SVLopHp(malophocphan, masinhvien);
+                    if (result > 0)
+                    {
+                        return sv;
+                    }
+                    conn.Close();
+                }
+                catch (Exception e)
+                {
+                    //no thing 
+                }
+            }
+            else
+            {
+                return sv;
+            }
+            return sv;
+            
         }
         public static bool kiemtra(string malophocphan, string masinhvien)
         {

@@ -33,19 +33,22 @@ namespace WebAPI_KTOnline.Controllers
         }
 
         // POST: api/CTLopHocPhan
+        [HttpPost]
+        [Route("api/Them-sinh-vien-vao-lop-hoc-phan")]
+        public CTLopHocPhan Post_ctlophocphan([FromUri]string malophocphan, string masinhvien)
+        {
+            CTLopHocPhan sv = new CTLopHocPhan();
+            sv = CTLopHocPhan.AddCTLopHocPhan(malophocphan, masinhvien);
+            return sv;
+        }
+        [HttpPost]
+        [Route("api/Them-danh-sach-sinh-vien-vao-lop-hoc-phan")]
         public void Post([FromUri]string malophocphan, string malop)
         {
             SqlConnection conn = DataProvider.Connect();
             //test
             conn.Open();
-            if (CTLopHocPhan.kiemtra(malophocphan, malop))
-            {
-                CTLopHocPhan.AddCTLopHocPhan(malophocphan, malop);
-            }
-            else
-            {
-                //nothing
-            }
+            CTLopHocPhan.AddDSachCTLopHocPhan(malophocphan, malop);
             conn.Close();
         }
 
