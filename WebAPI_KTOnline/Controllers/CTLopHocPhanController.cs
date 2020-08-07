@@ -38,7 +38,14 @@ namespace WebAPI_KTOnline.Controllers
         public CTLopHocPhan Post_ctlophocphan([FromUri]string malophocphan, string masinhvien)
         {
             CTLopHocPhan sv = new CTLopHocPhan();
-            sv = CTLopHocPhan.AddCTLopHocPhan(malophocphan, masinhvien);
+            if (CTLopHocPhan.kiemtra(malophocphan, masinhvien))
+            {
+                sv = CTLopHocPhan.AddCTLopHocPhan(malophocphan, masinhvien);
+            }
+            else
+            {
+                //nothing
+            }
             return sv;
         }
         [HttpPost]
