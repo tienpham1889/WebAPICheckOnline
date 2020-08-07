@@ -246,7 +246,7 @@ namespace WebAPI_KTOnline.Models
         {
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
-            String sQuery = "UPDATE [dbo].[CauHoi] SET [NoiDung] = @noidung, [PhuongAnA] = @phuongana, [PhuongAnB]=@phuonganb, [PhuongAnC]=@phuonganc, [PhuongAnD] =@phuongand, [DapAn] = @dapan, [MaCD] = @machude, [MaMonHoc] = @mamonhoc, [TrangThai] = 1 WHERE [MaCauHoi] = @mach";
+            String sQuery = "UPDATE [dbo].[CauHoi] SET [NoiDung] = @noidung, [PhuongAnA] = @phuongana, [PhuongAnB]=@phuonganb, [PhuongAnC]=@phuonganc, [PhuongAnD] =@phuongand, [DapAn] = @dapan, [TrangThai] = 1 WHERE [MaCauHoi] = @mach";
             SqlCommand updatecommand = new SqlCommand(sQuery, conn);
             updatecommand.Parameters.AddWithValue("@mach", cauhoi.maCauHoi);
             updatecommand.Parameters.AddWithValue("@noidung", cauhoi.noiDung);
@@ -255,8 +255,6 @@ namespace WebAPI_KTOnline.Models
             updatecommand.Parameters.AddWithValue("@phuonganc", cauhoi.phuongAnC);
             updatecommand.Parameters.AddWithValue("@phuongand", cauhoi.phuongAnD);
             updatecommand.Parameters.AddWithValue("@dapan", cauhoi.dapAn.ToUpper());
-            updatecommand.Parameters.AddWithValue("@machude", cauhoi.maChuDe);
-            updatecommand.Parameters.AddWithValue("@mamonhoc", cauhoi.maMonHoc);
             int result = updatecommand.ExecuteNonQuery();
             conn.Close();
             return result;
