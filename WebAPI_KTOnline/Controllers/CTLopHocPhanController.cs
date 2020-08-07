@@ -33,8 +33,20 @@ namespace WebAPI_KTOnline.Controllers
         }
 
         // POST: api/CTLopHocPhan
-        public void Post([FromBody]string value)
+        public void Post([FromUri]string malophocphan, string malop)
         {
+            SqlConnection conn = DataProvider.Connect();
+            //test
+            conn.Open();
+            if (CTLopHocPhan.kiemtra(malophocphan, malop))
+            {
+                CTLopHocPhan.AddCTLopHocPhan(malophocphan, malop);
+            }
+            else
+            {
+                //nothing
+            }
+            conn.Close();
         }
 
         // PUT: api/CTLopHocPhan/5

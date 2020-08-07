@@ -89,7 +89,7 @@ namespace WebAPI_KTOnline.Controllers
             }
             String sQuery = "UPDATE [dbo].[GiangVien] SET [TenGV] = @tengv, [GioiTinh] = @gioitinh, [DiaChi]=@diachi, [SDT]=@sdt, [Email] =@email, [Passsword] = @pass, [isAdmin] = @isAdmin WHERE [MaGV] = @magv";
             SqlCommand updatecommand = new SqlCommand(sQuery, conn);
-            updatecommand.Parameters.AddWithValue("@tengv", giaovien.tenGiaoVien.Trim());
+            updatecommand.Parameters.AddWithValue("@tengv", giaovien.tenGiaoVien.Trim().ToUpper());
             updatecommand.Parameters.AddWithValue("@gioitinh", gioitinh);
             updatecommand.Parameters.AddWithValue("@diachi", giaovien.diaChi.Trim());
             updatecommand.Parameters.AddWithValue("@sdt", giaovien.soDienThoai.Trim());
