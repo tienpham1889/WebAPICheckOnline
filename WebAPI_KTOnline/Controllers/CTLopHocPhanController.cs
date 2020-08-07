@@ -49,7 +49,7 @@ namespace WebAPI_KTOnline.Controllers
             string malophocphan = "";
             
             conn.Open();
-            string sQuery1 = "sselect top 1 MaLopHP from LopHocPhan order by MaLopHP desc";
+            string sQuery1 = "select top 1 MaLopHP from LopHocPhan order by MaLopHP desc";
             SqlCommand com1 = new SqlCommand(sQuery1, conn);
             SqlDataReader dr1 = com1.ExecuteReader();
             while (dr1.Read())
