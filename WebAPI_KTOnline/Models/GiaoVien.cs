@@ -59,7 +59,7 @@ namespace WebAPI_KTOnline.Models
                 gv.diachi = dr.GetString(3);
                 gv.sdt = dr.GetString(4);
                 gv.email = dr.GetString(5);
-                gv.passsword = dr.GetString(6);
+                gv.passsword = StringProc.MD5Hash(dr.GetString(6));
                 gv.isadmin = dr.GetString(7);
                 gv.trangthai = dr.GetInt32(8);
                 list.Add(gv);
@@ -84,7 +84,7 @@ namespace WebAPI_KTOnline.Models
                 gv.diachi = dr.GetString(3);
                 gv.sdt = dr.GetString(4);
                 gv.email = dr.GetString(5);
-                gv.passsword = dr.GetString(6);
+                gv.passsword = StringProc.MD5Hash(dr.GetString(6));
                 gv.isadmin = dr.GetString(7);
                 gv.trangThai = dr.GetInt32(8);
             }
