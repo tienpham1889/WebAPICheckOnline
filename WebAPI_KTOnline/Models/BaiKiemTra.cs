@@ -99,19 +99,27 @@ namespace WebAPI_KTOnline.Models
         {
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
-            int thoigian = Convert.ToInt32(newTest.thoigianlam) * 60;
-            String sQuery = "INSERT INTO [dbo].[BaiKiemTra]([MaBaiKT],[TenBaiKT],[KeyBaiKT],[ThoiGianLam],[NgayTao],[MaGV],[MaLopHP],[TrangThai])VALUES(@mabaikt,@tenbaikt,@pin,@time,@date,@magv,@malhp,@trangthai)";
-            SqlCommand insertcommand = new SqlCommand(sQuery, conn);
-            insertcommand.Parameters.AddWithValue("@mabaikt", mabaikt);
-            insertcommand.Parameters.AddWithValue("@tenbaikt", newTest.tenBaiKiemTra);
-            insertcommand.Parameters.AddWithValue("@pin", newTest.pin);
-            insertcommand.Parameters.AddWithValue("@time", thoigian);
-            insertcommand.Parameters.AddWithValue("@date", DateTime.Now);
-            insertcommand.Parameters.AddWithValue("@magv", newTest.maGiaoVien);
-            insertcommand.Parameters.AddWithValue("@malhp", malophp);
-            insertcommand.Parameters.AddWithValue("@trangthai", 1);
-            int result = insertcommand.ExecuteNonQuery();
-            conn.Close();
+            int result = 0;
+            try
+            {
+                int thoigian = Convert.ToInt32(newTest.thoigianlam) * 60;
+                String sQuery = "INSERT INTO [dbo].[BaiKiemTra]([MaBaiKT],[TenBaiKT],[KeyBaiKT],[ThoiGianLam],[NgayTao],[MaGV],[MaLopHP],[TrangThai])VALUES(@mabaikt,@tenbaikt,@pin,@time,@date,@magv,@malhp,@trangthai)";
+                SqlCommand insertcommand = new SqlCommand(sQuery, conn);
+                insertcommand.Parameters.AddWithValue("@mabaikt", mabaikt);
+                insertcommand.Parameters.AddWithValue("@tenbaikt", newTest.tenBaiKiemTra);
+                insertcommand.Parameters.AddWithValue("@pin", newTest.pin);
+                insertcommand.Parameters.AddWithValue("@time", thoigian);
+                insertcommand.Parameters.AddWithValue("@date", DateTime.Now);
+                insertcommand.Parameters.AddWithValue("@magv", newTest.maGiaoVien);
+                insertcommand.Parameters.AddWithValue("@malhp", malophp);
+                insertcommand.Parameters.AddWithValue("@trangthai", 1);
+                result = insertcommand.ExecuteNonQuery();
+                conn.Close();
+            }
+            catch(Exception e)
+            {
+                //not thing
+            }
             return result;
 
         }
