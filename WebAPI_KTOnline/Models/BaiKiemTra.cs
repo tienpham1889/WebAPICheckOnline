@@ -194,8 +194,8 @@ namespace WebAPI_KTOnline.Models
                 SqlCommand updatecommand = new SqlCommand(sQuery, conn);
                 int result = updatecommand.ExecuteNonQuery();
                 string sQuery_trangthai = string.Format("Select * from KetQua where MaBaiKT = '{0}' and TrangThai = 3", mabaikiemtra);
-                SqlCommand comm2 = new SqlCommand(sQuery_lenght, conn);
-                SqlDataReader dr2 = comm.ExecuteReader();
+                SqlCommand comm2 = new SqlCommand(sQuery_trangthai, conn);
+                SqlDataReader dr2 = comm2.ExecuteReader();
                 while (dr2.Read())
                 {
                     soLuongDaKiemTra++;
