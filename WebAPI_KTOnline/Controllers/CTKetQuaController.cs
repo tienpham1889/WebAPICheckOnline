@@ -36,12 +36,12 @@ namespace WebAPI_KTOnline.Controllers
              CTKetQua.AddCTKQ(masinhvien, mabaikt);
         }
         [HttpPost]
-        [Route("api/Them-dap-an/{dapAn}")]
-        public string Post_dapan([FromUri] object[] dapAn)
+        [Route("api/Them-dap-an")]
+        public void Post_dapan([FromUri] string masinhvien, string mabaikiemtra, string macauhoi, string dapan)
         {
-            string vd = dapAn[1].ToString();
-            return vd;
+            CTKetQua.UPDATEPhuongAn(masinhvien, mabaikiemtra, macauhoi, dapan);
         }
+        
         // PUT: api/CTKetQua/5
         public void Put(int id, [FromBody]string value)
         {

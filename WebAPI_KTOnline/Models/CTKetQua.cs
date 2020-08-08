@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data;
 using System.Data.SqlClient;
+using System.Text;
 
 
 namespace WebAPI_KTOnline.Models
@@ -64,16 +65,15 @@ namespace WebAPI_KTOnline.Models
             }
             return true;
         }
-        public static void AddPhuongAn(string[] mangPhuongAn, string masinhvien, string mabaikiemtra)
+        public static void UPDATEPhuongAn(string masinhvien, string mabaikiemtra, string macauhoi, string dapan)
         {
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
             try
             {
-                //string sQuery = string.Format("UPDATE CTKetQua SET DapAn = '{0}' SELECT '{1}', '{2}', MaCauHoi From CTBaiKT where MaBaiKT ='{2}'", mangPhuongAn[1], masinhvien, mabaikiemtra);
-                //SqlCommand insertcommand = new SqlCommand(sQuery, conn);
-                //insertcommand.Parameters.AddWithValue("@mach", mach);
-                //int result = insertcommand.ExecuteNonQuery();
+                string sQuery = string.Format("UPDATE [CTKetQua] SET DapAn = '{0}' FROM CTKetQua where MaSV = '{1}' and MaBaiKT = '{2}' and MaCauHoi = '{3}'", dapan, masinhvien, mabaikiemtra, macauhoi);
+                SqlCommand updatecommand = new SqlCommand(sQuery, conn);
+                int result = updatecommand.ExecuteNonQuery();
                 conn.Close();
             }
             catch (Exception e)
@@ -82,5 +82,6 @@ namespace WebAPI_KTOnline.Models
             }
 
         }
+        
     }
 }
