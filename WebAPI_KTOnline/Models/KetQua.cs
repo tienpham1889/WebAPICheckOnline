@@ -63,7 +63,7 @@ namespace WebAPI_KTOnline.Models
             {
                 kq.masinhvien = dr.GetString(0);
                 kq.mabaikiemtra = dr.GetString(1);
-                kq.diem = dr.GetInt32(2);
+                kq.diem = dr.GetDecimal(2);
                 kq.trangthai = dr.GetInt32(3);
             }
             dr.Close();
