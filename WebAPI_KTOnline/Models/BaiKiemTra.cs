@@ -190,7 +190,7 @@ namespace WebAPI_KTOnline.Models
             
             try
             {
-                string sQuery = string.Format("UPDATE [KetQua] SET TrangThai = 3 FROM BaiKiemTra where MaBaiKT = '{0}' and MaSV='{1}'", mabaikiemtra, masinhvien);
+                string sQuery = string.Format("UPDATE [KetQua] SET TrangThai = 3 where MaBaiKT = '{0}' and MaSV='{1}'", mabaikiemtra, masinhvien);
                 SqlCommand updatecommand = new SqlCommand(sQuery, conn);
                 int result = updatecommand.ExecuteNonQuery();
                 string sQuery_trangthai = string.Format("Select * from KetQua where MaBaiKT = '{0}' and TrangThai = 3", mabaikiemtra);
@@ -204,7 +204,7 @@ namespace WebAPI_KTOnline.Models
                 dr2.Close();
                 if(soluongbailam == soLuongDaKiemTra)
                 {
-                    string sQuery_upadte_baikt = string.Format("UPDATE [BaiKiemTra] SET TrangThai = 3 FROM BaiKiemTra where MaBaiKT = '{0}'", mabaikiemtra);
+                    string sQuery_upadte_baikt = string.Format("UPDATE [BaiKiemTra] SET TrangThai = 3 where MaBaiKT = '{0}'", mabaikiemtra);
                     SqlCommand updatecommand_baikt = new SqlCommand(sQuery_upadte_baikt, conn);
                     int result2 = updatecommand_baikt.ExecuteNonQuery();
                 }
