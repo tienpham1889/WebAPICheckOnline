@@ -13,7 +13,7 @@ namespace WebAPI_KTOnline.Models
     {
         string masinhvien;
         string mabaikiemtra;
-        int Diem;
+        decimal Diem;
         int trangthai;
 
         public KetQua()
@@ -27,7 +27,7 @@ namespace WebAPI_KTOnline.Models
 
         public string maSinhVien { get => masinhvien; set => masinhvien = value; }
         public string maBaiKiemTra { get => mabaikiemtra; set => mabaikiemtra = value; }
-        public int diem { get => Diem; set => Diem = value; }
+        public decimal diem { get => Diem; set => Diem = value; }
         public int trangThai { get => trangthai; set => trangthai = value; }
 
         public static List<KetQua> DsachKetQua()
@@ -148,6 +148,31 @@ namespace WebAPI_KTOnline.Models
                 //no thing 
             }
 
+        }
+        public static List<KetQua> DsachKetQua_theogv(string magiaovien)
+        {
+            List<KetQua> list = new List<KetQua>();
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            StringBuilder sQuery = new StringBuilder();
+            sQuery.Append("select KQ.MaSV, KQ.MaBaiKT, KQ.Diem, KQ.TrangThai ");
+            sQuery.Append("from KetQua KQ  ");
+            sQuery.Append("INNER JOIN BaiKiemTra BKT ON KQ.MaBaiKT = BKT.MaBaiKT  ");
+            sQuery.Append("INNER JOIN GiangVien GV ON GV.MaGV = BKT.MaGV ");
+            sQuery.AppendFormat("WHERE GV.MaGV = '{0}' ", magiaovien);
+            SqlCommand com = new SqlCommand(sQuery.ToString(), conn);
+            SqlDataReader dr = com.ExecuteReader();
+            while (dr.Read())
+            {
+                KetQua ketQua = new KetQua();
+                ketQua.masinhvien = dr.GetString(0);
+                ketQua.mabaikiemtra = dr.GetString(1);
+                ketQua.diem = dr.GetDecimal(2);
+                ketQua.trangthai = dr.GetInt32(3);
+                list.Add(ketQua);
+            }
+            conn.Close();
+            return list;
         }
     }
 }
