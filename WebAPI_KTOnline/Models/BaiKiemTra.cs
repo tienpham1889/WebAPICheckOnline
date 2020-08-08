@@ -177,22 +177,37 @@ namespace WebAPI_KTOnline.Models
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
             int soLuongDaKiemTra = 0;
-            //string sQuery_lenght = string.Format("Select * from CTKetQua where MaBaiKT = '{0}'", mabaikt);
-            //SqlCommand comm = new SqlCommand(sQuery_lenght, conn);
-            //SqlDataReader dr = comm.ExecuteReader();
-            //int soCau = 0;
-            //while (dr.Read())
-            //{
-            //    soCau++;
+            int soluongbailam=0;
+            string sQuery_lenght = string.Format("Select * from KetQua where MaBaiKT = '{0}'", mabaikiemtra);
+            SqlCommand comm = new SqlCommand(sQuery_lenght, conn);
+            SqlDataReader dr = comm.ExecuteReader();
+            while (dr.Read())
+            {
+                soluongbailam++;
 
-            //}
-            //dr.Close();
+            }
+            dr.Close();
+            
             try
             {
                 string sQuery = string.Format("UPDATE [KetQua] SET TrangThai = 3 FROM BaiKiemTra where MaBaiKT = '{0}' and MaSV='{1}'", mabaikiemtra, masinhvien);
                 SqlCommand updatecommand = new SqlCommand(sQuery, conn);
                 int result = updatecommand.ExecuteNonQuery();
+                string sQuery_trangthai = string.Format("Select * from KetQua where MaBaiKT = '{0}' and TrangThai = 3", mabaikiemtra);
+                SqlCommand comm2 = new SqlCommand(sQuery_lenght, conn);
+                SqlDataReader dr2 = comm.ExecuteReader();
+                while (dr2.Read())
+                {
+                    soLuongDaKiemTra++;
 
+                }
+                dr2.Close();
+                if(soluongbailam == soLuongDaKiemTra)
+                {
+                    string sQuery_upadte_baikt = string.Format("UPDATE [BaiKiemTra] SET TrangThai = 3 FROM BaiKiemTra where MaBaiKT = '{0}'", mabaikiemtra);
+                    SqlCommand updatecommand_baikt = new SqlCommand(sQuery_upadte_baikt, conn);
+                    int result2 = updatecommand_baikt.ExecuteNonQuery();
+                }
                 conn.Close();
             }
             catch (Exception e)
