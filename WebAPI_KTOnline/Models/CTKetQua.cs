@@ -82,6 +82,27 @@ namespace WebAPI_KTOnline.Models
             }
 
         }
-        
+        public static List<CTKetQua> Dsach_CTKQ(string mabaikt, string masinhvien)
+        {
+            List<CTKetQua> list = new List<CTKetQua>();
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            StringBuilder sQuery = new StringBuilder();
+            sQuery.Append("select MaCauHoi, DapAn ");
+            sQuery.Append("from CTKetQua ");
+            sQuery.AppendFormat("WHERE MaBaiKT = '{0}' AND MaSV = '{1}'", mabaikt, masinhvien);
+            SqlCommand com = new SqlCommand(sQuery.ToString(), conn);
+            SqlDataReader dr = com.ExecuteReader();
+            while (dr.Read())
+            {
+                CTKetQua ct = new CTKetQua();
+                ct.macauhoi = dr.GetString(0);
+                ct.dapan = dr.GetString(1);
+                list.Add(ct);
+            }
+            conn.Close();
+            return list;
+        }
+
     }
 }

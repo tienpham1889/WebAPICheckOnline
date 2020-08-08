@@ -227,6 +227,7 @@ namespace WebAPI_KTOnline.Models
             conn.Close();
             return list;
         }
+
         public bool kiemtra(string noidung, string mamonhoc)
         {
             SqlConnection conn = DataProvider.Connect();

@@ -29,6 +29,13 @@ namespace WebAPI_KTOnline.Controllers
         {
             
         }
+        [HttpGet]
+        [Route("api/Danh-sach-CT-Ket-Qua")]
+        public IEnumerable<CTKetQua> Get_ctkt(string mabaikiemtra, string masinhvien)
+        {
+            List<CTKetQua> listdanhsach = CTKetQua.Dsach_CTKQ(mabaikiemtra, masinhvien);
+            return listdanhsach;
+        }
         [HttpPost]
         [Route("api/Them-danh-sach-chi-tiet-ket-qua")]
         public void Post_chitiet([FromUri] string masinhvien, string mabaikt )
