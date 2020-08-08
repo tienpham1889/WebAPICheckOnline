@@ -23,6 +23,13 @@ namespace WebAPI_KTOnline.Controllers
         {
             return "value";
         }
+        [HttpGet]
+        [Route("api/Danh-sach-cau-hoi-cua-bai-kiem-tra")]
+        public IEnumerable<CauHoi> Get_cauhoi(string mabaikiemtra)
+        {
+            List<CauHoi> listdanhsach = CauHoi.DsachCauhoi_CuaBaiKT(mabaikiemtra);
+            return listdanhsach;
+        }
 
         // POST: api/CTBKT
         [Route("api/CTBKT/{mabkt}")]

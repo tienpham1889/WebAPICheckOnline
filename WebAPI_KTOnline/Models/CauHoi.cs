@@ -197,6 +197,36 @@ namespace WebAPI_KTOnline.Models
             conn.Close();
             return list;
         }
+        public static List<CauHoi> DsachCauhoi_CuaBaiKT(string mabaikt)
+        {
+            List<CauHoi> list = new List<CauHoi>();
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            StringBuilder sQuery = new StringBuilder();
+            sQuery.Append("SELECT CH.MaCauHoi, CH.MaMonHoc, CH.MaCD, CH.NoiDung, CH.PhuongAnA, CH.PhuongAnB, CH.PhuongAnC, CH.PhuongAnD, CH.DapAn, CH.TrangThai ");
+            sQuery.Append("FROM CauHoi CH ");
+            sQuery.Append("INNER JOIN CTBaiKT CTKT ON CH.MaCauHoi = CTKT.MaCauHoi ");
+            sQuery.AppendFormat("WHERE CTKT.MaBaiKT = '{0}'", mabaikt);
+            SqlCommand com = new SqlCommand(sQuery.ToString(), conn);
+            SqlDataReader dr = com.ExecuteReader();
+            while (dr.Read())
+            {
+                CauHoi ch = new CauHoi();
+                ch.macauhoi = dr.GetString(0);
+                ch.mamonhoc = dr.GetString(1);
+                ch.machude = dr.GetString(2);
+                ch.noidung = dr.GetString(3);
+                ch.phuongana = dr.GetString(4);
+                ch.phuonganb = dr.GetString(5);
+                ch.phuonganc = dr.GetString(6);
+                ch.phuongand = dr.GetString(7);
+                ch.dapan = dr.GetString(8);
+                ch.trangthai = dr.GetInt32(9);
+                list.Add(ch);
+            }
+            conn.Close();
+            return list;
+        }
         public bool kiemtra(string noidung, string mamonhoc)
         {
             SqlConnection conn = DataProvider.Connect();
