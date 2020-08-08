@@ -51,6 +51,13 @@ namespace WebAPI_KTOnline.Controllers
             conn.Close();
             return kq;
         }
+        [HttpPost]
+        [Route("api/Update-diem-trang-thai-kiem-tra")]
+        public void Post_diem([FromUri] string mabaiKiemtra, string masinhvien)
+        {
+            KetQua.UPDATE_Diem(mabaiKiemtra, masinhvien);
+            BaiKiemTra.UPDATE_daKT(mabaiKiemtra);
+        }
 
         // PUT: api/KetQua/5
         public void Put(int id, [FromBody]string value)

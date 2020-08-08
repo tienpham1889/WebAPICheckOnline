@@ -164,5 +164,22 @@ namespace WebAPI_KTOnline.Models
             conn.Close();
             return list;
         }
+        public static void UPDATE_daKT(string mabaikiemtra)
+        {
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            try
+            {
+                string sQuery = string.Format("UPDATE [BaiKiemTra] SET TrangThai = 3 FROM BaiKiemTra where MaBaiKT = '{0}'", mabaikiemtra);
+                SqlCommand updatecommand = new SqlCommand(sQuery, conn);
+                int result = updatecommand.ExecuteNonQuery();
+                conn.Close();
+            }
+            catch (Exception e)
+            {
+                //no thing 
+            }
+
+        }
     }
 }
