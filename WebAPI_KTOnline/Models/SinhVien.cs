@@ -165,30 +165,6 @@ namespace WebAPI_KTOnline.Models
             conn.Close();
             return list;
         }
-        //public static List<SinhVien> DsachSV_DangKT(string mabaikt)
-        //{
-        //    List<SinhVien> list = new List<SinhVien>();
-        //    SqlConnection conn = DataProvider.Connect();
-        //    conn.Open();
-        //    string sQuery = string.Format("Select * from SinhVien where TrangThai = 1 and MaLop = '{0}'", malop);
-        //    SqlCommand com = new SqlCommand(sQuery, conn);
-        //    SqlDataReader dr = com.ExecuteReader();
-        //    while (dr.Read())
-        //    {
-        //        SinhVien sv = new SinhVien();
-        //        sv.masv = dr.GetString(0);
-        //        sv.tensv = dr.GetString(1);
-        //        sv.gioitinh = dr.GetString(2);
-        //        sv.diachi = dr.GetString(3);
-        //        sv.sdt = dr.GetString(4);
-        //        sv.email = dr.GetString(5);
-        //        sv.pass = dr.GetString(6);
-        //        sv.malop = dr.GetString(7);
-        //        list.Add(sv);
-        //    }
-        //    conn.Close();
-        //    return list;
-        //}
         public static int UpdateSinhVien(SinhVien sinhvien, string gioitinh)
         {
             SqlConnection conn = DataProvider.Connect();

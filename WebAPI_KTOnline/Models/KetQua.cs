@@ -174,5 +174,23 @@ namespace WebAPI_KTOnline.Models
             conn.Close();
             return list;
         }
+        public static List<KetQua> DsachSV_DangKT(string mabaikt)
+        {
+            List<KetQua> list = new List<KetQua>();
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            string sQuery = string.Format("select MaSV , TrangThai from KetQua where MaBaiKT = '{0}'", mabaikt);
+            SqlCommand com = new SqlCommand(sQuery, conn);
+            SqlDataReader dr = com.ExecuteReader();
+            while (dr.Read())
+            {
+                KetQua ketQua = new KetQua();
+                ketQua.masinhvien = dr.GetString(0);
+                ketQua.trangthai = dr.GetInt32(1);
+                list.Add(ketQua);
+            }
+            conn.Close();
+            return list;
+        }
     }
 }
