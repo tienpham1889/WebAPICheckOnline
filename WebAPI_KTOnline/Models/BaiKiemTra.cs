@@ -172,15 +172,27 @@ namespace WebAPI_KTOnline.Models
             conn.Close();
             return list;
         }
-        public static void UPDATE_daKT(string mabaikiemtra)
+        public static void UPDATE_daKT(string mabaikiemtra, string masinhvien)
         {
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
+            int soLuongDaKiemTra = 0;
+            //string sQuery_lenght = string.Format("Select * from CTKetQua where MaBaiKT = '{0}'", mabaikt);
+            //SqlCommand comm = new SqlCommand(sQuery_lenght, conn);
+            //SqlDataReader dr = comm.ExecuteReader();
+            //int soCau = 0;
+            //while (dr.Read())
+            //{
+            //    soCau++;
+
+            //}
+            //dr.Close();
             try
             {
-                string sQuery = string.Format("UPDATE [BaiKiemTra] SET TrangThai = 3 FROM BaiKiemTra where MaBaiKT = '{0}'", mabaikiemtra);
+                string sQuery = string.Format("UPDATE [KetQua] SET TrangThai = 3 FROM BaiKiemTra where MaBaiKT = '{0}' and MaSV='{1}'", mabaikiemtra, masinhvien);
                 SqlCommand updatecommand = new SqlCommand(sQuery, conn);
                 int result = updatecommand.ExecuteNonQuery();
+
                 conn.Close();
             }
             catch (Exception e)

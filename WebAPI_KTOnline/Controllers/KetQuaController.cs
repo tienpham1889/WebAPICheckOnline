@@ -63,7 +63,7 @@ namespace WebAPI_KTOnline.Controllers
         public void Post_diem([FromUri] string mabaiKiemtra, string masinhvien)
         {
             KetQua.UPDATE_Diem(mabaiKiemtra, masinhvien);
-            BaiKiemTra.UPDATE_daKT(mabaiKiemtra);
+            BaiKiemTra.UPDATE_daKT(mabaiKiemtra, masinhvien);
         }
 
         // PUT: api/KetQua/5
