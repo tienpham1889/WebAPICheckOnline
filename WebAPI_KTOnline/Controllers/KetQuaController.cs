@@ -23,6 +23,13 @@ namespace WebAPI_KTOnline.Controllers
         {
             return "value";
         }
+        [HttpGet]
+        [Route("api/Dsach-Ket-Qua-cua-GV")]
+        public IEnumerable<KetQua> Get_dsach_theogv(string magv)
+        {
+            List<KetQua> listdanhsach = KetQua.DsachKetQua_theogv(magv);
+            return listdanhsach;
+        }
 
         // POST: api/KetQua
         public void Post([FromBody]string value)
