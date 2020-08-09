@@ -73,15 +73,23 @@ namespace WebAPI_KTOnline.Models
         public static int AddKetQua(string masinhvien, string mabaikiemtra)
         {
             SqlConnection conn = DataProvider.Connect();
+            int result = 0;
             conn.Open();
-            String sQuery = "INSERT INTO [dbo].[KetQua]([MaSV],[MaBaiKT],[Diem],[TrangThai])VALUES(@masv,@mabaikt,@diem,@trangthai)";
-            SqlCommand insertcommand = new SqlCommand(sQuery, conn);
-            insertcommand.Parameters.AddWithValue("@masv", masinhvien);
-            insertcommand.Parameters.AddWithValue("@mabaikt", mabaikiemtra);
-            insertcommand.Parameters.AddWithValue("@diem", 0);
-            insertcommand.Parameters.AddWithValue("@trangthai", 1);
-            int result = insertcommand.ExecuteNonQuery();
-            conn.Close();
+            try
+            {
+                String sQuery = "INSERT INTO [dbo].[KetQua]([MaSV],[MaBaiKT],[Diem],[TrangThai])VALUES(@masv,@mabaikt,@diem,@trangthai)";
+                SqlCommand insertcommand = new SqlCommand(sQuery, conn);
+                insertcommand.Parameters.AddWithValue("@masv", masinhvien);
+                insertcommand.Parameters.AddWithValue("@mabaikt", mabaikiemtra);
+                insertcommand.Parameters.AddWithValue("@diem", 0);
+                insertcommand.Parameters.AddWithValue("@trangthai", 1);
+                result = insertcommand.ExecuteNonQuery();
+                conn.Close();
+            }
+            catch(Exception e)
+            {
+                //not thing
+            }
             return result;
 
         }

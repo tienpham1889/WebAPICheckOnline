@@ -49,25 +49,31 @@ namespace WebAPI_KTOnline.Controllers
             int trangthai = 1;
             if (ch.kiemtra(cauhoi.noiDung, cauhoi.maMonHoc))
             {
-
-                String sQuery = "INSERT INTO [dbo].[CauHoi]([MaCauHoi],[NoiDung],[PhuongAnA],[PhuongAnB],[PhuongAnC],[PhuongAnD],[DapAn],[MaCD],[TrangThai],[MaMonHoc])VALUES(@mach,@noidung,@phuongana,@phuonganb,@phuonganc,@phuongand,@dapan,@macd,@trangthai,@mamonhoc)";
-                SqlCommand insert_CauHoicommand = new SqlCommand(sQuery, conn);
-                insert_CauHoicommand.Parameters.AddWithValue("@mach", mach);
-                insert_CauHoicommand.Parameters.AddWithValue("@noidung", cauhoi.noiDung);
-                insert_CauHoicommand.Parameters.AddWithValue("@phuongana", "A. "+cauhoi.phuongAnA);
-                insert_CauHoicommand.Parameters.AddWithValue("@phuonganb", "B. "+cauhoi.phuongAnB);
-                insert_CauHoicommand.Parameters.AddWithValue("@phuonganc", "C. " +cauhoi.phuongAnC);
-                insert_CauHoicommand.Parameters.AddWithValue("@phuongand", "D. "+cauhoi.phuongAnD);
-                insert_CauHoicommand.Parameters.AddWithValue("@dapan", cauhoi.dapAn.ToUpper());
-                insert_CauHoicommand.Parameters.AddWithValue("@macd", cauhoi.maChuDe);
-                insert_CauHoicommand.Parameters.AddWithValue("@trangthai", trangthai);
-                insert_CauHoicommand.Parameters.AddWithValue("@mamonhoc", cauhoi.maMonHoc);
-                int result = insert_CauHoicommand.ExecuteNonQuery();
-
-                ch = ch.cauhoi(mach);
-                if (result > 0)
+                try
                 {
-                    return ch;
+                    String sQuery = "INSERT INTO [dbo].[CauHoi]([MaCauHoi],[NoiDung],[PhuongAnA],[PhuongAnB],[PhuongAnC],[PhuongAnD],[DapAn],[MaCD],[TrangThai],[MaMonHoc])VALUES(@mach,@noidung,@phuongana,@phuonganb,@phuonganc,@phuongand,@dapan,@macd,@trangthai,@mamonhoc)";
+                    SqlCommand insert_CauHoicommand = new SqlCommand(sQuery, conn);
+                    insert_CauHoicommand.Parameters.AddWithValue("@mach", mach);
+                    insert_CauHoicommand.Parameters.AddWithValue("@noidung", cauhoi.noiDung);
+                    insert_CauHoicommand.Parameters.AddWithValue("@phuongana", "A. " + cauhoi.phuongAnA);
+                    insert_CauHoicommand.Parameters.AddWithValue("@phuonganb", "B. " + cauhoi.phuongAnB);
+                    insert_CauHoicommand.Parameters.AddWithValue("@phuonganc", "C. " + cauhoi.phuongAnC);
+                    insert_CauHoicommand.Parameters.AddWithValue("@phuongand", "D. " + cauhoi.phuongAnD);
+                    insert_CauHoicommand.Parameters.AddWithValue("@dapan", cauhoi.dapAn.ToUpper());
+                    insert_CauHoicommand.Parameters.AddWithValue("@macd", cauhoi.maChuDe);
+                    insert_CauHoicommand.Parameters.AddWithValue("@trangthai", trangthai);
+                    insert_CauHoicommand.Parameters.AddWithValue("@mamonhoc", cauhoi.maMonHoc);
+                    int result = insert_CauHoicommand.ExecuteNonQuery();
+
+                    ch = ch.cauhoi(mach);
+                    if (result > 0)
+                    {
+                        return ch;
+                    }
+                }
+                catch(Exception e)
+                {
+                    //not thing
                 }
             }
 

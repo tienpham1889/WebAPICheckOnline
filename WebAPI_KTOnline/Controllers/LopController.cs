@@ -30,18 +30,27 @@ namespace WebAPI_KTOnline.Controllers
         public Lop Post([FromBody]Lop lop)
         {
             Lop l = new Lop();
+            int result = 0;
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
             if (l.kiemtra(lop.maLop))
             {
-                String sQuery = "INSERT INTO [dbo].[Lop]([MaLop],[TenLop],[SoLuongSV],[TrangThai])VALUES(@malop,@tenlop,@soluong,@trangthai)";
-                SqlCommand insertcommand = new SqlCommand(sQuery, conn);
-                insertcommand.Parameters.AddWithValue("@malop", lop.maLop);
-                insertcommand.Parameters.AddWithValue("@tenlop", lop.tenLop);
-                insertcommand.Parameters.AddWithValue("@soluong", lop.soLuongSinhVien);
-                insertcommand.Parameters.AddWithValue("@trangthai", lop.trangThai);
-                int result = insertcommand.ExecuteNonQuery();
-                conn.Close();
+                try
+                {
+                    String sQuery = "INSERT INTO [dbo].[Lop]([MaLop],[TenLop],[SoLuongSV],[TrangThai])VALUES(@malop,@tenlop,@soluong,@trangthai)";
+                    SqlCommand insertcommand = new SqlCommand(sQuery, conn);
+                    insertcommand.Parameters.AddWithValue("@malop", lop.maLop);
+                    insertcommand.Parameters.AddWithValue("@tenlop", lop.tenLop);
+                    insertcommand.Parameters.AddWithValue("@soluong", lop.soLuongSinhVien);
+                    insertcommand.Parameters.AddWithValue("@trangthai", lop.trangThai);
+                    result = insertcommand.ExecuteNonQuery();
+                    conn.Close();
+                }
+                catch(Exception e)
+                {
+                    // not thing
+                }
+                
                 l = l.lop(lop.maLop);
                 if (result > 0)
                 {

@@ -167,32 +167,49 @@ namespace WebAPI_KTOnline.Models
         }
         public static int UpdateSinhVien(SinhVien sinhvien, string gioitinh)
         {
+            int result = 0;
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
-            String sQuery = "UPDATE [dbo].[SinhVien] SET [TenSV] = @tensv, [GioiTinh] = @gioitinh, [DiaChi]=@diachi, [SDT]=@sdt, [Email] =@email, [Passsword] = @pass, [Malop] = @malop, [TrangThai] = 1 WHERE [MaSV] = @masv";
-            SqlCommand updatecommand = new SqlCommand(sQuery, conn);
-            updatecommand.Parameters.AddWithValue("@tensv", sinhvien.tenSinhVien.Trim());
-            updatecommand.Parameters.AddWithValue("@gioitinh", gioitinh);
-            updatecommand.Parameters.AddWithValue("@diachi", sinhvien.diaChi.Trim());
-            updatecommand.Parameters.AddWithValue("@sdt", sinhvien.soDienThoai.Trim());
-            updatecommand.Parameters.AddWithValue("@email", sinhvien.email.Trim());
-            updatecommand.Parameters.AddWithValue("@pass", StringProc.MD5Hash(sinhvien.matKhau)); ;
-            updatecommand.Parameters.AddWithValue("@malop", sinhvien.maLop);
-            updatecommand.Parameters.AddWithValue("@masv", sinhvien.maSinhVien);
-            int result = updatecommand.ExecuteNonQuery();
-            conn.Close();
+            try
+            {
+                String sQuery = "UPDATE [dbo].[SinhVien] SET [TenSV] = @tensv, [GioiTinh] = @gioitinh, [DiaChi]=@diachi, [SDT]=@sdt, [Email] =@email, [Passsword] = @pass, [Malop] = @malop, [TrangThai] = 1 WHERE [MaSV] = @masv";
+                SqlCommand updatecommand = new SqlCommand(sQuery, conn);
+                updatecommand.Parameters.AddWithValue("@tensv", sinhvien.tenSinhVien.Trim());
+                updatecommand.Parameters.AddWithValue("@gioitinh", gioitinh);
+                updatecommand.Parameters.AddWithValue("@diachi", sinhvien.diaChi.Trim());
+                updatecommand.Parameters.AddWithValue("@sdt", sinhvien.soDienThoai.Trim());
+                updatecommand.Parameters.AddWithValue("@email", sinhvien.email.Trim());
+                updatecommand.Parameters.AddWithValue("@pass", StringProc.MD5Hash(sinhvien.matKhau)); ;
+                updatecommand.Parameters.AddWithValue("@malop", sinhvien.maLop);
+                updatecommand.Parameters.AddWithValue("@masv", sinhvien.maSinhVien);
+                result = updatecommand.ExecuteNonQuery();
+                conn.Close();
+            }
+            catch(Exception e)
+            {
+                // not thing
+            }
+            
             return result;
         }
         public static int DeleteSinhVien(SinhVien sinhVien)
         {
             SqlConnection conn = DataProvider.Connect();
+            int result = 0;
             conn.Open();
-            String sQuery = "UPDATE [dbo].[SinhVien] SET [TrangThai] = @trangthai  WHERE [MaSV] = @masv";
-            SqlCommand updatecommand = new SqlCommand(sQuery, conn);
-            updatecommand.Parameters.AddWithValue("@trangthai", 2);
-            updatecommand.Parameters.AddWithValue("@masv", sinhVien.maSinhVien);
-            int result = updatecommand.ExecuteNonQuery();
-            conn.Close();
+            try
+            {
+                String sQuery = "UPDATE [dbo].[SinhVien] SET [TrangThai] = @trangthai  WHERE [MaSV] = @masv";
+                SqlCommand updatecommand = new SqlCommand(sQuery, conn);
+                updatecommand.Parameters.AddWithValue("@trangthai", 2);
+                updatecommand.Parameters.AddWithValue("@masv", sinhVien.maSinhVien);
+                result = updatecommand.ExecuteNonQuery();
+                conn.Close();
+            }
+            catch(Exception e)
+            {
+                // not thing
+            }
             return result;
         }
     }
