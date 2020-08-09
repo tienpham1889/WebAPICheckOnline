@@ -33,6 +33,7 @@ namespace WebAPI_KTOnline.Controllers
             GiaoVien gvien = new GiaoVien();
             SqlConnection conn = DataProvider.Connect();
             string gioitinh = "";
+            int result = 0;
             int trangthai = 1;
             if (Convert.ToInt32(giaovien.gioiTinh) == 0)
             {
@@ -45,19 +46,26 @@ namespace WebAPI_KTOnline.Controllers
             conn.Open();
             if (gvien.kiemtra(giaovien.maGiaoVien))
             {
-                String sQuery = "INSERT INTO [dbo].[GiangVien]([MaGV],[TenGV],[GioiTinh],[DiaChi],[SDT],[Email],[Passsword],[isAdmin],[TrangThai])VALUES(@magv,@tengv,@gioitinh,@diachi,@sdt,@email,@matkhau,@isadmin,@trangthai)";
-                SqlCommand insert_SVcommand = new SqlCommand(sQuery, conn);
-                insert_SVcommand.Parameters.AddWithValue("@magv", giaovien.maGiaoVien.Trim());
-                insert_SVcommand.Parameters.AddWithValue("@tengv", giaovien.tenGiaoVien.Trim());
-                insert_SVcommand.Parameters.AddWithValue("@gioitinh", gioitinh);
-                insert_SVcommand.Parameters.AddWithValue("@diachi", giaovien.diaChi);
-                insert_SVcommand.Parameters.AddWithValue("@sdt", giaovien.soDienThoai.Trim());
-                insert_SVcommand.Parameters.AddWithValue("@email", giaovien.email.Trim());
-                insert_SVcommand.Parameters.AddWithValue("@matkhau", StringProc.MD5Hash(giaovien.matKhau));
-                insert_SVcommand.Parameters.AddWithValue("@isadmin", giaovien.isAdmin);
-                insert_SVcommand.Parameters.AddWithValue("@trangthai", trangthai);
-                int result = insert_SVcommand.ExecuteNonQuery();
-                conn.Close();
+                try
+                {
+                    String sQuery = "INSERT INTO [dbo].[GiangVien]([MaGV],[TenGV],[GioiTinh],[DiaChi],[SDT],[Email],[Passsword],[isAdmin],[TrangThai])VALUES(@magv,@tengv,@gioitinh,@diachi,@sdt,@email,@matkhau,@isadmin,@trangthai)";
+                    SqlCommand insert_SVcommand = new SqlCommand(sQuery, conn);
+                    insert_SVcommand.Parameters.AddWithValue("@magv", giaovien.maGiaoVien.Trim());
+                    insert_SVcommand.Parameters.AddWithValue("@tengv", giaovien.tenGiaoVien.Trim());
+                    insert_SVcommand.Parameters.AddWithValue("@gioitinh", gioitinh);
+                    insert_SVcommand.Parameters.AddWithValue("@diachi", giaovien.diaChi);
+                    insert_SVcommand.Parameters.AddWithValue("@sdt", giaovien.soDienThoai.Trim());
+                    insert_SVcommand.Parameters.AddWithValue("@email", giaovien.email.Trim());
+                    insert_SVcommand.Parameters.AddWithValue("@matkhau", StringProc.MD5Hash(giaovien.matKhau));
+                    insert_SVcommand.Parameters.AddWithValue("@isadmin", giaovien.isAdmin);
+                    insert_SVcommand.Parameters.AddWithValue("@trangthai", trangthai);
+                    result = insert_SVcommand.ExecuteNonQuery();
+                    conn.Close();
+                }
+                catch(Exception e)
+                {
+                    //not thing
+                }
                 gvien = gvien.gv(giaovien.maGiaoVien);
                 if (result > 0)
                 {
@@ -76,6 +84,7 @@ namespace WebAPI_KTOnline.Controllers
         public GiaoVien Postupdate([FromBody]GiaoVien giaovien)
         {
             GiaoVien gv = new GiaoVien();
+            int result = 0;
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
             string gioitinh = "";
@@ -87,18 +96,26 @@ namespace WebAPI_KTOnline.Controllers
             {
                 gioitinh = "Nữ";
             }
-            String sQuery = "UPDATE [dbo].[GiangVien] SET [TenGV] = @tengv, [GioiTinh] = @gioitinh, [DiaChi]=@diachi, [SDT]=@sdt, [Email] =@email, [Passsword] = @pass, [isAdmin] = @isAdmin WHERE [MaGV] = @magv";
-            SqlCommand updatecommand = new SqlCommand(sQuery, conn);
-            updatecommand.Parameters.AddWithValue("@tengv", giaovien.tenGiaoVien.Trim().ToUpper());
-            updatecommand.Parameters.AddWithValue("@gioitinh", gioitinh);
-            updatecommand.Parameters.AddWithValue("@diachi", giaovien.diaChi.Trim());
-            updatecommand.Parameters.AddWithValue("@sdt", giaovien.soDienThoai.Trim());
-            updatecommand.Parameters.AddWithValue("@email", giaovien.email.Trim());
-            updatecommand.Parameters.AddWithValue("@pass", StringProc.MD5Hash(giaovien.matKhau)); ;
-            updatecommand.Parameters.AddWithValue("@isAdmin",giaovien.isAdmin );
-            updatecommand.Parameters.AddWithValue("@magv", giaovien.maGiaoVien);
-            int result = updatecommand.ExecuteNonQuery();
-            conn.Close();
+            try
+            {
+                String sQuery = "UPDATE [dbo].[GiangVien] SET [TenGV] = @tengv, [GioiTinh] = @gioitinh, [DiaChi]=@diachi, [SDT]=@sdt, [Email] =@email, [Passsword] = @pass, [isAdmin] = @isAdmin WHERE [MaGV] = @magv";
+                SqlCommand updatecommand = new SqlCommand(sQuery, conn);
+                updatecommand.Parameters.AddWithValue("@tengv", giaovien.tenGiaoVien.Trim().ToUpper());
+                updatecommand.Parameters.AddWithValue("@gioitinh", gioitinh);
+                updatecommand.Parameters.AddWithValue("@diachi", giaovien.diaChi.Trim());
+                updatecommand.Parameters.AddWithValue("@sdt", giaovien.soDienThoai.Trim());
+                updatecommand.Parameters.AddWithValue("@email", giaovien.email.Trim());
+                updatecommand.Parameters.AddWithValue("@pass", StringProc.MD5Hash(giaovien.matKhau)); ;
+                updatecommand.Parameters.AddWithValue("@isAdmin", giaovien.isAdmin);
+                updatecommand.Parameters.AddWithValue("@magv", giaovien.maGiaoVien);
+                result = updatecommand.ExecuteNonQuery();
+                conn.Close();
+            }
+            catch(Exception e)
+            {
+                //not thing
+            }
+            
             gv = gv.gv(giaovien.maGiaoVien);
             if (result > 0)
             {
@@ -111,14 +128,22 @@ namespace WebAPI_KTOnline.Controllers
         public GiaoVien Postdelete([FromBody]GiaoVien giaoVien)
         {
             GiaoVien gv = new GiaoVien();
+            int result = 0;
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
-            String sQuery = "UPDATE [dbo].[GiangVien] SET [TrangThai] = @trangthai  WHERE [MaGV] = @magv";
-            SqlCommand updatecommand = new SqlCommand(sQuery, conn);
-            updatecommand.Parameters.AddWithValue("@trangthai", 2);
-            updatecommand.Parameters.AddWithValue("@magv", giaoVien.maGiaoVien);
-            int result = updatecommand.ExecuteNonQuery();
-            conn.Close();
+            try
+            {
+                String sQuery = "UPDATE [dbo].[GiangVien] SET [TrangThai] = @trangthai  WHERE [MaGV] = @magv";
+                SqlCommand updatecommand = new SqlCommand(sQuery, conn);
+                updatecommand.Parameters.AddWithValue("@trangthai", 2);
+                updatecommand.Parameters.AddWithValue("@magv", giaoVien.maGiaoVien);
+                result = updatecommand.ExecuteNonQuery();
+                conn.Close();
+            }
+            catch(Exception e)
+            {
+                //not thing
+            }
             giaoVien = giaoVien.gv(giaoVien.maGiaoVien);
             if (result > 0)
             {

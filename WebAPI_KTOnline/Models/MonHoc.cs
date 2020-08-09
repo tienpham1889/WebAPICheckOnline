@@ -140,6 +140,30 @@ namespace WebAPI_KTOnline.Models
             conn.Close();
             return list;
         }
+        public static List<MonHoc> DsachMonHoc_cuachude_theogv(string magiaovien)
+        {
+            List<MonHoc> list = new List<MonHoc>();
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            StringBuilder sQuery = new StringBuilder();
+            sQuery.Append("SELECT distinct MH.MaMonHoc, MH.TenMonHoc, MH.SoTiet, MH.SoTinChi ");
+            sQuery.Append("FROM ChuDe CD ");
+            sQuery.Append("INNER JOIN MonHoc MH ON CD.MaMonHoc = MH.MaMonHoc ");
+            sQuery.AppendFormat("WHERE CD.MaGV = '{0}' and MH.TrangThai = 1 ", magiaovien);
+            SqlCommand com = new SqlCommand(sQuery.ToString(), conn);
+            SqlDataReader dr = com.ExecuteReader();
+            while (dr.Read())
+            {
+                MonHoc mh = new MonHoc();
+                mh.mamonhoc = dr.GetString(0);
+                mh.tenmonhoc = dr.GetString(1);
+                mh.sotiet = dr.GetInt32(2);
+                mh.sotinchi = dr.GetInt32(3);
+                list.Add(mh);
+            }
+            conn.Close();
+            return list;
+        }
         public static int UpdateMonHoc(MonHoc monhoc)
         {
             SqlConnection conn = DataProvider.Connect();

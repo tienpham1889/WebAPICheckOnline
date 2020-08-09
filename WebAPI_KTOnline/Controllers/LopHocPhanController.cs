@@ -44,22 +44,30 @@ namespace WebAPI_KTOnline.Controllers
         public LopHocPhan Post([FromBody]LopHocPhan lopHP)
         {
             LopHocPhan lhp = new LopHocPhan();
+            int result = 0;
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
             string malhp = LopHocPhan.layLopHocPhan();
             if (lhp.kiemtra(malhp))
             {
-
-                String sQuery = "INSERT INTO [dbo].[LopHocPhan]([MaLopHP],[TenLopHP],[MaGV],[MaMonHoc],[MaLop],[TrangThai])VALUES(@malophp,@tenlophp,@magv,@mamonhoc,@malop,@trangthai)";
-                SqlCommand insert_LHPcommand = new SqlCommand(sQuery, conn);
-                insert_LHPcommand.Parameters.AddWithValue("@malophp", malhp);
-                insert_LHPcommand.Parameters.AddWithValue("@tenlophp", lopHP.tenLopHocPhan);
-                insert_LHPcommand.Parameters.AddWithValue("@magv", lopHP.maGiaoVien);
-                insert_LHPcommand.Parameters.AddWithValue("@mamonhoc", lopHP.maMonHoc);
-                insert_LHPcommand.Parameters.AddWithValue("@malop", lopHP.maLop);
-                insert_LHPcommand.Parameters.AddWithValue("@trangthai", lopHP.trangThai);
-                int result = insert_LHPcommand.ExecuteNonQuery();
-
+                try
+                {
+                    String sQuery = "INSERT INTO [dbo].[LopHocPhan]([MaLopHP],[TenLopHP],[MaGV],[MaMonHoc],[MaLop],[TrangThai])VALUES(@malophp,@tenlophp,@magv,@mamonhoc,@malop,@trangthai)";
+                    SqlCommand insert_LHPcommand = new SqlCommand(sQuery, conn);
+                    insert_LHPcommand.Parameters.AddWithValue("@malophp", malhp);
+                    insert_LHPcommand.Parameters.AddWithValue("@tenlophp", lopHP.tenLopHocPhan);
+                    insert_LHPcommand.Parameters.AddWithValue("@magv", lopHP.maGiaoVien);
+                    insert_LHPcommand.Parameters.AddWithValue("@mamonhoc", lopHP.maMonHoc);
+                    insert_LHPcommand.Parameters.AddWithValue("@malop", lopHP.maLop);
+                    insert_LHPcommand.Parameters.AddWithValue("@trangthai", lopHP.trangThai);
+                    result = insert_LHPcommand.ExecuteNonQuery();
+                    conn.Close();
+                }
+                catch(Exception e)
+                {
+                    // not thing
+                }
+                
                 lhp = lhp.lhp(malhp);
                 if (result > 0)
                 {
@@ -71,7 +79,7 @@ namespace WebAPI_KTOnline.Controllers
             {
                 return lhp;
             }
-            conn.Close();
+            
             return lhp;
         }
         [Route("api/update-lop-hoc-phan")]

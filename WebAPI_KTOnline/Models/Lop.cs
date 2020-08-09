@@ -87,27 +87,44 @@ namespace WebAPI_KTOnline.Models
         }
         public static int UpdateLop(Lop lop)
         {
+            int result = 0;
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
-            String sQuery = "UPDATE [dbo].[Lop] SET [MaLop] = @malop, [TenLop] = @tenlop, [SoLuongSV] = @soluong, [TrangThai] = 1 WHERE [MaLop] = @malop";
-            SqlCommand updatecommand = new SqlCommand(sQuery, conn);
-            updatecommand.Parameters.AddWithValue("@tenlop", lop.tenLop.Trim());
-            updatecommand.Parameters.AddWithValue("@soluong", lop.soLuongSinhVien);
-            updatecommand.Parameters.AddWithValue("@malop", lop.maLop);
-            int result = updatecommand.ExecuteNonQuery();
-            conn.Close();
+            try
+            {
+                String sQuery = "UPDATE [dbo].[Lop] SET [TenLop] = @tenlop, [SoLuongSV] = @soluong, [TrangThai] = 1 WHERE [MaLop] = @malop";
+                SqlCommand updatecommand = new SqlCommand(sQuery, conn);
+                updatecommand.Parameters.AddWithValue("@tenlop", lop.tenLop.Trim());
+                updatecommand.Parameters.AddWithValue("@soluong", lop.soLuongSinhVien);
+                updatecommand.Parameters.AddWithValue("@malop", lop.maLop);
+                result = updatecommand.ExecuteNonQuery();
+                conn.Close();
+            }
+            catch(Exception e)
+            {
+                //not thing
+            }
+            
             return result;
         }
         public static int DeleteLop(Lop lop)
         {
+            int result = 0;
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
-            String sQuery = "UPDATE [dbo].[Lop] SET [TrangThai] = @trangthai  WHERE [MaLop] = @malop";
-            SqlCommand updatecommand = new SqlCommand(sQuery, conn);
-            updatecommand.Parameters.AddWithValue("@trangthai", 2);
-            updatecommand.Parameters.AddWithValue("@malop", lop.maLop);
-            int result = updatecommand.ExecuteNonQuery();
-            conn.Close();
+            try
+            {
+                String sQuery = "UPDATE [dbo].[Lop] SET [TrangThai] = @trangthai  WHERE [MaLop] = @malop";
+                SqlCommand updatecommand = new SqlCommand(sQuery, conn);
+                updatecommand.Parameters.AddWithValue("@trangthai", 2);
+                updatecommand.Parameters.AddWithValue("@malop", lop.maLop);
+                result = updatecommand.ExecuteNonQuery();
+                conn.Close();
+            }
+            catch(Exception e)
+            {
+                
+            }
             return result;
         }
     }

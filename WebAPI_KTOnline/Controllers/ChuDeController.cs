@@ -50,18 +50,24 @@ namespace WebAPI_KTOnline.Controllers
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
             string macd = ChuDe.layMaCD();
+            int result = 0;
             if (cd.kiemtra(chude.tenChuDe, chude.maMonHoc))
             {
-                
-                String sQuery = "INSERT INTO [dbo].[ChuDe]([MaCD],[TenCD],[MaMonHoc],[TrangThai],[MaGV])VALUES(@macd,@tencd,@mamonhoc,@trangthai,@magv)";
-                SqlCommand insert_toppiccommand = new SqlCommand(sQuery, conn);
-                insert_toppiccommand.Parameters.AddWithValue("@macd", macd);
-                insert_toppiccommand.Parameters.AddWithValue("@tencd",chude.tenChuDe);
-                insert_toppiccommand.Parameters.AddWithValue("@mamonhoc", chude.maMonHoc);
-                insert_toppiccommand.Parameters.AddWithValue("@trangthai", chude.trangThai);
-                insert_toppiccommand.Parameters.AddWithValue("@magv", chude.maGiaoVien);
-                int result = insert_toppiccommand.ExecuteNonQuery();
-                
+                try
+                {
+                    String sQuery = "INSERT INTO [dbo].[ChuDe]([MaCD],[TenCD],[MaMonHoc],[TrangThai],[MaGV])VALUES(@macd,@tencd,@mamonhoc,@trangthai,@magv)";
+                    SqlCommand insert_toppiccommand = new SqlCommand(sQuery, conn);
+                    insert_toppiccommand.Parameters.AddWithValue("@macd", macd);
+                    insert_toppiccommand.Parameters.AddWithValue("@tencd", chude.tenChuDe);
+                    insert_toppiccommand.Parameters.AddWithValue("@mamonhoc", chude.maMonHoc);
+                    insert_toppiccommand.Parameters.AddWithValue("@trangthai", chude.trangThai);
+                    insert_toppiccommand.Parameters.AddWithValue("@magv", chude.maGiaoVien);
+                    result = insert_toppiccommand.ExecuteNonQuery();
+                }
+                catch(Exception e)
+                {
+                    //not thing
+                }
                 cd = cd.cd(macd);
                 if (result > 0)
                 {

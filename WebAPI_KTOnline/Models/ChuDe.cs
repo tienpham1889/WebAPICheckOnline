@@ -63,8 +63,12 @@ namespace WebAPI_KTOnline.Models
             List<ChuDe> list = new List<ChuDe>();
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
-            string sQuery = string.Format("SELECT * FROM ChuDe CD  WHERE CD.MaGV = '{0}' AND CD.TrangThai = 1", magiaovien);
-            SqlCommand com = new SqlCommand(sQuery, conn);
+            StringBuilder sQuery = new StringBuilder();
+            sQuery.Append("select * ");
+            sQuery.Append("from ChuDe CD ");
+            sQuery.Append("INNER JOIN MonHoc MH ON CD.MaMonHoc = MH.MaMonHoc ");
+            sQuery.AppendFormat("WHERE MH.TrangThai =1 AND CD.MaGV = '{0}'", magiaovien);
+            SqlCommand com = new SqlCommand(sQuery.ToString(), conn);
             SqlDataReader dr = com.ExecuteReader();
             while (dr.Read())
             {
@@ -174,26 +178,42 @@ namespace WebAPI_KTOnline.Models
         }
         public static int UpdateChuDe(ChuDe chude)
         {
+            int result = 0;
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
-            String sQuery = "UPDATE [dbo].[ChuDe] SET [TenCD] = @tencd, [TrangThai]= 1 WHERE [MaCD] = @macd";
-            SqlCommand updatecommand = new SqlCommand(sQuery, conn);
-            updatecommand.Parameters.AddWithValue("@tencd", chude.tenChuDe.Trim());
-            updatecommand.Parameters.AddWithValue("@macd", chude.maChuDe.Trim());
-            int result = updatecommand.ExecuteNonQuery();
-            conn.Close();
+            try
+            {
+                String sQuery = "UPDATE [dbo].[ChuDe] SET [TenCD] = @tencd, [TrangThai]= 1 WHERE [MaCD] = @macd";
+                SqlCommand updatecommand = new SqlCommand(sQuery, conn);
+                updatecommand.Parameters.AddWithValue("@tencd", chude.tenChuDe.Trim());
+                updatecommand.Parameters.AddWithValue("@macd", chude.maChuDe.Trim());
+                result = updatecommand.ExecuteNonQuery();
+                conn.Close();
+            }
+            catch(Exception e)
+            {
+                //not thing
+            }
             return result;
         }
         public static int DeleteChuDe(ChuDe chude)
         {
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
-            String sQuery = "UPDATE [dbo].[ChuDe] SET [TrangThai] = @trangthai  WHERE [MaCD] = @macd";
-            SqlCommand updatecommand = new SqlCommand(sQuery, conn);
-            updatecommand.Parameters.AddWithValue("@trangthai", 2);
-            updatecommand.Parameters.AddWithValue("@macd", chude.maChuDe);
-            int result = updatecommand.ExecuteNonQuery();
-            conn.Close();
+            int result = 0;
+            try
+            {
+                String sQuery = "UPDATE [dbo].[ChuDe] SET [TrangThai] = @trangthai  WHERE [MaCD] = @macd";
+                SqlCommand updatecommand = new SqlCommand(sQuery, conn);
+                updatecommand.Parameters.AddWithValue("@trangthai", 2);
+                updatecommand.Parameters.AddWithValue("@macd", chude.maChuDe);
+                result = updatecommand.ExecuteNonQuery();
+                conn.Close();
+            }
+            catch(Exception e)
+            {
+
+            }
             return result;
         }
     }
