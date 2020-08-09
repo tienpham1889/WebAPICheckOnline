@@ -31,6 +31,13 @@ namespace WebAPI_KTOnline.Controllers
             return listdanhsach;
         }
         [HttpGet]
+        [Route("api/Dsach-Ket-Qua-cua-SV")]
+        public IEnumerable<KetQua> Get_dsach_theoSv(string masinhvien)
+        {
+            List<KetQua> listdanhsach = KetQua.DsachKetQua_theosv(masinhvien);
+            return listdanhsach;
+        }
+        [HttpGet]
         [Route("api/Dsach-sinh-vien-dang-lam-bai")]
         public IEnumerable<KetQua> Get_dsach_danglam(string mabaikt)
         {
