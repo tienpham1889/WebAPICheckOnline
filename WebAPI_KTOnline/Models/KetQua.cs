@@ -116,12 +116,12 @@ namespace WebAPI_KTOnline.Models
         {
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
-            float so_diem_tren_mot_cau = 0;
+            decimal so_diem_tren_mot_cau = 0;
             int soCauDung = 0;
             decimal tongDiem = 0;
             try
             {
-                string sQuery_lenght = string.Format("Select * from CTKetQua where MaBaiKT = '{0}'", mabaikt);
+                string sQuery_lenght = string.Format("Select * from CTKetQua where MaBaiKT = '{0}' and MaSV = '{1}'", mabaikt, masinhvien);
                 SqlCommand comm = new SqlCommand(sQuery_lenght, conn);
                 SqlDataReader dr = comm.ExecuteReader();
                 int soCau = 0;
@@ -131,12 +131,12 @@ namespace WebAPI_KTOnline.Models
 
                 }
                 dr.Close();
-                so_diem_tren_mot_cau = 10 / (float)soCau;
+                so_diem_tren_mot_cau = 10 / (decimal)soCau;
                 StringBuilder sQuery_cauDung = new StringBuilder();
-                sQuery_cauDung.Append("select KQ.MaCauHoi, KQ.DapAn, CH.MaCauHoi, CH.DapAn ");
+                sQuery_cauDung.Append("select distinct KQ.MaCauHoi, KQ.DapAn, CH.MaCauHoi, CH.DapAn ");
                 sQuery_cauDung.Append("from CTKetQua KQ ");
                 sQuery_cauDung.Append("INNER JOIN CauHoi CH ON KQ.MaCauHoi = CH.MaCauHoi ");
-                sQuery_cauDung.AppendFormat("WHERE KQ.MaBaiKT = '{0}' and kq.DapAn = CH.DapAn", mabaikt);
+                sQuery_cauDung.AppendFormat("WHERE KQ.MaBaiKT = '{0}' and kq.DapAn = CH.DapAn and KQ.MaSV='{1}'", mabaikt, masinhvien);
                 SqlCommand comm2 = new SqlCommand(sQuery_cauDung.ToString(), conn);
                 SqlDataReader dr2 = comm2.ExecuteReader();
                 while (dr2.Read())
@@ -168,6 +168,28 @@ namespace WebAPI_KTOnline.Models
             sQuery.Append("INNER JOIN BaiKiemTra BKT ON KQ.MaBaiKT = BKT.MaBaiKT  ");
             sQuery.Append("INNER JOIN GiangVien GV ON GV.MaGV = BKT.MaGV ");
             sQuery.AppendFormat("WHERE GV.MaGV = '{0}' ", magiaovien);
+            SqlCommand com = new SqlCommand(sQuery.ToString(), conn);
+            SqlDataReader dr = com.ExecuteReader();
+            while (dr.Read())
+            {
+                KetQua ketQua = new KetQua();
+                ketQua.masinhvien = dr.GetString(0);
+                ketQua.mabaikiemtra = dr.GetString(1);
+                ketQua.diem = dr.GetDecimal(2);
+                ketQua.trangthai = dr.GetInt32(3);
+                list.Add(ketQua);
+            }
+            conn.Close();
+            return list;
+        }
+        public static List<KetQua> DsachKetQua_theosv(string masv)
+        {
+            List<KetQua> list = new List<KetQua>();
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            StringBuilder sQuery = new StringBuilder();
+            sQuery.Append("select * from KetQua ");
+            sQuery.AppendFormat("WHERE MaSV = '{0}' ", masv);
             SqlCommand com = new SqlCommand(sQuery.ToString(), conn);
             SqlDataReader dr = com.ExecuteReader();
             while (dr.Read())

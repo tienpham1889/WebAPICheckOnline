@@ -71,7 +71,16 @@ namespace WebAPI_KTOnline.Models
             conn.Open();
             try
             {
-                string sQuery = string.Format("UPDATE [CTKetQua] SET DapAn = '{0}' FROM CTKetQua where MaSV = '{1}' and MaBaiKT = '{2}' and MaCauHoi = '{3}'", dapan, masinhvien, mabaikiemtra, macauhoi);
+                string dapAnChon = "";
+                if(dapan != "")
+                {
+                    dapAnChon = dapan;
+                }
+                else
+                {
+                    dapAnChon = "";
+                }
+                string sQuery = string.Format("UPDATE [CTKetQua] SET DapAn = '{0}' FROM CTKetQua where MaSV = '{1}' and MaBaiKT = '{2}' and MaCauHoi = '{3}'", dapAnChon, masinhvien, mabaikiemtra, macauhoi);
                 SqlCommand updatecommand = new SqlCommand(sQuery, conn);
                 int result = updatecommand.ExecuteNonQuery();
                 conn.Close();
