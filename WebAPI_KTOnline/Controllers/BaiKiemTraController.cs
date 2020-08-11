@@ -52,7 +52,7 @@ namespace WebAPI_KTOnline.Controllers
         {
 
             BaiKiemTra bkt = new BaiKiemTra();
-            bkt = bkt.baikt(mabaikt);
+            bkt = BaiKiemTra.baikt(mabaikt);
             int trangThai = bkt.trangThai;
             yield return bkt;
         }
@@ -71,7 +71,7 @@ namespace WebAPI_KTOnline.Controllers
                 updatecommand.Parameters.AddWithValue("@mabaikt", baikiemtra.pin);
                 int result = updatecommand.ExecuteNonQuery();
                 conn.Close();
-                baikt = baikt.baikt(baikiemtra.pin);
+                baikt = BaiKiemTra.baikt(baikiemtra.pin);
                 if (result > 0)
                 {
                     return baikt;
@@ -93,7 +93,7 @@ namespace WebAPI_KTOnline.Controllers
             if (bkt.kiemtra(Test.pin))
             {
                 int result = BaiKiemTra.AddBaiKT(Test, Test.pin, Test.maLopHocPhan);
-                bkt = bkt.baikt(Test.pin);
+                bkt = BaiKiemTra.baikt(Test.pin);
                 if (result > 0)
                 {
                     return bkt;
@@ -106,6 +106,22 @@ namespace WebAPI_KTOnline.Controllers
             conn.Close();
             return bkt;
         }
+        [HttpPost]
+        [Route("api/BaiKiemTra/{mabaikt}")]
+        public BaiKiemTra Post_bkt([FromUri] string mabaikt)
+        {
+            BaiKiemTra updatebtk = new BaiKiemTra();
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            string sQuery = string.Format("UPDATE BaiKiemTra SET TrangThai = 2 WHERE MaBaiKT = '{0}'", mabaikt);
+            SqlCommand comm = new SqlCommand(sQuery, conn);
+            comm.ExecuteNonQuery();
+            conn.Close();
+            updatebtk = BaiKiemTra.baikt(mabaikt);
+            return updatebtk;
+
+        }
+
 
         // PUT: api/BaiKiemTra/5
         public void Put(int id, [FromBody]string value)
