@@ -112,7 +112,7 @@ namespace WebAPI_KTOnline.Models
             conn.Open();
             //string sQuery = string.Format("select * from ChuDe where MaMonHoc = '{0}'",mamh);
             StringBuilder sQuery = new StringBuilder();
-            sQuery.Append("select CD.MaCD, CD.TenCD, MH.TenMonHoc,GV.TenGV ");
+            sQuery.Append("select CD.MaCD, CD.TenCD, CD.MaMonHoc,CD.MaGV ");
             sQuery.Append("from ChuDe CD ");
             sQuery.Append("inner join GiangVien GV On CD.MaGV = GV.MaGV ");
             sQuery.Append("INNER JOIN MonHoc MH ON CD.MaMonHoc = MH.MaMonHoc ");
