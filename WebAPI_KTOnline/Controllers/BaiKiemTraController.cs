@@ -26,6 +26,20 @@ namespace WebAPI_KTOnline.Controllers
             return listdanhsach;
         }
         [HttpGet]
+        [Route("api/Dsach-Tat-Ca-Bai-Dang-Kiem-Tra-cua-GV")]
+        public IEnumerable<BaiKiemTra> Get_all_theogv(string magv)
+        {
+            List<BaiKiemTra> listdanhsach = BaiKiemTra.AllDsach_DangKiemtra(magv);
+            return listdanhsach;
+        }
+        [HttpGet]
+        [Route("api/Bai-Kiem-tra-Theo-ma-cua-GV")]
+        public IEnumerable<BaiKiemTra> Get_dsach_theolop(string magv, string mabaiKiemtra)
+        {
+            List<BaiKiemTra> listdanhsach = BaiKiemTra.Dsach_DangKiemtra_filter(magv, mabaiKiemtra);
+            return listdanhsach;
+        }
+        [HttpGet]
         [Route("api/ListCauHoi-DangKT")]
         public IEnumerable<CauHoi> Get_cauhoitheodieukien(string mabaikt)
         {
