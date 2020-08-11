@@ -122,7 +122,7 @@ namespace WebAPI_KTOnline.Models
             return list;
 
         }
-        public BaiKiemTra baikt(string mabkt)
+        public static BaiKiemTra baikt(string mabkt)
         {
             BaiKiemTra baikt = new BaiKiemTra();
 
