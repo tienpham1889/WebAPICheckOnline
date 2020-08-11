@@ -70,6 +70,58 @@ namespace WebAPI_KTOnline.Models
             conn.Close();
             return list;
         }
+        public static List<BaiKiemTra> AllDsach_DangKiemtra(string magiaovien)
+        {
+            List<BaiKiemTra> list = new List<BaiKiemTra>();
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            string sQuery = string.Format("SELECT * FROM BaiKiemTra WHERE TrangThai =2  AND MaGV = '{0}'", magiaovien);
+            SqlCommand com = new SqlCommand(sQuery.ToString(), conn);
+            SqlDataReader dr = com.ExecuteReader();
+            while (dr.Read())
+            {
+                int sophutlam = Convert.ToInt32(dr.GetInt32(3)) / 60;
+                BaiKiemTra bkt = new BaiKiemTra();
+                bkt.mabaikt = dr.GetString(0);
+                bkt.tenbaikt = dr.GetString(1);
+                bkt.KeyBaiKT = dr.GetString(2);
+                bkt.thoigianlam = sophutlam;
+                bkt.NgayTao = dr.GetDateTime(4);
+                bkt.MaGV = dr.GetString(5);
+                bkt.MaLHP = dr.GetString(6);
+                bkt.TrangThai = dr.GetInt32(7);
+                list.Add(bkt);
+            }
+            conn.Close();
+            return list;
+            
+        }
+        public static List<BaiKiemTra> Dsach_DangKiemtra_filter(string magiaovien, string mabaikt)
+        {
+            List<BaiKiemTra> list = new List<BaiKiemTra>();
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            string sQuery = string.Format("SELECT * FROM BaiKiemTra WHERE TrangThai =2  AND MaGV = '{0}' and MaBaiKT =  '{1}'", magiaovien, mabaikt);
+            SqlCommand com = new SqlCommand(sQuery.ToString(), conn);
+            SqlDataReader dr = com.ExecuteReader();
+            while (dr.Read())
+            {
+                int sophutlam = Convert.ToInt32(dr.GetInt32(3)) / 60;
+                BaiKiemTra bkt = new BaiKiemTra();
+                bkt.mabaikt = dr.GetString(0);
+                bkt.tenbaikt = dr.GetString(1);
+                bkt.KeyBaiKT = dr.GetString(2);
+                bkt.thoigianlam = sophutlam;
+                bkt.NgayTao = dr.GetDateTime(4);
+                bkt.MaGV = dr.GetString(5);
+                bkt.MaLHP = dr.GetString(6);
+                bkt.TrangThai = dr.GetInt32(7);
+                list.Add(bkt);
+            }
+            conn.Close();
+            return list;
+
+        }
         public BaiKiemTra baikt(string mabkt)
         {
             BaiKiemTra baikt = new BaiKiemTra();

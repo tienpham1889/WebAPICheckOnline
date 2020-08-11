@@ -187,21 +187,29 @@ namespace WebAPI_KTOnline.Models
             List<KetQua> list = new List<KetQua>();
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
-            StringBuilder sQuery = new StringBuilder();
-            sQuery.Append("select * from KetQua ");
-            sQuery.AppendFormat("WHERE MaSV = '{0}' ", masv);
-            SqlCommand com = new SqlCommand(sQuery.ToString(), conn);
-            SqlDataReader dr = com.ExecuteReader();
-            while (dr.Read())
+            try
             {
-                KetQua ketQua = new KetQua();
-                ketQua.masinhvien = dr.GetString(0);
-                ketQua.mabaikiemtra = dr.GetString(1);
-                ketQua.diem = dr.GetDecimal(2);
-                ketQua.trangthai = dr.GetInt32(3);
-                list.Add(ketQua);
+                StringBuilder sQuery = new StringBuilder();
+                sQuery.Append("select * from KetQua ");
+                sQuery.AppendFormat("WHERE MaSV = '{0}' ", masv);
+                SqlCommand com = new SqlCommand(sQuery.ToString(), conn);
+                SqlDataReader dr = com.ExecuteReader();
+                while (dr.Read())
+                {
+                    KetQua ketQua = new KetQua();
+                    ketQua.masinhvien = dr.GetString(0);
+                    ketQua.mabaikiemtra = dr.GetString(1);
+                    ketQua.diem = dr.GetDecimal(2);
+                    ketQua.trangthai = dr.GetInt32(3);
+                    list.Add(ketQua);
+                }
+                conn.Close();
             }
-            conn.Close();
+            catch(Exception e)
+            {
+                //not thing
+            }
+            
             return list;
         }
         public static List<KetQua> DsachSV_DangKT(string mabaikt)
