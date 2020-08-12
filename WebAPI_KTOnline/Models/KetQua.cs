@@ -212,13 +212,17 @@ namespace WebAPI_KTOnline.Models
             
             return list;
         }
-        public static List<KetQua> DsachSV_DangKT_theobaikt(string mabaikt)
+        public static List<KetQua> DsachSV_DangKT_theobaikt(string mabaikt, string magv)
         {
             List<KetQua> list = new List<KetQua>();
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
-            string sQuery = string.Format("select MaSV , MaBaiKT ,TrangThai from KetQua where MaBaiKT = '{0}'", mabaikt);
-            SqlCommand com = new SqlCommand(sQuery, conn);
+            StringBuilder sQuery = new StringBuilder();
+            sQuery.Append("SELECT KQ.MaSV, KQ.MaBaiKT, KQ.TrangThai ");
+            sQuery.Append("FROM KetQua KQ ");
+            sQuery.Append("INNER JOIN BaiKiemTra BKT ON KQ.MaBaiKT = BKT.MaBaiKT ");
+            sQuery.AppendFormat("WHERE KQ.TrangThai = 1 AND BKT.MaGV = '{0}' and KQ.MaBaiKT = '{1}' AND BKT.TrangThai = 2", magv, mabaikt);
+            SqlCommand com = new SqlCommand(sQuery.ToString(), conn);
             SqlDataReader dr = com.ExecuteReader();
             while (dr.Read())
             {
@@ -241,7 +245,6 @@ namespace WebAPI_KTOnline.Models
             sQuery.Append("FROM KetQua KQ ");
             sQuery.Append("INNER JOIN BaiKiemTra BKT ON KQ.MaBaiKT = BKT.MaBaiKT ");
             sQuery.AppendFormat("WHERE KQ.TrangThai = 1 AND BKT.MaGV = '{0}' AND BKT.TrangThai = 2", magv);
-")
             SqlCommand com = new SqlCommand(sQuery.ToString(), conn);
             SqlDataReader dr = com.ExecuteReader();
             while (dr.Read())
