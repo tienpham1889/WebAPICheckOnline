@@ -241,7 +241,6 @@ namespace WebAPI_KTOnline.Models
             sQuery.Append("FROM KetQua KQ ");
             sQuery.Append("INNER JOIN BaiKiemTra BKT ON KQ.MaBaiKT = BKT.MaBaiKT ");
             sQuery.AppendFormat("WHERE KQ.TrangThai = 1 AND BKT.MaGV = '{0}' AND BKT.TrangThai = 2", magv);
-")
             SqlCommand com = new SqlCommand(sQuery.ToString(), conn);
             SqlDataReader dr = com.ExecuteReader();
             while (dr.Read())
