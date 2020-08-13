@@ -182,7 +182,7 @@ namespace WebAPI_KTOnline.Models
             conn.Close();
             return list;
         }
-        public static List<KetQua> DsachKetQua_theosv(string masv)
+        public static List<KetQua> DsachKetQua_theosv(string masv, string mabaikt)
         {
             List<KetQua> list = new List<KetQua>();
             SqlConnection conn = DataProvider.Connect();
@@ -191,7 +191,7 @@ namespace WebAPI_KTOnline.Models
             {
                 StringBuilder sQuery = new StringBuilder();
                 sQuery.Append("select * from KetQua ");
-                sQuery.AppendFormat("WHERE MaSV = '{0}' ", masv);
+                sQuery.AppendFormat("WHERE MaSV = '{0}' and MaBaiKT = '{1}' ", masv, mabaikt);
                 SqlCommand com = new SqlCommand(sQuery.ToString(), conn);
                 SqlDataReader dr = com.ExecuteReader();
                 while (dr.Read())
