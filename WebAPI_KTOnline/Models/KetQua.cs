@@ -182,7 +182,7 @@ namespace WebAPI_KTOnline.Models
             conn.Close();
             return list;
         }
-        public static List<KetQua> DsachKetQua_theosv(string masv, string mabaikt)
+        public static List<KetQua> DsachKetQua_theosv(string masv, string mamonhoc)
         {
             List<KetQua> list = new List<KetQua>();
             SqlConnection conn = DataProvider.Connect();
@@ -190,8 +190,11 @@ namespace WebAPI_KTOnline.Models
             try
             {
                 StringBuilder sQuery = new StringBuilder();
-                sQuery.Append("select * from KetQua ");
-                sQuery.AppendFormat("WHERE MaSV = '{0}' and MaBaiKT = '{1}' ", masv, mabaikt);
+                sQuery.Append("select KQ.MaSV, KQ.MaBaiKT, KQ.Diem, KQ.TrangThai ");
+                sQuery.Append("from KetQua KQ ");
+                sQuery.Append("inner join BaiKiemTra BKT ON KQ.MaBaiKT = BKT.MaBaiKT ");
+                sQuery.Append("INNER JOIN LopHocPhan LHP ON  BKT.MaLopHP = LHP.MaLopHP ");
+                sQuery.AppendFormat("WHERE KQ.MaSV = '{0}' AND LHP.MaMonHoc = '{1}' ", masv, mamonhoc);
                 SqlCommand com = new SqlCommand(sQuery.ToString(), conn);
                 SqlDataReader dr = com.ExecuteReader();
                 while (dr.Read())
