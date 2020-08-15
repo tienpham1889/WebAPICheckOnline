@@ -36,12 +36,11 @@ namespace WebAPI_KTOnline.Controllers
         public void Post([FromBody]CauHoi[] listdata, [FromUri] string mabkt)
         {
             SqlConnection conn = DataProvider.Connect();
-            //test
             conn.Open();
             int STT = 0;
             for (int i = 0; i < listdata.Length; i++)
             {
-                STT++;
+                STT = STT +1;
                 string mach = listdata[i].maCauHoi;
                 if (CTBaiKT.kiemtra(mabkt, mach))
                 {

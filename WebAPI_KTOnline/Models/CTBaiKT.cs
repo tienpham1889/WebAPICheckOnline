@@ -53,7 +53,7 @@ namespace WebAPI_KTOnline.Models
                 insertcommand.Parameters.AddWithValue("@mabaikt", mabatkt);
                 insertcommand.Parameters.AddWithValue("@mach", macauhoi);
                 insertcommand.Parameters.AddWithValue("@stt", stt);
-                insertcommand.ExecuteNonQuery();
+                int result=insertcommand.ExecuteNonQuery();
                 conn.Close();
             }catch(Exception e)
             {
@@ -74,6 +74,8 @@ namespace WebAPI_KTOnline.Models
                 count++;
 
             }
+            dr.Close();
+            conn.Close();
             if (count > 0)
             {
                 return false;

@@ -86,7 +86,7 @@ namespace WebAPI_KTOnline.Models
             List<LopHocPhan> list = new List<LopHocPhan>();
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
-            string sQuery = string.Format("select * from LopHocPhan where MaMonHoc = '{0}'",mamh);
+            string sQuery = string.Format("select * from LopHocPhan where MaMonHoc = '{0}' and TrangThai = 1",mamh);
             SqlCommand com = new SqlCommand(sQuery, conn);
             SqlDataReader dr = com.ExecuteReader();
             while (dr.Read())

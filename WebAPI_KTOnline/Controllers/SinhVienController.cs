@@ -33,7 +33,14 @@ namespace WebAPI_KTOnline.Controllers
             List<SinhVien> listdanhsach = SinhVien.DsachSV_theolop(malop);
             return listdanhsach;
         }
-
+        [HttpPost]
+        [Route("api/Kiem-tra-sinh-vien-vo-lam-bai/{maSinhVien}/{maBaiKiemTra}")]
+        public SinhVien PostCheck([FromUri] string maSinhVien, string maBaiKiemTra)
+        {
+            SinhVien sinhVien = new SinhVien();
+            sinhVien = SinhVien.svThuocLopDangKiemTra(maSinhVien, maBaiKiemTra);
+            return sinhVien;
+        }
         // POST: api/SinhVien
         public SinhVien Post([FromBody]SinhVien sinhvien)
         {

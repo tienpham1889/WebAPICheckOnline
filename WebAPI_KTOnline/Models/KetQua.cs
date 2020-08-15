@@ -75,21 +75,14 @@ namespace WebAPI_KTOnline.Models
             SqlConnection conn = DataProvider.Connect();
             int result = 0;
             conn.Open();
-            try
-            {
-                String sQuery = "INSERT INTO [dbo].[KetQua]([MaSV],[MaBaiKT],[Diem],[TrangThai])VALUES(@masv,@mabaikt,@diem,@trangthai)";
-                SqlCommand insertcommand = new SqlCommand(sQuery, conn);
-                insertcommand.Parameters.AddWithValue("@masv", masinhvien);
-                insertcommand.Parameters.AddWithValue("@mabaikt", mabaikiemtra);
-                insertcommand.Parameters.AddWithValue("@diem", 0);
-                insertcommand.Parameters.AddWithValue("@trangthai", 1);
-                result = insertcommand.ExecuteNonQuery();
-                conn.Close();
-            }
-            catch(Exception e)
-            {
-                //not thing
-            }
+            String sQuery = "INSERT INTO [dbo].[KetQua]([MaSV],[MaBaiKT],[Diem],[TrangThai])VALUES(@masv,@mabaikt,@diem,@trangthai)";
+            SqlCommand insertcommand = new SqlCommand(sQuery, conn);
+            insertcommand.Parameters.AddWithValue("@masv", masinhvien);
+            insertcommand.Parameters.AddWithValue("@mabaikt", mabaikiemtra);
+            insertcommand.Parameters.AddWithValue("@diem", 0);
+            insertcommand.Parameters.AddWithValue("@trangthai", 1);
+            result = insertcommand.ExecuteNonQuery();
+            conn.Close();
             return result;
 
         }
@@ -157,17 +150,16 @@ namespace WebAPI_KTOnline.Models
             }
 
         }
-        public static List<KetQua> DsachKetQua_theogv(string magiaovien)
+        public static List<KetQua> DsachKetQua_theobaiKT(string maBaiKT)
         {
             List<KetQua> list = new List<KetQua>();
             SqlConnection conn = DataProvider.Connect();
             conn.Open();
             StringBuilder sQuery = new StringBuilder();
-            sQuery.Append("select KQ.MaSV, KQ.MaBaiKT, KQ.Diem, KQ.TrangThai ");
-            sQuery.Append("from KetQua KQ  ");
+            sQuery.Append("SELECT KQ.MaSV, KQ.MaBaiKT, KQ.Diem, KQ.TrangThai ");
+            sQuery.Append("FROM KetQua KQ  ");
             sQuery.Append("INNER JOIN BaiKiemTra BKT ON KQ.MaBaiKT = BKT.MaBaiKT  ");
-            sQuery.Append("INNER JOIN GiangVien GV ON GV.MaGV = BKT.MaGV ");
-            sQuery.AppendFormat("WHERE GV.MaGV = '{0}' ", magiaovien);
+            sQuery.AppendFormat("WHERE KQ.MaBaiKT = '{0}' ", maBaiKT);
             SqlCommand com = new SqlCommand(sQuery.ToString(), conn);
             SqlDataReader dr = com.ExecuteReader();
             while (dr.Read())

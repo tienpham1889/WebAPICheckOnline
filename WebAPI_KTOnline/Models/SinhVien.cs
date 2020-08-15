@@ -120,6 +120,28 @@ namespace WebAPI_KTOnline.Models
             conn.Close();
             return sv;
         }
+        public static SinhVien svThuocLopDangKiemTra(string masv, string maBaiKiemTra)
+        {
+            SinhVien sv = new SinhVien();
+
+            SqlConnection conn = DataProvider.Connect();
+            conn.Open();
+            StringBuilder sQuery = new StringBuilder();
+            sQuery.Append("select SV.MaSV ");
+            sQuery.Append("from SinhVien SV ");
+            sQuery.Append("INNER JOIN CTLopHocPhan CTLHP ON SV.MaSV = CTLHP.MaSV ");
+            sQuery.Append("INNER JOIN LopHocPhan LHP ON LHP.MaLopHP = CTLHP.MaLopHP ");
+            sQuery.Append("INNER JOIN BaiKiemTra BKT ON BKT.MaLopHP = LHP.MaLopHP ");
+            sQuery.AppendFormat("WHERE CTLHP.MaSV = '{0} ' AND BKT.MaBaiKT = '{1}' ",masv,maBaiKiemTra);
+            SqlCommand comm = new SqlCommand(sQuery.ToString(), conn);
+            SqlDataReader dr = comm.ExecuteReader();
+            while (dr.Read())
+            {
+                sv.masv = dr.GetString(0);
+            }
+            conn.Close();
+            return sv;
+        }
         public bool kiemtra(string masv)
         {
             SqlConnection conn = DataProvider.Connect();

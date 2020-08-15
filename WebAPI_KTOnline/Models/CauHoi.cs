@@ -179,6 +179,7 @@ namespace WebAPI_KTOnline.Models
             sQuery.Append("INNER JOIN CTBaiKT CT ON CT.MaCauHoi = CH.MaCauHoi ");
             sQuery.Append("inner join BaiKiemTra BKT ON CT.MaBaiKT = BKT.MaBaiKT ");
             sQuery.AppendFormat("WHERE BKT.MaBaiKT='{0}' AND BKT.TrangThai = 2 ", mabaikt);
+            sQuery.Append("ORDER BY STT");
             SqlCommand com = new SqlCommand(sQuery.ToString(), conn);
             SqlDataReader dr = com.ExecuteReader();
             int stt = 0;

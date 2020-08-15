@@ -24,10 +24,10 @@ namespace WebAPI_KTOnline.Controllers
             return "value";
         }
         [HttpGet]
-        [Route("api/Dsach-Ket-Qua-cua-GV")]
-        public IEnumerable<KetQua> Get_dsach_theogv(string magv)
+        [Route("api/Dsach-Ket-Qua-cua-bai-kiem-tra")]
+        public IEnumerable<KetQua> Get_dsach_theoBaiKiemTra(string maBaiKiemTra)
         {
-            List<KetQua> listdanhsach = KetQua.DsachKetQua_theogv(magv);
+            List<KetQua> listdanhsach = KetQua.DsachKetQua_theobaiKT(maBaiKiemTra);
             return listdanhsach;
         }
         [HttpGet]
